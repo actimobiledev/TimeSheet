@@ -67,7 +67,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:gravity="center"
-                            android:text="TimeSheet"
+                            android:text="Project"
                             android:textColor="@color/text_color_white"
                             android:textSize="@dimen/text_size_title"
                             android:textStyle="bold"/>
@@ -84,7 +84,8 @@
             android:layout_below="@+id/appBar"
             android:visibility="visible">
 
-            
+
+
 
         </RelativeLayout>
 
