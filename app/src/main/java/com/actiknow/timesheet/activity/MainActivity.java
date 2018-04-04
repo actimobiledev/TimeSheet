@@ -1,7 +1,8 @@
 package com.actiknow.timesheet.activity;
 
-import android.app.FragmentTransaction;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -9,12 +10,13 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.dialog.RequestLeaveDialogFragment;
 import com.actiknow.timesheet.utils.SetTypeFace;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -36,13 +38,19 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
     private AccountHeader headerResult = null;
     private Drawer result = null;
     ImageView ivNavigation;
     Bundle savedInstanceState;
-    TextView tvRequestLeave;
-    TextView tvAcceptLeave;
+    EditText etNoOfHours;
+    EditText etWorkDate;
+    EditText etSelectProject;
+    private int mYear, mMonth, mDay, mHour, mMinute;
+    String date = "", time = "", address2 = "";
+    String clients[] = {"Jason Byrne", "Spencer", "Mathias", "EdCandy", "J&J", "Nati", "Bench"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +73,30 @@ public class MainActivity extends AppCompatActivity {
                 result.openDrawer();
             }
         });
-        tvRequestLeave.setOnClickListener(new View.OnClickListener() {
+
+        etSelectProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
-                RequestLeaveDialogFragment fragment = RequestLeaveDialogFragment.newInstance ();
-                fragment.show (ft, "test");
+                new MaterialDialog.Builder(MainActivity.this)
+                        .title("Clients")
+                        .items(clients)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                etSelectProject.setText(text);
+                            }
+                        })
+                        .show();
             }
         });
+
+        etWorkDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectDate(etWorkDate);
+            }
+        });
+
     }
 
 
@@ -81,9 +105,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        tvRequestLeave = (TextView)findViewById(R.id.tvRequestLeave);
-        tvAcceptLeave = (TextView)findViewById(R.id.tvAcceptLeave);
         ivNavigation = (ImageView) findViewById(R.id.ivNavigation);
+        etSelectProject = (EditText) findViewById(R.id.etSelectProject);
+        etNoOfHours = (EditText) findViewById(R.id.etNoOfHours);
+        etWorkDate = (EditText) findViewById(R.id.etWorkDate);
     }
 
     private void initData() {
@@ -253,7 +278,15 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemClick (View view, int position, IDrawerItem drawerItem) {
                         switch ((int) drawerItem.getIdentifier ()) {
                             case 2:
+                                Intent intent = new Intent(MainActivity.this, ProjectActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                break;
 
+                            case 3:
+                                Intent intent2 = new Intent(MainActivity.this, LeaveActivity.class);
+                                startActivity(intent2);
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                                 break;
 
                         }
@@ -280,6 +313,23 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
+    private void selectDate(final EditText etPickupDate) {
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                etPickupDate.setText(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", monthOfYear + 1) + "-" + year);
+                date = etPickupDate.getText().toString().trim();
+                Log.e("date", date);
+            }
+        }, mYear, mMonth, mDay);
+        datePickerDialog.show();
+    }
 
 
 }
