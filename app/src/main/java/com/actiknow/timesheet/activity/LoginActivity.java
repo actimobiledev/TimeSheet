@@ -1,28 +1,25 @@
 package com.actiknow.timesheet.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.utils.Constants;
 import com.actiknow.timesheet.utils.SetTypeFace;
-import com.actiknow.timesheet.utils.TypefaceSpan;
 
 public class LoginActivity extends AppCompatActivity {
     EditText etUserName;
     EditText etPassword;
     EditText etProductCode;
-    TextView tvStartSurvey;
+    TextView tvLogin;
     TextView tvShowHide;
     
     ProgressDialog progressDialog;
@@ -47,17 +44,17 @@ public class LoginActivity extends AppCompatActivity {
     
     private void initView () {
         clMain = (CoordinatorLayout) findViewById (R.id.clMain);
-        tvStartSurvey = (TextView) findViewById (R.id.tvStartSurvey);
+        tvLogin = (TextView) findViewById (R.id.tvLogin);
         etUserName = (EditText) findViewById (R.id.etUserName);
         etPassword = (EditText) findViewById (R.id.etPassword);
         tvShowHide = (TextView) findViewById (R.id.tvShowHide);
     }
     
     private void initListener () {
-        tvStartSurvey.setOnClickListener (new View.OnClickListener () {
+        tvLogin.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View view) {
-                SpannableString s1 = new SpannableString (getResources ().getString (R.string.please_enter_serial_number));
+                /*SpannableString s1 = new SpannableString (getResources ().getString (R.string.please_enter_serial_number));
                 s1.setSpan (new TypefaceSpan (LoginActivity.this, Constants.font_name), 0, s1.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 SpannableString s2 = new SpannableString (getResources ().getString (R.string.please_enter_pin));
                 s2.setSpan (new TypefaceSpan (LoginActivity.this, Constants.font_name), 0, s2.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -72,7 +69,10 @@ public class LoginActivity extends AppCompatActivity {
                 if ((etUserName.getText ().toString ().length () != 0) &&
                         (etPassword.getText ().toString ().length () != 0)) {
                     //sendLoginDetailsToServer (etUserName.getText ().toString (), etPassword.getText ().toString (), etProductCode.getText ().toString ());
-                }
+                }*/
+                Intent intent = new Intent (LoginActivity.this, MainActivity.class);
+                startActivity (intent);
+                overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
     
@@ -92,6 +92,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        
+        
     
         etUserName.addTextChangedListener (new TextWatcher () {
             @Override

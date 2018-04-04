@@ -185,6 +185,19 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tvComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ll2"
+                    android:lines="3"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:background="@drawable/edit_background"
+                    android:hint="Comment"
+                    android:padding="@dimen/edittext_padding"
+                    android:textSize="@dimen/text_size_medium"/>
+
 
            </RelativeLayout>
 
