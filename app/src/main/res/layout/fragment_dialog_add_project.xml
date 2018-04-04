@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/clMain"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/text_color_white">
+
+        <ImageView
+            android:id="@+id/ivCancel"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:padding="@dimen/activity_margin"
+            android:src="@drawable/ic_close"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/ivCancel"
+            android:layout_alignTop="@+id/ivCancel"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Add Project"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"/>
+
+        <View
+            android:id="@+id/v1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/ivCancel"
+            android:background="@color/text_color_grey_light2"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/v1">
+
+            <LinearLayout
+                android:id="@+id/llFields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/activity_margin"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Project Name"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/etUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_background"
+                    android:textAllCaps="true"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:text="Client Name"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/etClientName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_background"
+                    android:textAllCaps="true"
+                    android:focusableInTouchMode="false"
+                    android:focusable="false"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="visible" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            android:text="Start Date"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
+                        <EditText
+                            android:id="@+id/etStartDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/et_background"
+                            android:textAllCaps="true"
+                            android:focusableInTouchMode="false"
+                            android:focusable="false"
+                            android:textColor="@color/text_color_black"
+                            android:textSize="@dimen/text_size_medium"
+                            android:visibility="visible" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="To"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            android:text="End Date"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
+                        <EditText
+                            android:id="@+id/etEndDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/et_background"
+                            android:textAllCaps="true"
+                            android:textColor="@color/text_color_black"
+                            android:textSize="@dimen/text_size_medium"
+                            android:focusableInTouchMode="false"
+                            android:focusable="false"
+                            android:visibility="visible" />
+
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:text="Task"
+
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_background"
+                    android:inputType="textPassword"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:text="Project Description"
+
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_background"
+                    android:inputType="textPassword"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+        <TextView
+            android:id="@+id/tvSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:background="@color/primary"
+            android:gravity="center"
+            android:padding="@dimen/activity_margin_small"
+            android:text="ADD"
+            android:textColor="@color/text_color_white"
+            android:textSize="@dimen/text_size_large"
+            android:layout_margin="@dimen/activity_margin"
+            android:visibility="visible"/>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
