@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Timesheet</string>
+
+    <string name="progress_dialog_text_loading">Loading&#8230;</string>
+    <string name="progress_dialog_text_generating_survey">Generating Survey&#8230;</string>
+    <string name="progress_dialog_text_logging_out">Logging Out&#8230;</string>
+    <string name="progress_dialog_text_logging_in">Logging In&#8230;</string>
+    <string name="progress_dialog_text_please_wait">Please wait&#8230;</string>
+    <string name="progress_dialog_text_sending_request">Sending Request&#8230;</string>
+    <string name="progress_dialog_text_submitting_responses">Submitting Responses&#8230;</string>
+    <string name="progress_dialog_text_initializing">Initializing Application&#8230;\nThis may take
+        some time
+    </string>
+    <string name="please_enter_email">Please enter Email</string>
+    <string name="please_enter_mobile">Please enter Mobile</string>
+    <string name="please_enter_valid_email">Please enter valid Email</string>
+    <string name="please_enter_valid_mobile">Please enter valid Mobile</string>
+    <string name="please_select_user_type">Please select user type</string>
+    <string name="otp_didnt_match">OTP didn\'t match</string>
+    <string name="please_enter_otp"></string>
+    <string name="please_enter_serial_number">Please enter Serial #</string>
+    <string name="please_enter_product_code">Please enter product code</string>
+    <string name="please_enter_pin">Please enter PIN</string>
+
+
 </resources>
