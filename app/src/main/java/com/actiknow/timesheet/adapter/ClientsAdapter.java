@@ -1,7 +1,6 @@
 package com.actiknow.timesheet.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,44 +9,43 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.activity.ProjectActivityDetail;
-import com.actiknow.timesheet.model.Project;
+import com.actiknow.timesheet.model.Clients;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
+public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ViewHolder> {
     OnItemClickListener mItemClickListener;
 
     private Activity activity;
-    private List<Project> projectList = new ArrayList<>();
+    private List<Clients> clientList = new ArrayList<>();
 
-    public ProjectAdapter(Activity activity, List<Project> projectList) {
+    public ClientsAdapter(Activity activity, List<Clients> clientList) {
         this.activity = activity;
-        this.projectList = projectList;
+        this.clientList = clientList;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater mInflater = LayoutInflater.from(parent.getContext());
-        final View sView = mInflater.inflate(R.layout.list_item_project, parent, false);
+        final View sView = mInflater.inflate(R.layout.list_item_clients, parent, false);
         return new ViewHolder(sView);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {//        runEnterAnimation (holder.itemView);
 
-        final Project project = projectList.get(position);
+        final Clients client = clientList.get(position);
 
-        holder.tvName.setText(project.getProject_title());
-        holder.tvDescription.setText(project.getDescription());
-        holder.tvTime.setText("Allotted Hour "+project.getAlloted_hour());
+        holder.tvName.setText(client.getName());
+        holder.tvDescription.setText(client.getCompany());
+      //  holder.tvTime.setText(client.getHours());
     }
 
     @Override
     public int getItemCount() {
-        return projectList.size();
+        return clientList.size();
     }
 
     public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
@@ -56,7 +54,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
 
 
     public interface OnItemClickListener {
-        public void onItemClick (View view, int position);
+        public void onItemClick(View view, int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -77,8 +75,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
 
         @Override
         public void onClick(View v) {
-            Intent intent=new Intent(activity, ProjectActivityDetail.class);
-            activity.startActivity(intent);
 
 
         }

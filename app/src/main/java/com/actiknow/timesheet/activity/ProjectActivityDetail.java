@@ -9,7 +9,6 @@ import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,7 +39,11 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -49,24 +52,14 @@ import java.util.Map;
  * Created by l on 27/07/2017.
  */
 
-public class ProjectActivity extends AppCompatActivity {
+public class ProjectActivityDetail extends AppCompatActivity {
     Bundle savedInstanceState;
-    RecyclerView rvProjectList;
-    CoordinatorLayout clMain;
-    TextView tvTitle;
-    FloatingActionButton fabAddProject;
-
-    RelativeLayout rlBack;
-    ProjectAdapter projectAdapter;
-    ArrayList<Project> projectList = new ArrayList<>();
-    ProgressDialog progressDialog;
-    String allClients;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_project);
+        setContentView(R.layout.activity_project_detail);
         this.savedInstanceState = savedInstanceState;
         initView();
         initData();
@@ -77,68 +70,71 @@ public class ProjectActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        projectList();
+        //   projectList();
         // put your code here...
 
     }
 
 
     private void initView() {
-        clMain = (CoordinatorLayout) findViewById(R.id.clMain);
-        rvProjectList = (RecyclerView) findViewById(R.id.rvProjectList);
-        tvTitle = (TextView) findViewById(R.id.tvTitle);
-        rlBack = (RelativeLayout) findViewById(R.id.rlBack);
-        fabAddProject = (FloatingActionButton) findViewById(R.id.fabAddProject);
+
     }
 
 
     private void initListener() {
-        rlBack.setOnClickListener(new View.OnClickListener() {
+       /* rlBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
-        });
-
-        fabAddProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                AddProjectDialogFragment fragment = AddProjectDialogFragment.newInstance(allClients);
-
-                fragment.setDismissListener(new MyDialogCloseListener2() {
-                    @Override
-                    public void handleDialogClose(DialogInterface dialog) {
-                        projectList();
-                    }
-                });
-                fragment.show(ft, "test");
-            }
-        });
+        });*/
 
 
     }
 
     private void initData() {
-        projectList.clear();
-        progressDialog = new ProgressDialog(this);
-     /*   projectList.add (new Project (1, "HomeTrust", "This is the timesheet application for actinow employees", "3 hours"));
-        projectList.add (new Project (2, "ActiProject", "This is the timesheet application for actinow employees", "3 hours"));
-        projectList.add (new Project (3, "P&K", "This is the timesheet application for actinow employees", "3 hours"));*/
-        projectAdapter = new ProjectAdapter(this, projectList);
-        rvProjectList.setAdapter(projectAdapter);
-        rvProjectList.setHasFixedSize(true);
-        rvProjectList.addItemDecoration(new SimpleDividerItemDecoration(this));
-        rvProjectList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        rvProjectList.setItemAnimator(new DefaultItemAnimator());
+
+        Calendar c = Calendar.getInstance(); // Set the calendar to Sunday of the current week
+        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); // Print dates of the current week starting on Sunday
+        DateFormat df = new SimpleDateFormat("EEE dd/MM/yyyy");
+        for (int i = 0; i < 7; i++) {
+            System.out.println(df.format(c.getTime()));
+            c.add(Calendar.DATE, 1);
+        }
+
+
+/*
+        Calendar calendar = new GregorianCalendar(2008, 01, 01); // Note that Month value is 0-based. e.g., 0 for January.
+        int reslut = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (reslut) {
+            case Calendar.MONDAY:
+                System.out.println("It's Monday !");
+                break;
+            case Calendar.TUESDAY:
+                System.out.println("It's Monday2 !");
+                break;
+            case Calendar.WEDNESDAY:
+                System.out.println("It's Monday3 !");
+                break;
+            case Calendar.THURSDAY:
+                System.out.println("It's Monday4 !");
+                break;
+            case Calendar.FRIDAY:
+                System.out.println("It's Monday5 !");
+                break;
+            case Calendar.SATURDAY:
+                System.out.println("It's Monday6 !");
+                break;
+        }*/
+
     }
 
 
-    public void projectList() {
-        if (NetworkConnection.isNetworkAvailable(ProjectActivity.this)) {
+    /*public void projectList() {
+        if (NetworkConnection.isNetworkAvailable(ProjectActivityDetail.this)) {
             projectList.clear();
-            Utils.showProgressDialog(ProjectActivity.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
+            Utils.showProgressDialog(ProjectActivityDetail.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
             Utils.showLog(Log.INFO, AppConfigTags.URL, AppConfigURL.PROJECTS, true);
             StringRequest strRequest = new StringRequest(Request.Method.GET, AppConfigURL.PROJECTS,
                     new Response.Listener<String>() {
@@ -170,16 +166,16 @@ public class ProjectActivity extends AppCompatActivity {
 
                                         projectAdapter.notifyDataSetChanged();
                                     } else {
-                                        Utils.showSnackBar(ProjectActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
+                                        Utils.showSnackBar(ProjectActivityDetail.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
                                     progressDialog.dismiss();
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    Utils.showSnackBar(ProjectActivity.this, clMain, getResources().getString(R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                    Utils.showSnackBar(ProjectActivityDetail.this, clMain, getResources().getString(R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
 
                                 }
                             } else {
-                                Utils.showSnackBar(ProjectActivity.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                Utils.showSnackBar(ProjectActivityDetail.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
                                 Utils.showLog(Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
                             }
                         }
@@ -192,7 +188,7 @@ public class ProjectActivity extends AppCompatActivity {
                             if (response != null && response.data != null) {
                                 Utils.showLog(Log.ERROR, AppConfigTags.ERROR, new String(response.data), true);
                             }
-                            Utils.showSnackBar(ProjectActivity.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                            Utils.showSnackBar(ProjectActivityDetail.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
                         }
                     }) {
 
@@ -208,14 +204,14 @@ public class ProjectActivity extends AppCompatActivity {
                     Map<String, String> params = new HashMap<>();
                     AppDetailsPref appDetailsPref = AppDetailsPref.getInstance();
                     params.put(AppConfigTags.HEADER_API_KEY, Constants.api_key);
-                    params.put(AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref(ProjectActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
+                    params.put(AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref(ProjectActivityDetail.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
                     Utils.showLog(Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
                     return params;
                 }
             };
             Utils.sendRequest(strRequest, 5);
         } else {
-            Utils.showSnackBar(ProjectActivity.this, clMain, getResources().getString(R.string.snackbar_text_no_internet_connection_available), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_go_to_settings), new View.OnClickListener() {
+            Utils.showSnackBar(ProjectActivityDetail.this, clMain, getResources().getString(R.string.snackbar_text_no_internet_connection_available), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_go_to_settings), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent dialogIntent = new Intent(Settings.ACTION_SETTINGS);
@@ -224,9 +220,9 @@ public class ProjectActivity extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
 
-    public interface MyDialogCloseListener2 {
+  /*  public interface MyDialogCloseListener2 {
         public void handleDialogClose(DialogInterface dialog);
-    }
+    }*/
 }

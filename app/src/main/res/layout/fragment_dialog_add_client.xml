@@ -26,7 +26,7 @@
             android:layout_alignTop="@+id/ivCancel"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="Add Project"
+            android:text="Add Client"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
@@ -42,15 +42,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/tvSubmit"
-            android:layout_below="@+id/v1">
+            android:layout_below="@+id/v1"
+            android:layout_marginBottom="5dp">
 
             <LinearLayout
                 android:id="@+id/llFields"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/activity_margin"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -58,25 +59,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Project Name"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
-
-                <EditText
-                    android:id="@+id/etProjectName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/et_background"
-
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_medium"
-                    android:visibility="visible" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_margin"
                     android:text="Client Name"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
@@ -87,8 +69,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/et_background"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="visible" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:text="Email Address"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/etEmailAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_background"
+
+                    android:inputType="textEmailAddress"
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_medium"
@@ -99,72 +100,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_margin"
-                    android:text="Start Date"
+                    android:text="Contact Number"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <EditText
-                    android:id="@+id/etStartDate"
+                    android:id="@+id/etContactNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/et_background"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:textAllCaps="true"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_medium"
-                    android:visibility="visible" />
 
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="To"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:text="End Date"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
-
-                <EditText
-                    android:id="@+id/etEndDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/et_background"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:textAllCaps="true"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_medium"
-                    android:visibility="visible" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:text="Project Budget"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
-
-                <EditText
-                    android:id="@+id/etProjectBudget"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/et_background"
                     android:inputType="number"
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_black"
@@ -176,63 +122,96 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_margin"
-                    android:text="Project Hour Cost"
+                    android:text="Skype Address"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <EditText
-                    android:id="@+id/etProjectHourCost"
+                    android:id="@+id/etSkypeAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/et_background"
-                    android:inputType="number"
-                    android:textAllCaps="true"
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_medium"
                     android:visibility="visible" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_margin"
-                    android:text="Project Allotted Hour"
+                    android:text="Client Source"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <EditText
-                    android:id="@+id/etProjectAllottedHour"
+                    android:id="@+id/etClientSource"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/et_background"
-                    android:inputType="number"
-                    android:textAllCaps="true"
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_medium"
                     android:visibility="visible" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_margin"
-                    android:text="Project Description"
+                    android:text="Location"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <EditText
-                    android:id="@+id/etProjectDescription"
+                    android:id="@+id/etLocation"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginBottom="30dp"
-                    android:background="@drawable/login_card_bg"
-                    android:gravity="top"
-                    android:inputType="text"
-                    android:lines="4"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_background"
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_medium"
                     android:visibility="visible" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:text="Company Name"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/etCompanyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_background"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="visible" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:text="Status"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <EditText
+                    android:id="@+id/etStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/et_background"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="visible" />
+
 
             </LinearLayout>
 
@@ -244,13 +223,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_marginBottom="@dimen/activity_margin_small"
             android:background="@color/primary"
             android:gravity="center"
             android:padding="@dimen/activity_margin_small"
-            android:text="ADD"
+            android:text="ADD CLIENT"
             android:textColor="@color/text_color_white"
             android:textSize="@dimen/text_size_large"
-
             android:visibility="visible" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

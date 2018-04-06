@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_margin_extra_small"
                     android:ellipsize="end"
-                    android:maxLines="1"
+                    android:maxLines="2"
                     android:text="Software Engineer"
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_large"
@@ -66,9 +66,8 @@
                     android:layout_toEndOf="@id/ivHot"
                     android:layout_toRightOf="@id/ivHot"
                     android:layout_marginLeft="@dimen/activity_margin_extra_small"
-                    android:layout_marginRight="@dimen/activity_margin_extra_small"
                     android:ellipsize="end"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:text="Actiknow Business Consulting Pvt Ltd"
                     android:textColor="@color/text_color_grey_dark"
                     android:textSize="@dimen/text_size_small"/>
@@ -90,7 +89,8 @@
                     android:text="8 hour"
                     android:paddingRight="@dimen/activity_margin_small"
                     android:textColor="@color/primary"
-                    android:textSize="@dimen/text_size_small"/>
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
 

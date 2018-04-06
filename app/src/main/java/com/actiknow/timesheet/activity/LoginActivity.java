@@ -3,27 +3,51 @@ package com.actiknow.timesheet.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
+import com.actiknow.timesheet.utils.AppConfigTags;
+import com.actiknow.timesheet.utils.AppConfigURL;
+import com.actiknow.timesheet.utils.AppDetailsPref;
+import com.actiknow.timesheet.utils.Constants;
+import com.actiknow.timesheet.utils.NetworkConnection;
 import com.actiknow.timesheet.utils.SetTypeFace;
+import com.actiknow.timesheet.utils.TypefaceSpan;
+import com.actiknow.timesheet.utils.Utils;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     EditText etUserName;
     EditText etPassword;
-    EditText etProductCode;
+
     TextView tvLogin;
     TextView tvShowHide;
     
     ProgressDialog progressDialog;
     CoordinatorLayout clMain;
+    AppDetailsPref appDetailsPref;
     
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -35,11 +59,10 @@ public class LoginActivity extends AppCompatActivity {
     }
     
     private void initData () {
-        /*appDetailsPref = AppDetailsPref.getInstance ();
+        appDetailsPref = AppDetailsPref.getInstance ();
         progressDialog = new ProgressDialog (this);
-        Utils.setTypefaceToAllViews (this, tvStartSurvey);
-        etUserName.setText (appDetailsPref.getStringPref (this, AppDetailsPref.USER_LOGIN_ID));
-        etPassword.setText (appDetailsPref.getStringPref (this, AppDetailsPref.USER_LOGIN_PASS));*/
+
+
     }
     
     private void initView () {
@@ -54,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
         tvLogin.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View view) {
-                /*SpannableString s1 = new SpannableString (getResources ().getString (R.string.please_enter_serial_number));
-                s1.setSpan (new TypefaceSpan (LoginActivity.this, Constants.font_name), 0, s1.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                SpannableString s1 = new SpannableString (getResources ().getString (R.string.please_enter_valid_email));
+                s1.setSpan (new TypefaceSpan(LoginActivity.this, Constants.font_name), 0, s1.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 SpannableString s2 = new SpannableString (getResources ().getString (R.string.please_enter_pin));
                 s2.setSpan (new TypefaceSpan (LoginActivity.this, Constants.font_name), 0, s2.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 
@@ -68,11 +91,11 @@ public class LoginActivity extends AppCompatActivity {
     
                 if ((etUserName.getText ().toString ().length () != 0) &&
                         (etPassword.getText ().toString ().length () != 0)) {
-                    //sendLoginDetailsToServer (etUserName.getText ().toString (), etPassword.getText ().toString (), etProductCode.getText ().toString ());
-                }*/
-                Intent intent = new Intent (LoginActivity.this, MainActivity.class);
-                startActivity (intent);
-                overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
+                    sendLoginDetailsToServer (etUserName.getText ().toString (), etPassword.getText ().toString ());
+                }
+               // Intent intent = new Intent (LoginActivity.this, MainActivity.class);
+               // startActivity (intent);
+               // overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
     
@@ -130,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
      
     }
     
-    /*private void sendLoginDetailsToServer (final String user_name, final String password, final String product_code) {
+    private void sendLoginDetailsToServer (final String user_name, final String password) {
         if (NetworkConnection.isNetworkAvailable (LoginActivity.this)) {
             Utils.showProgressDialog (LoginActivity.this, progressDialog, getResources ().getString (R.string.progress_dialog_text_please_wait), true);
             Utils.showLog (Log.INFO, "" + AppConfigTags.URL, AppConfigURL.LOGIN, true);
@@ -141,50 +164,21 @@ public class LoginActivity extends AppCompatActivity {
                             Utils.showLog (Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
                             if (response != null) {
                                 try {
-                                    JSONObject jsonObj = new JSONObject (response);
+                                    JSONObject jsonObj = new JSONObject(response);
                                     boolean error = jsonObj.getBoolean (AppConfigTags.ERROR);
                                     String message = jsonObj.getString (AppConfigTags.MESSAGE);
                                     if (! error) {
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.USER_NAME, jsonObj.getString (AppConfigTags.USER_NAME));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.USER_MOBILE, jsonObj.getString (AppConfigTags.USER_MOBILE));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.USER_LOGIN_KEY, jsonObj.getString (AppConfigTags.USER_LOGIN_KEY));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.USER_LOGIN_ID, jsonObj.getString (AppConfigTags.USER_LOGIN_ID));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.USER_LOGIN_PASS, jsonObj.getString (AppConfigTags.USER_LOGIN_PASS));
-                                        appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.SURVEY_ID, jsonObj.getInt (AppConfigTags.SURVEY_ID));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.SURVEY_NUMBER, jsonObj.getString (AppConfigTags.SURVEY_NUMBER));
-                                        appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.SURVEY_STATUS, jsonObj.getInt (AppConfigTags.SURVEY_STATUS));
-                                        appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.SURVEY_DAY_ELAPSED, jsonObj.getInt (AppConfigTags.SURVEY_DAY_ELAPSED));
-                                        appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.PRODUCT_ID, jsonObj.getInt (AppConfigTags.PRODUCT_ID));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.PRODUCT_CODE, jsonObj.getString (AppConfigTags.PRODUCT_CODE));
-    
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.WEEK_1, jsonObj.getString (AppConfigTags.WEEK_1));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.WEEK_2, jsonObj.getString (AppConfigTags.WEEK_2));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.WEEK_3, jsonObj.getString (AppConfigTags.WEEK_3));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.WEEK_4, jsonObj.getString (AppConfigTags.WEEK_4));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.WEEK_5, jsonObj.getString (AppConfigTags.WEEK_5));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.WEEK_6, jsonObj.getString (AppConfigTags.WEEK_6));
-    
-                                        appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.WEEK_NUMBER, 1);
-    
-                                        if (jsonObj.getString (AppConfigTags.PRODUCT_CODE).equalsIgnoreCase (jsonObj.getString (AppConfigTags.WEEK_1))) {
-                                            appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.WEEK_NUMBER, 1);
-                                        }
-                                        if (jsonObj.getString (AppConfigTags.PRODUCT_CODE).equalsIgnoreCase (jsonObj.getString (AppConfigTags.WEEK_2))) {
-                                            appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.WEEK_NUMBER, 2);
-                                        }
-                                        if (jsonObj.getString (AppConfigTags.PRODUCT_CODE).equalsIgnoreCase (jsonObj.getString (AppConfigTags.WEEK_3))) {
-                                            appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.WEEK_NUMBER, 3);
-                                        }
-                                        if (jsonObj.getString (AppConfigTags.PRODUCT_CODE).equalsIgnoreCase (jsonObj.getString (AppConfigTags.WEEK_4))) {
-                                            appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.WEEK_NUMBER, 4);
-                                        }
-                                        if (jsonObj.getString (AppConfigTags.PRODUCT_CODE).equalsIgnoreCase (jsonObj.getString (AppConfigTags.WEEK_5))) {
-                                            appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.WEEK_NUMBER, 5);
-                                        }
-                                        if (jsonObj.getString (AppConfigTags.PRODUCT_CODE).equalsIgnoreCase (jsonObj.getString (AppConfigTags.WEEK_6))) {
-                                            appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.WEEK_NUMBER, 6);
-                                        }
-    
+                                        appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_ID, jsonObj.getInt (AppConfigTags.EMPLOYEE_ID));
+                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_NAME, jsonObj.getString (AppConfigTags.EMPLOYEE_NAME));
+                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_DOB, jsonObj.getString (AppConfigTags.EMPLOYEE_DOB));
+                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_MOBILE, jsonObj.getString (AppConfigTags.EMPLOYEE_MOBILE));
+                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_EMAIL, jsonObj.getString (AppConfigTags.EMPLOYEE_EMAIL));
+                                        appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_TYPE, jsonObj.getInt (AppConfigTags.EMPLOYEE_TYPE));
+                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL, jsonObj.getString (AppConfigTags.EMPLOYEE_WORK_EMAIL));
+                                        appDetailsPref.putStringPref(LoginActivity.this, AppDetailsPref.EMPLOYEE_IMAGE, jsonObj.getString(AppConfigTags.EMPLOYEE_IMAGE));
+                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_ID, jsonObj.getString (AppConfigTags.EMPLOYEE_LOGIN_ID));
+                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_PASS, jsonObj.getString (AppConfigTags.EMPLOYEE_LOGIN_PASS));
+                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY, jsonObj.getString (AppConfigTags.EMPLOYEE_LOGIN_KEY));
                                         Intent intent = new Intent (LoginActivity.this, MainActivity.class);
                                         startActivity (intent);
                                         finish ();
@@ -219,17 +213,16 @@ public class LoginActivity extends AppCompatActivity {
                     }) {
                 @Override
                 protected Map<String, String> getParams () throws AuthFailureError {
-                    Map<String, String> params = new Hashtable<String, String> ();
-                    params.put (AppConfigTags.LOGIN_ID, user_name);
-                    params.put (AppConfigTags.LOGIN_PASSWORD, password);
-                    params.put (AppConfigTags.PRODUCT_CODE, product_code);
+                    Map<String, String> params = new Hashtable<String, String>();
+                    params.put (AppConfigTags.EMAIL, user_name);
+                    params.put (AppConfigTags.PASSWORD, password);
                     Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
                     return params;
                 }
                 
                 @Override
                 public Map<String, String> getHeaders () throws AuthFailureError {
-                    Map<String, String> params = new HashMap<> ();
+                    Map<String, String> params = new HashMap<>();
                     params.put (AppConfigTags.HEADER_API_KEY, Constants.api_key);
                     Utils.showLog (Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
                     return params;
@@ -246,7 +239,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }
-    }*/
+    }
     
     @Override
     public void onBackPressed () {

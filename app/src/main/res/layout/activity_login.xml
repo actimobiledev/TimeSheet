@@ -49,7 +49,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text="Email Address"
 
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold"
@@ -60,11 +60,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/et_background"
-                android:inputType="textVisiblePassword"
+                android:inputType="textEmailAddress"
                 android:textAllCaps="true"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/text_size_medium"
-                android:visibility="visible" />
+                android:visibility="visible"
+                android:text="sudhanshu.sharma@actiknowbi.com"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,7 +89,8 @@
                     android:textAllCaps="true"
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_medium"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:text="123456"/>
 
                 <TextView
                     android:id="@+id/tvShowHide"
