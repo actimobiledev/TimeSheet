@@ -109,7 +109,9 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="Project name"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_medium"
+                    android:id="@+id/tvProjectName"
+                    android:textColor="@color/text_color_black"/>
 
                 <ImageView
                     android:id="@+id/ivNextProject"

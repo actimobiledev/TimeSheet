@@ -40,6 +40,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -87,6 +88,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
     private TextView tvDate7;
     private EditText etSundayhour;
     private TextView tvSubmit;
+    private TextView tvProjectName;
 
 
     @Override
@@ -97,7 +99,32 @@ public class ProjectActivityDetail extends AppCompatActivity {
         initView();
         initData();
         initListener();
+        setData();
         //    recommendedJobList ();
+    }
+
+    private void setData() {
+        try {
+            String clients = getIntent().getExtras().getString("allClients");
+            int position=getIntent().getExtras().getInt("position");
+            JSONArray jsonArray = new JSONArray(clients);
+            if (jsonArray.length() > 0) {
+                for (int j = 0; j < jsonArray.length(); j++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(j);
+                    if (j==position){
+                        tvProjectName.setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
+                    }
+
+
+                  //  tv(jsonObject.getString(AppConfigTags.CLIENT_NAME));
+                   // clientID.add(jsonObject.getInt(AppConfigTags.CLIENT_ID));
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -139,6 +166,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
         tvDate7 = (TextView)findViewById( R.id.tvDate7 );
         etSundayhour = (EditText)findViewById( R.id.etSundayhour );
         tvSubmit = (TextView)findViewById( R.id.tvSubmit );
+        tvProjectName = (TextView)findViewById( R.id.tvProjectName );
 
     }
 
@@ -156,6 +184,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
     }
 
     private void initData() {
+
 
         Calendar c = Calendar.getInstance(); // Set the calendar to Sunday of the current week
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); // Print dates of the current week starting on Sunday
@@ -198,31 +227,9 @@ public class ProjectActivityDetail extends AppCompatActivity {
         }
 
 
-/*
-        Calendar calendar = new GregorianCalendar(2008, 01, 01); // Note that Month value is 0-based. e.g., 0 for January.
-        int reslut = calendar.get(Calendar.DAY_OF_WEEK);
-        switch (reslut) {
-            case Calendar.MONDAY:
-                System.out.println("It's Monday !");
-                break;
-            case Calendar.TUESDAY:
-                System.out.println("It's Monday2 !");
-                break;
-            case Calendar.WEDNESDAY:
-                System.out.println("It's Monday3 !");
-                break;
-            case Calendar.THURSDAY:
-                System.out.println("It's Monday4 !");
-                break;
-            case Calendar.FRIDAY:
-                System.out.println("It's Monday5 !");
-                break;
-            case Calendar.SATURDAY:
-                System.out.println("It's Monday6 !");
-                break;
-        }*/
-
     }
+
+
 
 
     /*public void projectList() {

@@ -50,7 +50,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         return projectList.size();
     }
 
-    public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener (final OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }
 
@@ -77,8 +77,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
 
         @Override
         public void onClick(View v) {
-            Intent intent=new Intent(activity, ProjectActivityDetail.class);
-            activity.startActivity(intent);
+            mItemClickListener.onItemClick (v, getLayoutPosition ());
+           // Intent intent=new Intent(activity, ProjectActivityDetail.class);
+            //activity.startActivity(intent);
 
 
         }
