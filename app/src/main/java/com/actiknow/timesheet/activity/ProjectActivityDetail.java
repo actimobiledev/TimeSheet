@@ -15,6 +15,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -55,6 +58,36 @@ import java.util.Map;
 public class ProjectActivityDetail extends AppCompatActivity {
     Bundle savedInstanceState;
 
+    private RelativeLayout rlBack;
+    private ImageView ivBack;
+    private TextView tvTitle;
+    private RelativeLayout rlList;
+    private LinearLayout llProjectName;
+    private ImageView ivPreProject;
+    private ImageView ivNextProject;
+    private LinearLayout llDay1;
+    private TextView tvDate1;
+    private EditText etMondayhour;
+    private LinearLayout llDay2;
+    private TextView tvDate2;
+    private EditText etTueshour;
+    private LinearLayout llDay3;
+    private TextView tvDate3;
+    private EditText etWednesdayHour;
+    private LinearLayout llDay4;
+    private TextView tvDate4;
+    private EditText etThursdayhour;
+    private LinearLayout llDay5;
+    private TextView tvDate5;
+    private EditText etFridayhour;
+    private LinearLayout llDay6;
+    private TextView tvDate6;
+    private EditText etSaturdayhour;
+    private LinearLayout llDay7;
+    private TextView tvDate7;
+    private EditText etSundayhour;
+    private TextView tvSubmit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +110,35 @@ public class ProjectActivityDetail extends AppCompatActivity {
 
 
     private void initView() {
+        rlBack = (RelativeLayout)findViewById( R.id.rlBack );
+        ivBack = (ImageView)findViewById( R.id.ivBack );
+        tvTitle = (TextView)findViewById( R.id.tvTitle );
+        rlList = (RelativeLayout)findViewById( R.id.rlList );
+        llProjectName = (LinearLayout)findViewById( R.id.llProjectName );
+        ivPreProject = (ImageView)findViewById( R.id.ivPreProject );
+        ivNextProject = (ImageView)findViewById( R.id.ivNextProject );
+        llDay1 = (LinearLayout)findViewById( R.id.llDay1 );
+        tvDate1 = (TextView)findViewById( R.id.tvDate1 );
+        etMondayhour = (EditText)findViewById( R.id.etMondayhour );
+        llDay2 = (LinearLayout)findViewById( R.id.llDay2 );
+        tvDate2 = (TextView)findViewById( R.id.tvDate2 );
+        etTueshour = (EditText)findViewById( R.id.etTueshour );
+        llDay3 = (LinearLayout)findViewById( R.id.llDay3 );
+        tvDate3 = (TextView)findViewById( R.id.tvDate3 );
+        etWednesdayHour = (EditText)findViewById( R.id.etWednesdayHour );
+        llDay4 = (LinearLayout)findViewById( R.id.llDay4 );
+        tvDate4 = (TextView)findViewById( R.id.tvDate4 );
+        etThursdayhour = (EditText)findViewById( R.id.etThursdayhour );
+        llDay5 = (LinearLayout)findViewById( R.id.llDay5 );
+        tvDate5 = (TextView)findViewById( R.id.tvDate5 );
+        etFridayhour = (EditText)findViewById( R.id.etFridayhour );
+        llDay6 = (LinearLayout)findViewById( R.id.llDay6 );
+        tvDate6 = (TextView)findViewById( R.id.tvDate6 );
+        etSaturdayhour = (EditText)findViewById( R.id.etSaturdayhour );
+        llDay7 = (LinearLayout)findViewById( R.id.llDay7 );
+        tvDate7 = (TextView)findViewById( R.id.tvDate7 );
+        etSundayhour = (EditText)findViewById( R.id.etSundayhour );
+        tvSubmit = (TextView)findViewById( R.id.tvSubmit );
 
     }
 
@@ -97,9 +159,41 @@ public class ProjectActivityDetail extends AppCompatActivity {
 
         Calendar c = Calendar.getInstance(); // Set the calendar to Sunday of the current week
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); // Print dates of the current week starting on Sunday
-        DateFormat df = new SimpleDateFormat("EEE dd/MM/yyyy");
-        for (int i = 0; i < 7; i++) {
-            System.out.println(df.format(c.getTime()));
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        for (int i = 1; i < 8; i++) {
+            switch (i){
+                case 1:
+                    tvDate1.setText(df.format(c.getTime()));
+                    System.out.println(df.format(c.getTime()));
+                    break;
+                case 2:
+                    tvDate2.setText(df.format(c.getTime()));
+                    System.out.println(df.format(c.getTime()));
+                    break;
+
+                case 3:
+                    tvDate3.setText(df.format(c.getTime()));
+                    System.out.println(df.format(c.getTime()));
+                    break;
+                case 4:
+                    tvDate4.setText(df.format(c.getTime()));
+                    System.out.println(df.format(c.getTime()));
+                    break;
+
+                case 5:
+                    tvDate5.setText(df.format(c.getTime()));
+                    System.out.println(df.format(c.getTime()));
+                    break;
+                case 6:
+                    tvDate6.setText(df.format(c.getTime()));
+                    System.out.println(df.format(c.getTime()));
+                    break;
+                case 7:
+                    tvDate7.setText(df.format(c.getTime()));
+                    System.out.println(df.format(c.getTime()));
+                    break;
+            }
+
             c.add(Calendar.DATE, 1);
         }
 

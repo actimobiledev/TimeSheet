@@ -153,11 +153,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_question"
                         android:gravity="center"
                         android:text=""
                         android:textColor="@color/primary"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_extra_small"
                         android:layout_gravity="center"
                         android:id="@+id/tvDate1"/>
 
@@ -212,11 +211,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_question"
                         android:gravity="center"
                         android:text=""
                         android:textColor="@color/primary"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_extra_small"
                         android:layout_gravity="center"
                         android:id="@+id/tvDate2"/>
 
@@ -269,11 +267,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bg_question"
                         android:gravity="center"
                         android:text=""
                         android:textColor="@color/primary"
-                        android:textSize="@dimen/text_size_small"
+                        android:textSize="@dimen/text_size_extra_small"
                         android:layout_gravity="center"
                         android:id="@+id/tvDate3"/>
 
@@ -305,18 +302,36 @@
                 android:background="@drawable/bg_question"
                 android:orientation="horizontal"
                 android:weightSum="4">
-
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:layout_weight="2"
                     android:background="@drawable/bg_question"
-                    android:gravity="center"
-                    android:padding="@dimen/activity_margin_small"
-                    android:text="Thursday"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small" />
+                    android:padding="@dimen/activity_margin_small">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Thrusday"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_small"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/primary"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:layout_gravity="center"
+                        android:id="@+id/tvDate4"/>
+
+
+
+                </LinearLayout>
                 <EditText
                     android:id="@+id/etThursdayhour"
                     android:layout_width="0dp"
@@ -343,16 +358,36 @@
                 android:orientation="horizontal"
                 android:weightSum="4">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:layout_weight="2"
                     android:background="@drawable/bg_question"
-                    android:gravity="center"
-                    android:padding="@dimen/activity_margin_small"
-                    android:text="Friday"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small" />
+                    android:padding="@dimen/activity_margin_small">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Friday"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_small"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/primary"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:layout_gravity="center"
+                        android:id="@+id/tvDate5"/>
+
+
+
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/etFridayhour"
@@ -380,17 +415,36 @@
                 android:orientation="horizontal"
                 android:weightSum="4">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:layout_weight="2"
                     android:background="@drawable/bg_question"
-                    android:gravity="center"
-                    android:padding="@dimen/activity_margin_small"
-                    android:text="Saturday"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small" />
+                    android:padding="@dimen/activity_margin_small">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Sturday"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_small"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/primary"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:layout_gravity="center"
+                        android:id="@+id/tvDate6"/>
+
+
+
+                </LinearLayout>
                 <EditText
                     android:id="@+id/etSaturdayhour"
                     android:layout_width="0dp"
@@ -417,17 +471,36 @@
                 android:orientation="horizontal"
                 android:weightSum="4">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:layout_weight="2"
                     android:background="@drawable/bg_question"
-                    android:gravity="center"
-                    android:padding="@dimen/activity_margin_small"
-                    android:text="Sunday"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small" />
+                    android:padding="@dimen/activity_margin_small">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Sunday"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_small"
+                        android:layout_gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/primary"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:layout_gravity="center"
+                        android:id="@+id/tvDate7"/>
+
+
+
+                </LinearLayout>
                 <EditText
                     android:id="@+id/etSundayhour"
                     android:layout_width="0dp"
