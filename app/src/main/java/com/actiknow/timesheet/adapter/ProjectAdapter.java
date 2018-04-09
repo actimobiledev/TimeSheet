@@ -1,7 +1,6 @@
 package com.actiknow.timesheet.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.activity.ProjectActivityDetail;
 import com.actiknow.timesheet.model.Project;
 
 import java.util.ArrayList;
@@ -77,9 +75,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
 
         @Override
         public void onClick(View v) {
-            mItemClickListener.onItemClick (v, getLayoutPosition ());
-           // Intent intent=new Intent(activity, ProjectActivityDetail.class);
-            //activity.startActivity(intent);
+           mItemClickListener.onItemClick (v, getLayoutPosition ());
 
 
         }

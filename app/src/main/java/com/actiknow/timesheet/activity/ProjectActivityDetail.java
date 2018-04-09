@@ -1,18 +1,9 @@
 package com.actiknow.timesheet.activity;
 
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -22,22 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.adapter.ProjectAdapter;
-import com.actiknow.timesheet.dialog.AddProjectDialogFragment;
-import com.actiknow.timesheet.model.Project;
+import com.actiknow.timesheet.model.Task;
 import com.actiknow.timesheet.utils.AppConfigTags;
-import com.actiknow.timesheet.utils.AppConfigURL;
-import com.actiknow.timesheet.utils.AppDetailsPref;
-import com.actiknow.timesheet.utils.Constants;
-import com.actiknow.timesheet.utils.NetworkConnection;
-import com.actiknow.timesheet.utils.SimpleDividerItemDecoration;
-import com.actiknow.timesheet.utils.Utils;
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,10 +24,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Map;
 
 /**
  * Created by l on 27/07/2017.
@@ -90,6 +63,12 @@ public class ProjectActivityDetail extends AppCompatActivity {
     private TextView tvSubmit;
     private TextView tvProjectName;
 
+    String projects = "";
+    int position = 0;
+    int project_id = 0;
+    int array_length = 0;
+    int i = 0;
+    ArrayList<Task>tasklist = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,21 +77,27 @@ public class ProjectActivityDetail extends AppCompatActivity {
         this.savedInstanceState = savedInstanceState;
         initView();
         initData();
-        initListener();
         setData();
+        initListener();
+
         //    recommendedJobList ();
     }
 
     private void setData() {
+        /*String projects = getIntent().getExtras().getString("allClients");
+        int position=getIntent().getExtras().getInt("position", 0);
+        Log.e("Clients",""+projects+"-"+position);*/
         try {
-            String clients = getIntent().getExtras().getString("allClients");
-            int position=getIntent().getExtras().getInt("position");
-            JSONArray jsonArray = new JSONArray(clients);
+            projects = getIntent().getExtras().getString("allProjects");
+            position=getIntent().getExtras().getInt("position", 0);
+            JSONArray jsonArray = new JSONArray(projects);
+            array_length = jsonArray.length();
             if (jsonArray.length() > 0) {
                 for (int j = 0; j < jsonArray.length(); j++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(j);
                     if (j==position){
                         tvProjectName.setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
+                        project_id = jsonObject.getInt(AppConfigTags.PROJECT_ID);
                     }
 
 
@@ -128,7 +113,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
     }
 
     @Override
-    public void onResume() {
+    public void onResume(){
         super.onResume();
         //   projectList();
         // put your code here...
@@ -146,7 +131,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
         ivNextProject = (ImageView)findViewById( R.id.ivNextProject );
         llDay1 = (LinearLayout)findViewById( R.id.llDay1 );
         tvDate1 = (TextView)findViewById( R.id.tvDate1 );
-        etMondayhour = (EditText)findViewById( R.id.etMondayhour );
+        etMondayhour = (EditText)findViewById( R.id.etMondayhour);
         llDay2 = (LinearLayout)findViewById( R.id.llDay2 );
         tvDate2 = (TextView)findViewById( R.id.tvDate2 );
         etTueshour = (EditText)findViewById( R.id.etTueshour );
@@ -167,70 +152,263 @@ public class ProjectActivityDetail extends AppCompatActivity {
         etSundayhour = (EditText)findViewById( R.id.etSundayhour );
         tvSubmit = (TextView)findViewById( R.id.tvSubmit );
         tvProjectName = (TextView)findViewById( R.id.tvProjectName );
+        ivPreProject = (ImageView)findViewById(R.id.ivPreProject);
+        ivNextProject = (ImageView)findViewById(R.id.ivNextProject);
 
     }
 
 
     private void initListener() {
-       /* rlBack.setOnClickListener(new View.OnClickListener() {
+        ivNextProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (array_length-1 > position) {
+                    position = position+1;
+                    try {
+                        JSONArray jsonArray = new JSONArray(projects);
+                        JSONObject jsonObject = jsonArray.getJSONObject(position);
+                        tvProjectName.setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
+                        project_id = jsonObject.getInt(AppConfigTags.PROJECT_ID);
+                        /*for(Task t : tasklist){
+                            if(t.getProject_id() == project_id && t.getDate().equalsIgnoreCase(tvDate1.getText().toString())){
+                                etMondayhour.setText(""+t.getNo_of_hrs());
+                            }
+                        }*/
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+        ivPreProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (position > 0){
+                    position = position-1;
+                    try {
+                        JSONArray jsonArray = new JSONArray(projects);
+                        JSONObject jsonObject = jsonArray.getJSONObject(position);
+                        tvProjectName.setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
+                        project_id = jsonObject.getInt(AppConfigTags.PROJECT_ID);
+                        /*for(Task t : tasklist){
+                            if(t.getProject_id() == project_id && t.getDate().equalsIgnoreCase(tvDate1.getText().toString())){
+                                etMondayhour.setText(""+t.getDate());
+                            }
+                        }*/
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        });
+        rlBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
-        });*/
+        });
 
 
     }
 
     private void initData() {
 
-
         Calendar c = Calendar.getInstance(); // Set the calendar to Sunday of the current week
-        c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); // Print dates of the current week starting on Sunday
+        c.set(Calendar.DAY_OF_WEEK, c.MONDAY); // Print dates of the current week starting on Sunday
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         for (int i = 1; i < 8; i++) {
             switch (i){
                 case 1:
                     tvDate1.setText(df.format(c.getTime()));
-                    System.out.println(df.format(c.getTime()));
                     break;
                 case 2:
                     tvDate2.setText(df.format(c.getTime()));
-                    System.out.println(df.format(c.getTime()));
                     break;
 
                 case 3:
                     tvDate3.setText(df.format(c.getTime()));
-                    System.out.println(df.format(c.getTime()));
                     break;
                 case 4:
                     tvDate4.setText(df.format(c.getTime()));
-                    System.out.println(df.format(c.getTime()));
                     break;
 
                 case 5:
                     tvDate5.setText(df.format(c.getTime()));
-                    System.out.println(df.format(c.getTime()));
                     break;
                 case 6:
                     tvDate6.setText(df.format(c.getTime()));
-                    System.out.println(df.format(c.getTime()));
                     break;
                 case 7:
                     tvDate7.setText(df.format(c.getTime()));
-                    System.out.println(df.format(c.getTime()));
                     break;
             }
 
             c.add(Calendar.DATE, 1);
         }
 
+        etMondayhour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.e("Value", project_id+"-"+s.toString()+"-"+tvDate6.getText().toString());
+                if(s.toString().length() > 0) {
+                    tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate1.getText().toString()));
+                    Log.e("TaskList", "" + tasklist.get(0).getNo_of_hrs());
+                }else{
+
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etTueshour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate2.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etWednesdayHour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate3.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etThursdayhour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate4.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etFridayhour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate5.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etSaturdayhour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate6.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etSundayhour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate7.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
 
     }
-
-
-
 
     /*public void projectList() {
         if (NetworkConnection.isNetworkAvailable(ProjectActivityDetail.this)) {
@@ -250,7 +428,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
                                     if (!is_error) {
                                         JSONArray jsonArray = jsonObj.getJSONArray(AppConfigTags.PROJECTS);
                                         allClients = jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString();
-                                        // Log.e("clients",allClients);
+                                        // Log.e("projects",allClients);
                                         for (int i = 0; i < jsonArray.length(); i++) {
                                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                                             Project project = new Project(

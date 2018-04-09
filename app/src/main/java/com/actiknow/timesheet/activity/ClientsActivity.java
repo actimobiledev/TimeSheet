@@ -135,7 +135,7 @@ public class ClientsActivity extends AppCompatActivity {
         clientList.add (new Clients (3, "Jaypee", "client Description 3", "3 hours"));
         clientList.add (new Clients (4, "P&K", "client Description 4", "3 hours"));
         clientList.add (new Clients (5, "AKRL", "client Description 5", "3 hours"));
-        clientList.add (new Clients (6, "Nati", "clients Description 6", "3 hours"));*/
+        clientList.add (new Clients (6, "Nati", "projects Description 6", "3 hours"));*/
         clientAdapter = new ClientsAdapter(this, clientList);
         rvClientList.setAdapter (clientAdapter);
         rvClientList.setHasFixedSize (true);

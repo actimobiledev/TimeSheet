@@ -9,7 +9,6 @@ import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -117,7 +116,7 @@ public class ProjectActivity extends AppCompatActivity {
             }
         });
 
-        projectAdapter.SetOnItemClickListener(new ProjectAdapter.OnItemClickListener() {
+       /* projectAdapter.SetOnItemClickListener(new ProjectAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent=new Intent(ProjectActivity.this, ProjectActivityDetail.class);
@@ -128,7 +127,7 @@ public class ProjectActivity extends AppCompatActivity {
 
 
             }
-        });
+        });*/
 
 
     }
@@ -166,7 +165,7 @@ public class ProjectActivity extends AppCompatActivity {
                                     if (!is_error) {
                                         JSONArray jsonArray = jsonObj.getJSONArray(AppConfigTags.PROJECTS);
                                         allClients = jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString();
-                                        // Log.e("clients",allClients);
+                                        // Log.e("projects",allClients);
                                         for (int i = 0; i < jsonArray.length(); i++) {
                                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                                             Project project = new Project(

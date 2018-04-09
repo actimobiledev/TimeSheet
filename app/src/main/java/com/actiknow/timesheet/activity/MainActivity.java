@@ -1,7 +1,6 @@
 package com.actiknow.timesheet.activity;
 
 import android.app.DatePickerDialog;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,12 +24,10 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.adapter.ProjectAdapter;
-import com.actiknow.timesheet.dialog.AddProjectDialogFragment;
 import com.actiknow.timesheet.model.Project;
 import com.actiknow.timesheet.utils.AppConfigTags;
 import com.actiknow.timesheet.utils.AppConfigURL;
@@ -96,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     ProjectAdapter projectAdapter;
     ArrayList<Project> projectList = new ArrayList<>();
     ProgressDialog progressDialog;
-    String allClients;
+    String allProjects;
 
     RecyclerView rvProjectList;
     CoordinatorLayout clMain;
@@ -123,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initListener() {
 
+
+
         ivNavigation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 new MaterialDialog.Builder(MainActivity.this)
                         .title("Clients")
-                        .items(clients)
+                        .items(projects)
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
@@ -217,7 +216,17 @@ public class MainActivity extends AppCompatActivity {
         rvProjectList.addItemDecoration(new SimpleDividerItemDecoration(this));
         rvProjectList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvProjectList.setItemAnimator(new DefaultItemAnimator());
+        projectAdapter.SetOnItemClickListener (new ProjectAdapter.OnItemClickListener () {
 
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent=new Intent(MainActivity.this, ProjectActivityDetail.class);
+                intent.putExtra("allProjects",allProjects);
+                intent.putExtra("position",position);
+                overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -462,8 +471,7 @@ public class MainActivity extends AppCompatActivity {
                                     String message = jsonObj.getString(AppConfigTags.MESSAGE);
                                     if (!is_error) {
                                         JSONArray jsonArray = jsonObj.getJSONArray(AppConfigTags.PROJECTS);
-                                        allClients = jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString();
-                                        // Log.e("clients",allClients);
+                                        allProjects = jsonObj.getJSONArray(AppConfigTags.PROJECTS).toString();
                                         for (int i = 0; i < jsonArray.length(); i++) {
                                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                                             Project project = new Project(
