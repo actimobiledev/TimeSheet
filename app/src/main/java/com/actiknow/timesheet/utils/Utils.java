@@ -50,6 +50,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -565,5 +566,43 @@ public class Utils {
         Intent sIntent = new Intent (Intent.ACTION_DIAL, Uri.parse ("tel:" + number));
         sIntent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity (sIntent);
+    }
+
+
+    public static String dateFormat(String date) {
+
+        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String inputDateStr = date;
+
+        Date date1 = null;
+        String Date = null;
+        try {
+            date1 = inputFormat.parse(inputDateStr);
+            Date = outputFormat.format(date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return Date;
+    }
+
+
+    public static String dateFormat2(String date) {
+
+        DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String inputDateStr = date;
+
+        Date date1 = null;
+        String Date = null;
+        try {
+            date1 = inputFormat.parse(inputDateStr);
+            Date = outputFormat.format(date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return Date;
     }
 }

@@ -85,12 +85,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:ellipsize="end"
-                    android:gravity="end"
+                    android:gravity="left"
                     android:maxLines="2"
                     android:text="8 hour"
                     android:paddingRight="@dimen/activity_margin_small"
-                    android:textColor="@color/primary"
-                    android:textSize="@dimen/text_size_small"/>
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_marginLeft="@dimen/activity_margin_extra_small"
+                    android:layout_marginRight="@dimen/activity_margin_extra_small"/>
             </RelativeLayout>
 
 

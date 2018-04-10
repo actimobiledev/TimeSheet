@@ -2,7 +2,6 @@ package com.actiknow.timesheet.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
@@ -50,7 +49,7 @@ import java.util.Map;
  * Created by l on 27/07/2017.
  */
 
-public class ProjectActivityDetail extends AppCompatActivity {
+public class ProjectActivityDetail2 extends AppCompatActivity {
     Bundle savedInstanceState;
 
     private RelativeLayout rlBack;
@@ -89,6 +88,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
     String projects = "";
     int position = 0;
     int project_id = 0;
+    int project_id2 = 0;
     int array_length = 0;
     int i = 0;
     ArrayList<Task> tasklist = new ArrayList<>();
@@ -106,7 +106,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_project_detail);
+        setContentView(R.layout.activity_project_detail2);
         this.savedInstanceState = savedInstanceState;
         initView();
         initData();
@@ -121,6 +121,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
         try {
             projects = getIntent().getExtras().getString("allProjects");
             position = getIntent().getExtras().getInt("position", 0);
+            //current_position = getIntent().getExtras().getInt("position", 0);
             JSONArray jsonArray = new JSONArray(projects);
             array_length = jsonArray.length();
             if (jsonArray.length() > 0) {
@@ -231,22 +232,71 @@ public class ProjectActivityDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (array_length - 1 > position) {
+
+
+                    JSONObject jsonObject;
                     position = position + 1;
                     try {
                         JSONArray jsonArray = new JSONArray(projects);
-                        JSONObject jsonObject = jsonArray.getJSONObject(position);
+                        /*if(position == current_position) {
+                             jsonObject = jsonArray.getJSONObject(position-1);
+                        }else{*/
+                             jsonObject = jsonArray.getJSONObject(position);
+                       // }
+                        JSONObject jsonObject2 = jsonArray.getJSONObject(position-1);
                         tvProjectName.setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
                         project_id = jsonObject.getInt(AppConfigTags.PROJECT_ID);
+                        project_id2 = jsonObject2.getInt(AppConfigTags.PROJECT_ID);
 
-                        for (Task t : tasklist) {
+
+                        if (etMondayhour.getText().toString().length()>0){
+                            tasklist.add(new Task(project_id2,etMondayhour.getText().toString() ,Utils.dateFormat2(tvDate1.getText().toString())));
+
+                        }
+                        if (etTueshour.getText().toString().length()>0){
+                            tasklist.add(new Task(project_id2,etTueshour.getText().toString() ,Utils.dateFormat2(tvDate2.getText().toString())));
+                        }
+
+                        if (etWednesdayHour.getText().toString().length()>0){
+                            tasklist.add(new Task(project_id,etWednesdayHour.getText().toString() ,Utils.dateFormat2(tvDate3.getText().toString())));
+                        }
+
+                        if (etThursdayhour.getText().toString().length()>0){
+                            tasklist.add(new Task(project_id,etThursdayhour.getText().toString() ,Utils.dateFormat2(tvDate4.getText().toString())));
+                        }
+
+                        if (etFridayhour.getText().toString().length()>0){
+                            tasklist.add(new Task(project_id,etFridayhour.getText().toString() ,Utils.dateFormat2(tvDate5.getText().toString())));
+                        }
+
+                        if (etSaturdayhour.getText().toString().length()>0){
+                            tasklist.add(new Task(project_id,etSaturdayhour.getText().toString() ,Utils.dateFormat2(tvDate6.getText().toString())));
+                        }
+
+                        if (etSundayhour.getText().toString().length()>0){
+                            tasklist.add(new Task(project_id,etSundayhour.getText().toString() ,Utils.dateFormat2(tvDate7.getText().toString())));
+                        }
+
+
+
+                        for (int i = 0; i < tasklist.size();i++){
+                            Log.e("timesheet", String.valueOf(tasklist.get(i).getProject_id()+"-"+tasklist.get(i).getDate()+"-"+tasklist.get(i).getNo_of_hrs()));
+
+                        }
+
+
+
+                      /*  for (Task t : tasklist) {
                             if (t.getProject_id() == project_id && t.getDate().equalsIgnoreCase(tvDate1.getText().toString())) {
                                 etMondayhour.setText("" + t.getNo_of_hrs());
                             }
-                        }
+                        }*/
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+
+
 
             }
         });
@@ -282,10 +332,13 @@ public class ProjectActivityDetail extends AppCompatActivity {
         });
 
 
+
+
+
     }
 
     private void initData() {
-        progressDialog = new ProgressDialog(ProjectActivityDetail.this);
+        progressDialog = new ProgressDialog(ProjectActivityDetail2.this);
         Calendar c = Calendar.getInstance(); // Set the calendar to Sunday of the current week
         c.set(Calendar.DAY_OF_WEEK, c.MONDAY); // Print dates of the current week starting on Sunday
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -324,7 +377,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
 
         }
 
-       /* etMondayhour.addTextChangedListener(new TextWatcher() {
+      /*  etMondayhour.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.e("Value", project_id + "-" + s.toString() + "-" + tvDate6.getText().toString());
@@ -481,8 +534,8 @@ public class ProjectActivityDetail extends AppCompatActivity {
                 // TODO Auto-generated method stub
             }
         });
-*/
 
+*/
         tvSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -537,8 +590,8 @@ public class ProjectActivityDetail extends AppCompatActivity {
     }
 
     private void sendProjectDetailsToServer(final String timeSheet) {
-        if (NetworkConnection.isNetworkAvailable(ProjectActivityDetail.this)) {
-            Utils.showProgressDialog(ProjectActivityDetail.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
+        if (NetworkConnection.isNetworkAvailable(ProjectActivityDetail2.this)) {
+            Utils.showProgressDialog(ProjectActivityDetail2.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
             Utils.showLog(Log.INFO, "" + AppConfigTags.URL, AppConfigURL.ADD_TASK, true);
             StringRequest strRequest1 = new StringRequest(Request.Method.POST, AppConfigURL.ADD_TASK,
                     new com.android.volley.Response.Listener<String>() {
@@ -554,16 +607,16 @@ public class ProjectActivityDetail extends AppCompatActivity {
                                         finish();
 
                                     } else {
-                                        Utils.showSnackBar(ProjectActivityDetail.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
+                                        Utils.showSnackBar(ProjectActivityDetail2.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
                                     progressDialog.dismiss();
                                 } catch (Exception e) {
                                     progressDialog.dismiss();
-                                    Utils.showSnackBar(ProjectActivityDetail.this, clMain, getResources().getString(R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                    Utils.showSnackBar(ProjectActivityDetail2.this, clMain, getResources().getString(R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
                                     e.printStackTrace();
                                 }
                             } else {
-                                Utils.showSnackBar(ProjectActivityDetail.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                Utils.showSnackBar(ProjectActivityDetail2.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
                                 Utils.showLog(Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
                             }
                             progressDialog.dismiss();
@@ -577,7 +630,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
                             if (response != null && response.data != null) {
                                 Utils.showLog(Log.ERROR, AppConfigTags.ERROR, new String(response.data), true);
                             }
-                            Utils.showSnackBar(ProjectActivityDetail.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                            Utils.showSnackBar(ProjectActivityDetail2.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
                             progressDialog.dismiss();
                         }
                     }) {
@@ -593,7 +646,7 @@ public class ProjectActivityDetail extends AppCompatActivity {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     params.put(AppConfigTags.HEADER_API_KEY, Constants.api_key);
-                    params.put(AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref(ProjectActivityDetail.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
+                    params.put(AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref(ProjectActivityDetail2.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
                     Utils.showLog(Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
                     return params;
                 }

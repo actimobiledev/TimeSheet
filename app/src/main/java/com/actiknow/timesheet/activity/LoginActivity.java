@@ -41,10 +41,8 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
     EditText etUserName;
     EditText etPassword;
-
     TextView tvLogin;
     TextView tvShowHide;
-    
     ProgressDialog progressDialog;
     CoordinatorLayout clMain;
     AppDetailsPref appDetailsPref;
@@ -61,8 +59,6 @@ public class LoginActivity extends AppCompatActivity {
     private void initData () {
         appDetailsPref = AppDetailsPref.getInstance ();
         progressDialog = new ProgressDialog (this);
-
-
     }
     
     private void initView () {

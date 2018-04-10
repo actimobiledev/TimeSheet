@@ -27,6 +27,9 @@
         <activity android:name=".activity.ProjectActivityDetail"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".activity.ProjectActivityDetail2"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.ProjectActivity"
             android:screenOrientation="portrait"/>
 

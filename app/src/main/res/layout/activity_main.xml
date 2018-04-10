@@ -110,6 +110,69 @@
         </RelativeLayout>
 
 
+
+
+
+        <RelativeLayout
+            android:id="@+id/rlNoResultFound"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/appBar"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:animateLayoutChanges="true"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/ivNoResult"
+                android:layout_width="120dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/no_project"/>
+            <TextView
+                android:id="@+id/tvNoResultFound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivNoResult"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:gravity="center"
+                android:padding="@dimen/edittext_padding"
+                android:text="No Project Allotted....."
+                android:textColor="@color/text_color_black"
+                android:textSize="@dimen/text_size_extra_large"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvNoResultFound2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNoResultFound"
+                android:gravity="center"
+                android:padding="@dimen/activity_margin_extra_small"
+                android:text="No Project Allotted"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="gone"/>
+
+
+            <TextView
+                android:id="@+id/tvResetFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNoResultFound2"
+                android:gravity="center"
+                android:padding="@dimen/activity_margin"
+                android:text="Reset Filter"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+
+
         <!-- <RelativeLayout
              android:id="@+id/rlList"
              android:layout_width="match_parent"

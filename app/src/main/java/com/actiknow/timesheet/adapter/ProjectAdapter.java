@@ -14,6 +14,8 @@ import com.actiknow.timesheet.model.Project;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.actiknow.timesheet.utils.Utils.dateFormat;
+
 
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
     OnItemClickListener mItemClickListener;
@@ -40,7 +42,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
 
         holder.tvName.setText(project.getProject_title());
         holder.tvDescription.setText(project.getDescription());
-        holder.tvTime.setText("Allotted Hour "+project.getAlloted_hour());
+        holder.tvTime.setText("Start Project -"+dateFormat(project.getStarted_at()));
     }
 
     @Override

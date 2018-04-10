@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     String date = "", time = "", address2 = "";
     String clients[] = {"Jason Byrne", "Spencer", "Mathias", "EdCandy", "J&J", "Nati", "Bench"};
 
-
+     RelativeLayout rlNoResultFound;
 
 
 
@@ -112,10 +113,9 @@ public class MainActivity extends AppCompatActivity {
         initListener();
         isLogin();
         initDrawer();
-        projectList();
+
 
     }
-
 
 
     private void initListener() {
@@ -200,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
         rvProjectList = (RecyclerView) findViewById(R.id.rvProjectList);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         fabAddProject = (FloatingActionButton) findViewById(R.id.fabAddProject);
+        rlNoResultFound=(RelativeLayout)findViewById(R.id.rlNoResultFound);
     }
 
     private void initData() {
@@ -220,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(MainActivity.this, ProjectActivityDetail.class);
+                Intent intent=new Intent(MainActivity.this, ProjectActivityDetail2.class);
                 intent.putExtra("allProjects",allProjects);
                 intent.putExtra("position",position);
                 overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
@@ -232,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        projectList();
         super.onResume();
     }
 
@@ -372,9 +374,9 @@ public class MainActivity extends AppCompatActivity {
                     })
                     .build ();
             headerResult.addProfiles (new ProfileDrawerItem ()
-                    .withIcon (R.mipmap.ic_launcher)
-                    .withName ("Sudhanshu Sharma")
-                    .withEmail ("Sudhanshu.Sharma@actiknow.com"));
+                    .withIcon (R.drawable.user_image)
+                    .withName (appDetailsPref.getStringPref(MainActivity.this, AppDetailsPref.EMPLOYEE_NAME))
+                    .withEmail (appDetailsPref.getStringPref(MainActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL)));
 
         result = new DrawerBuilder ()
                 .withActivity (this)
@@ -385,7 +387,8 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem ().withName ("Home").withIcon (FontAwesome.Icon.faw_home).withIdentifier (1).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Projects").withIcon (FontAwesome.Icon.faw_wordpress).withIdentifier (2).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Clients").withIcon (FontAwesome.Icon.faw_user).withIdentifier (3).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
-                        new PrimaryDrawerItem ().withName ("Leave").withIcon (FontAwesome.Icon.faw_leaf).withIdentifier (4).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this))
+                        new PrimaryDrawerItem ().withName ("Leave").withIcon (FontAwesome.Icon.faw_leaf).withIdentifier (4).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
+                        new PrimaryDrawerItem ().withName ("Sign Out").withIcon (FontAwesome.Icon.faw_sign_out).withIdentifier (5).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this))
                 )
                 .withSavedInstance (savedInstanceState)
                 .withOnDrawerItemClickListener (new Drawer.OnDrawerItemClickListener () {
@@ -411,6 +414,12 @@ public class MainActivity extends AppCompatActivity {
                                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                                 break;
 
+
+                            case 5:
+                                showLogOutDialog();
+                                break;
+
+
                         }
                         return false;
                     }
@@ -429,7 +438,21 @@ public class MainActivity extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
+                        appDetailsPref.putIntPref (MainActivity.this, AppDetailsPref.EMPLOYEE_ID, 0);
+                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_NAME,"");
+                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_DOB, "");
+                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_MOBILE, "");
+                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_EMAIL,"");
+                        appDetailsPref.putIntPref (MainActivity.this, AppDetailsPref.EMPLOYEE_TYPE, 0);
+                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL,"");
+                        appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.EMPLOYEE_IMAGE, "");
+                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_ID, "");
+                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_PASS, "");
+                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY, "");
+                        Intent intent = new Intent (MainActivity.this, LoginActivity.class);
+                        intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity (intent);
+                        overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
                     }
                 }).build();
         dialog.show();
@@ -478,11 +501,17 @@ public class MainActivity extends AppCompatActivity {
                                                     jsonObject.getInt(AppConfigTags.PROJECT_ID),
                                                     jsonObject.getString(AppConfigTags.PROJECT_TITLE),
                                                     jsonObject.getString(AppConfigTags.PROJECT_DESCRIPTION),
-                                                    jsonObject.getString(AppConfigTags.PROJECT_ALLOTED_HOUR)
+                                                    jsonObject.getString(AppConfigTags.PROJECT_STARTED_AT)
 
 
                                             );
                                             projectList.add(i, project);
+                                        }
+
+                                        if (jsonArray.length() >0) {
+                                            rlNoResultFound.setVisibility(View.GONE);
+                                        }else {
+                                            rlNoResultFound.setVisibility(View.VISIBLE);
                                         }
 
 

@@ -23,11 +23,11 @@ public class Project {
         this.status = status;
     }
 
-    public Project(int id,String project_title,String description, String alloted_hour) {
+    public Project(int id,String project_title,String description, String started_at) {
         this.id = id;
         this.description = description;
         this.project_title = project_title;
-        this.alloted_hour = alloted_hour;
+        this.started_at = started_at;
     }
 
     public int getId() {

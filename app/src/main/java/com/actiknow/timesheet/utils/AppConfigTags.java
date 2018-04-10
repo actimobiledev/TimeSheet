@@ -71,6 +71,10 @@ public class AppConfigTags {
     public static final String PROJECT_STARTED_AT = "project_started_at";
     public static final String PROJECT_COMPLETE_AT = "project_completed_at";
     public static final String PROJECT_STATUS = "project_status";
+    public static final String TIMESHEET = "timesheet";
+    public static final String HOURS = "hours";
+    public static final String DATE = "date";
+    public static final String hour = "hour";
 
 
 
