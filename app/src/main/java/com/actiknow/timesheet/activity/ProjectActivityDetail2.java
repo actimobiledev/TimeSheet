@@ -88,7 +88,6 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
     String projects = "";
     int position = 0;
     int project_id = 0;
-    int project_id2 = 0;
     int array_length = 0;
     int i = 0;
     ArrayList<Task> tasklist = new ArrayList<>();
@@ -121,9 +120,9 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
         try {
             projects = getIntent().getExtras().getString("allProjects");
             position = getIntent().getExtras().getInt("position", 0);
-            //current_position = getIntent().getExtras().getInt("position", 0);
             JSONArray jsonArray = new JSONArray(projects);
             array_length = jsonArray.length();
+            Log.e("lenght",""+array_length);
             if (jsonArray.length() > 0) {
                 for (int j = 0; j < jsonArray.length(); j++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(j);
@@ -231,58 +230,53 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
         ivNextProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (array_length - 1 > position) {
-
-
-                    JSONObject jsonObject;
+                if (array_length-1  > position) {
                     position = position + 1;
                     try {
                         JSONArray jsonArray = new JSONArray(projects);
-                        /*if(position == current_position) {
-                             jsonObject = jsonArray.getJSONObject(position-1);
-                        }else{*/
-                             jsonObject = jsonArray.getJSONObject(position);
-                       // }
-                        JSONObject jsonObject2 = jsonArray.getJSONObject(position-1);
+                        JSONObject jsonObject = jsonArray.getJSONObject(position);
                         tvProjectName.setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
-                        project_id = jsonObject.getInt(AppConfigTags.PROJECT_ID);
-                        project_id2 = jsonObject2.getInt(AppConfigTags.PROJECT_ID);
+                        project_id = jsonArray.getJSONObject(position - 1).getInt(AppConfigTags.PROJECT_ID);
 
 
-                        if (etMondayhour.getText().toString().length()>0){
-                            tasklist.add(new Task(project_id2,etMondayhour.getText().toString() ,Utils.dateFormat2(tvDate1.getText().toString())));
-
-                        }
-                        if (etTueshour.getText().toString().length()>0){
-                            tasklist.add(new Task(project_id2,etTueshour.getText().toString() ,Utils.dateFormat2(tvDate2.getText().toString())));
-                        }
-
-                        if (etWednesdayHour.getText().toString().length()>0){
-                            tasklist.add(new Task(project_id,etWednesdayHour.getText().toString() ,Utils.dateFormat2(tvDate3.getText().toString())));
-                        }
-
-                        if (etThursdayhour.getText().toString().length()>0){
-                            tasklist.add(new Task(project_id,etThursdayhour.getText().toString() ,Utils.dateFormat2(tvDate4.getText().toString())));
-                        }
-
-                        if (etFridayhour.getText().toString().length()>0){
-                            tasklist.add(new Task(project_id,etFridayhour.getText().toString() ,Utils.dateFormat2(tvDate5.getText().toString())));
-                        }
-
-                        if (etSaturdayhour.getText().toString().length()>0){
-                            tasklist.add(new Task(project_id,etSaturdayhour.getText().toString() ,Utils.dateFormat2(tvDate6.getText().toString())));
-                        }
-
-                        if (etSundayhour.getText().toString().length()>0){
-                            tasklist.add(new Task(project_id,etSundayhour.getText().toString() ,Utils.dateFormat2(tvDate7.getText().toString())));
-                        }
-
-
-
-                        for (int i = 0; i < tasklist.size();i++){
-                            Log.e("timesheet", String.valueOf(tasklist.get(i).getProject_id()+"-"+tasklist.get(i).getDate()+"-"+tasklist.get(i).getNo_of_hrs()));
+                        if (etMondayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etMondayhour.getText().toString(), Utils.dateFormat2(tvDate1.getText().toString())));
 
                         }
+                        if (etTueshour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etTueshour.getText().toString(), Utils.dateFormat2(tvDate2.getText().toString())));
+                        }
+
+                        if (etWednesdayHour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etWednesdayHour.getText().toString(), Utils.dateFormat2(tvDate3.getText().toString())));
+                        }
+
+                        if (etThursdayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etThursdayhour.getText().toString(), Utils.dateFormat2(tvDate4.getText().toString())));
+                        }
+
+                        if (etFridayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etFridayhour.getText().toString(), Utils.dateFormat2(tvDate5.getText().toString())));
+                        }
+
+                        if (etSaturdayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etSaturdayhour.getText().toString(), Utils.dateFormat2(tvDate6.getText().toString())));
+                        }
+
+                        if (etSundayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etSundayhour.getText().toString(), Utils.dateFormat2(tvDate7.getText().toString())));
+                        }
+
+
+                        for (int i = 0; i < tasklist.size(); i++) {
+                            Log.e("timesheet", String.valueOf(tasklist.get(i).getProject_id() + "-" + tasklist.get(i).getDate() + "-" + tasklist.get(i).getNo_of_hrs()));
+
+                        }
+
+
+
+
+
 
 
 
@@ -294,7 +288,11 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }else{
+
                 }
+
+
 
 
 
