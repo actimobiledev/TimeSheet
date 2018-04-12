@@ -109,13 +109,7 @@ public class ClientsActivity extends AppCompatActivity {
                 android.app.FragmentManager fm = getFragmentManager();
                 android.app.FragmentTransaction ft = fm.beginTransaction();
                 AddClientDialogFragment fragment = new AddClientDialogFragment().newInstance();
-                fragment.setDismissListener(new MyDialogCloseListener() {
-                    @Override
-                    public void handleDialogClose(DialogInterface dialog) {
 
-                        ClientsList ();
-                    }
-                });
                 fragment.show(ft, "test");
             }
         });

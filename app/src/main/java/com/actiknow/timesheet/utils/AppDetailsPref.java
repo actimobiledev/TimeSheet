@@ -16,7 +16,9 @@ public class AppDetailsPref {
     public static String EMPLOYEE_LOGIN_PASS = "employee_login_pass";
     public static String EMPLOYEE_LOGIN_KEY = "employee_login_key";
     public static String EMPLOYEE_TYPE = "employee_type";
+    public static String CLIENTS = "clients";
     public static String EMPLOYEE_ID = "employee_id";
+    public static String EMPLOYEES = "employees";
 
 
 

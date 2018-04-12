@@ -60,6 +60,7 @@ public class ProjectActivity extends AppCompatActivity {
     ArrayList<Project> projectList = new ArrayList<>();
     ProgressDialog progressDialog;
     String allClients;
+    String allProject;
 
 
     @Override
@@ -103,31 +104,24 @@ public class ProjectActivity extends AppCompatActivity {
         fabAddProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                AddProjectDialogFragment fragment = AddProjectDialogFragment.newInstance(allClients);
-
-                fragment.setDismissListener(new MyDialogCloseListener2() {
-                    @Override
-                    public void handleDialogClose(DialogInterface dialog) {
-                        projectList();
-                    }
-                });
-                fragment.show(ft, "test");
+               Intent intent=new Intent(ProjectActivity.this,AddProjectActivity.class);
+               startActivity(intent);
+                overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
-       /* projectAdapter.SetOnItemClickListener(new ProjectAdapter.OnItemClickListener() {
+       projectAdapter.SetOnItemClickListener(new ProjectAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(ProjectActivity.this, ProjectBackUp1.class);
-                intent.putExtra("allClients",allClients);
+                Intent intent=new Intent(ProjectActivity.this, ProjectDetailActivity.class);
+                intent.putExtra("allProject",allProject);
                 intent.putExtra("position",position);
                 overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                 startActivity(intent);
 
 
             }
-        });*/
+        });
 
 
     }
@@ -164,6 +158,7 @@ public class ProjectActivity extends AppCompatActivity {
                                     String message = jsonObj.getString(AppConfigTags.MESSAGE);
                                     if (!is_error) {
                                         JSONArray jsonArray = jsonObj.getJSONArray(AppConfigTags.PROJECTS);
+                                        allProject = jsonObj.getJSONArray(AppConfigTags.PROJECTS).toString();
 //                                        allClients = jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString();
                                         // Log.e("projects",allClients);
                                         for (int i = 0; i < jsonArray.length(); i++) {

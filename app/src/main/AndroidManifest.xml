@@ -40,10 +40,17 @@
         <activity android:name=".activity.ProjectActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.ProjectDetailActivity"
+            android:screenOrientation="portrait"/>
+
+
         <activity android:name=".activity.ClientsActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.LeaveActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.AddProjectActivity"
             android:screenOrientation="portrait"/>
     </application>
 

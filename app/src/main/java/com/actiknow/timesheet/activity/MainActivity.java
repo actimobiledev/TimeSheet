@@ -293,55 +293,158 @@ public class MainActivity extends AppCompatActivity {
                 .withName(appDetailsPref.getStringPref(MainActivity.this, AppDetailsPref.EMPLOYEE_NAME))
                 .withEmail(appDetailsPref.getStringPref(MainActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL)));
 
-
-        result = new DrawerBuilder()
-                .withActivity(this)
-                .withAccountHeader(headerResult)
+        switch (appDetailsPref.getIntPref(MainActivity.this, AppDetailsPref.EMPLOYEE_TYPE)) {
+            case 1:
+                result = new DrawerBuilder()
+                        .withActivity(this)
+                        .withAccountHeader(headerResult)
 //                .withToolbar (toolbar)
 //                .withItemAnimator (new AlphaCrossFadeAnimator ())
-                .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Home").withIcon(FontAwesome.Icon.faw_home).withIdentifier(1).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                        new PrimaryDrawerItem().withName("Projects").withIcon(FontAwesome.Icon.faw_wordpress).withIdentifier(2).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                        new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                        new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                        new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this))
-                )
-                .withSavedInstance(savedInstanceState)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        switch ((int) drawerItem.getIdentifier()) {
-                            case 2:
-                                Intent intent2 = new Intent(MainActivity.this, ProjectActivity.class);
-                                startActivity(intent2);
-                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                                break;
+                        .addDrawerItems(
+                                new PrimaryDrawerItem().withName("Home").withIcon(FontAwesome.Icon.faw_home).withIdentifier(1).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Projects").withIcon(FontAwesome.Icon.faw_wordpress).withIdentifier(2).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this))
+                        )
+                        .withSavedInstance(savedInstanceState)
+                        .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                            @Override
+                            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                                switch ((int) drawerItem.getIdentifier()) {
+                                    case 2:
+                                        Intent intent2 = new Intent(MainActivity.this, ProjectActivity.class);
+                                        startActivity(intent2);
+                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        break;
 
 
-                            case 3:
-                                Intent intent3 = new Intent(MainActivity.this, ClientsActivity.class);
-                                startActivity(intent3);
-                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                                break;
+                                    case 3:
+                                        Intent intent3 = new Intent(MainActivity.this, ClientsActivity.class);
+                                        startActivity(intent3);
+                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        break;
 
-                            case 4:
-                                Intent intent4 = new Intent(MainActivity.this, LeaveActivity.class);
-                                startActivity(intent4);
-                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                                break;
-
-
-                            case 5:
-                                showLogOutDialog();
-                                break;
+                                    case 4:
+                                        Intent intent4 = new Intent(MainActivity.this, LeaveActivity.class);
+                                        startActivity(intent4);
+                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        break;
 
 
-                        }
-                        return false;
-                    }
-                })
-                .build();
-//        result.getActionBarDrawerToggle ().setDrawerIndicatorEnabled (false);
+                                    case 5:
+                                        showLogOutDialog();
+                                        break;
+
+
+                                }
+                                return false;
+                            }
+                        })
+                        .build();
+                break;
+
+            case 2:
+                result = new DrawerBuilder()
+                        .withActivity(this)
+                        .withAccountHeader(headerResult)
+//                .withToolbar (toolbar)
+//                .withItemAnimator (new AlphaCrossFadeAnimator ())
+                        .addDrawerItems(
+                                new PrimaryDrawerItem().withName("Home").withIcon(FontAwesome.Icon.faw_home).withIdentifier(1).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Projects").withIcon(FontAwesome.Icon.faw_wordpress).withIdentifier(2).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this))
+                        )
+                        .withSavedInstance(savedInstanceState)
+                        .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                            @Override
+                            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                                switch ((int) drawerItem.getIdentifier()) {
+                                    case 2:
+                                        Intent intent2 = new Intent(MainActivity.this, ProjectActivity.class);
+                                        startActivity(intent2);
+                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        break;
+
+
+                                    case 3:
+                                        Intent intent3 = new Intent(MainActivity.this, ClientsActivity.class);
+                                        startActivity(intent3);
+                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        break;
+
+                                    case 4:
+                                        Intent intent4 = new Intent(MainActivity.this, LeaveActivity.class);
+                                        startActivity(intent4);
+                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        break;
+
+
+                                    case 5:
+                                        showLogOutDialog();
+                                        break;
+
+
+                                }
+                                return false;
+                            }
+                        })
+                        .build();
+                break;
+
+            case 3:
+                result = new DrawerBuilder()
+                        .withActivity(this)
+                        .withAccountHeader(headerResult)
+//                .withToolbar (toolbar)
+//                .withItemAnimator (new AlphaCrossFadeAnimator ())
+                        .addDrawerItems(
+                                new PrimaryDrawerItem().withName("Home").withIcon(FontAwesome.Icon.faw_home).withIdentifier(1).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Projects").withIcon(FontAwesome.Icon.faw_wordpress).withIdentifier(2).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this))
+                        )
+                        .withSavedInstance(savedInstanceState)
+                        .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                            @Override
+                            public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                                switch ((int) drawerItem.getIdentifier()) {
+                                    case 2:
+                                        Intent intent2 = new Intent(MainActivity.this, ProjectActivity.class);
+                                        startActivity(intent2);
+                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        break;
+
+
+                                    case 3:
+                                        Intent intent3 = new Intent(MainActivity.this, ClientsActivity.class);
+                                        startActivity(intent3);
+                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        break;
+
+                                    case 4:
+                                        Intent intent4 = new Intent(MainActivity.this, LeaveActivity.class);
+                                        startActivity(intent4);
+                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        break;
+
+
+                                    case 5:
+                                        showLogOutDialog();
+                                        break;
+
+
+                                }
+                                return false;
+                            }
+                        })
+                        .build();
+                break;
+
+        }
     }
 
     private void showLogOutDialog() {
@@ -404,6 +507,8 @@ public class MainActivity extends AppCompatActivity {
                                             );
                                             projectList.add(i, project);
                                         }
+                                        appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString());
+                                        appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray(AppConfigTags.EMPLOYEES).toString());
 
                                         if (jsonArray.length() > 0) {
                                             rlNoResultFound.setVisibility(View.GONE);
@@ -476,3 +581,4 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+

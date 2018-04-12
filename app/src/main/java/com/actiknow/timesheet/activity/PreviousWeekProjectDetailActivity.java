@@ -220,7 +220,6 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
     }
 
     private void initData() {
-
         Calendar c = Calendar.getInstance(); // Set the calendar to Sunday of the current week
         c.set(Calendar.DAY_OF_WEEK, c.MONDAY); // Print dates of the current week starting on Sunday
         c.add(Calendar.DATE, -7);
@@ -252,11 +251,7 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
 
             c.add(Calendar.DATE, 1);
 
-
         }
-
-
-
 
         progressDialog = new ProgressDialog(PreviousWeekProjectDetailActivity.this);
         projects = getIntent().getExtras().getString("project_name");
@@ -265,9 +260,7 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
         tvProjectName.setText(projects);
         PreviousDetail(position);
 
-
-
-        }
+    }
 
 
 
@@ -299,17 +292,9 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
                                         JSONArray jsonArray = jsonObj.getJSONArray(AppConfigTags.PREVIOUS_WEEK);
                                         for (int i = 0; i < jsonArray.length(); i++) {
                                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                          //  tvDate1.setText(Utils.dateFormat(jsonObject.getString(AppConfigTags.START_DATE)));
-                                          //  tvDate7.setText(Utils.dateFormat(jsonObject.getString(AppConfigTags.END_END)));
+
                                             projectList.add(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
                                             projectID.add(jsonObject.getInt(AppConfigTags.PROJECT_ID));
-
-
-                                           /* List<Date> dates = Utils.getDates(jsonObject.getString(AppConfigTags.START_DATE), jsonObject.getString(AppConfigTags.END_END));
-                                            for(Date date:dates) {
-                                                System.out.println(date);
-                                            }
-*/
 
                                             if (id == jsonObject.getInt(AppConfigTags.PROJECT_ID)) {
                                                 Log.d("id1222","123----"+jsonObject.getInt(AppConfigTags.PROJECT_ID));
@@ -320,43 +305,8 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
                                                 etFridayhour.setText(jsonObject.getString(AppConfigTags.DAY_5));
                                                 etSaturdayhour.setText(jsonObject.getString(AppConfigTags.DAY_6));
                                                 etSundayhour.setText(jsonObject.getString(AppConfigTags.DAY_7));
-
-
                                             }
-
-
-
-
-                                              /*  if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate1.getText().toString())) {
-                                                    etMondayhour.setText(jsonObject.getString(AppConfigTags.hour));
-                                                }
-                                                if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate2.getText().toString())) {
-                                                    etTueshour.setText(jsonObject.getString(AppConfigTags.hour));
-                                                }
-                                                if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate3.getText().toString())) {
-                                                    etWednesdayHour.setText(jsonObject.getString(AppConfigTags.hour));
-                                                }
-                                                if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate4.getText().toString())) {
-                                                    etThursdayhour.setText(jsonObject.getString(AppConfigTags.hour));
-                                                }
-                                                if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate5.getText().toString())) {
-                                                    etFridayhour.setText(jsonObject.getString(AppConfigTags.hour));
-                                                }
-                                                if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate6.getText().toString())) {
-                                                    etSaturdayhour.setText(jsonObject.getString(AppConfigTags.hour));
-                                                }
-                                                if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate7.getText().toString())) {
-                                                    etSundayhour.setText(jsonObject.getString(AppConfigTags.hour));
-                                                }*/
-
                                         }
-
-
-
-
-
-
-
                                     } else {
                                         Utils.showSnackBar(PreviousWeekProjectDetailActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
