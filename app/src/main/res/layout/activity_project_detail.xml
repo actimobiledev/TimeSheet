@@ -65,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:gravity="center"
-                        android:text="TimeSheet"
+                        android:text="Projects"
                         android:textColor="@color/text_color_white"
                         android:textSize="@dimen/text_size_title"
                         android:textStyle="bold" />
@@ -75,503 +75,248 @@
         </android.support.design.widget.AppBarLayout>
 
 
-        <RelativeLayout
-            android:id="@+id/rlList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/appBar"
-            android:visibility="visible">
 
-
-            <LinearLayout
-                android:id="@+id/llProjectName"
+            <RelativeLayout
+                android:id="@+id/rlMain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/activity_margin"
-                android:background="@drawable/edit_background"
-                android:orientation="horizontal"
-                android:weightSum="5">
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_margin"
+                android:paddingRight="@dimen/activity_margin_small"
+                android:layout_below="@+id/appBar">
 
-                <ImageView
-                    android:id="@+id/ivPreProject"
-                    android:layout_width="0dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_previous"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tvProjectName"
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:id="@+id/rlJobInfo"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:text="Project name"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_medium" />
-
-                <ImageView
-                    android:id="@+id/ivNextProject"
-                    android:layout_width="0dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_next"
-                    android:visibility="gone" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/llDay1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/llProjectName"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:background="@drawable/bg_question"
-                android:orientation="horizontal"
-                android:weightSum="4">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_question"
-                    android:orientation="vertical"
-                    android:padding="@dimen/activity_margin_small">
+                    android:layout_gravity="center_vertical">
 
                     <TextView
+                        android:id="@+id/tvJobTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Monday"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:paddingTop="@dimen/activity_margin_small"
+                        android:text="Job Title"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
 
                     <TextView
-                        android:id="@+id/tvDate1"
+                        android:id="@+id/tvCountryName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvJobTitle"
                         android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text=""
-                        android:textColor="@color/primary"
-                        android:textSize="@dimen/text_size_extra_small" />
+                        android:layout_marginTop="5dp"
+                        android:paddingRight="@dimen/activity_horizontal_margin"
+                        android:text="...Loading"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tvPaymentStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/tvCountryName"
+                        android:layout_gravity="center"
+                        android:text="...Loading"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:visibility="visible" />
 
 
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/etMondayhour"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvBudget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/tvPaymentStatus"
+                        android:layout_gravity="center"
+                        android:text="...Loading"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:visibility="visible" />
 
 
-            <LinearLayout
-                android:id="@+id/llDay2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/llDay1"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:background="@drawable/bg_question"
-                android:orientation="horizontal"
-                android:weightSum="4">
+                </RelativeLayout>
 
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/llJobTotalInfo"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_question"
-                    android:orientation="vertical"
-                    android:padding="@dimen/activity_margin_small">
+                    android:layout_below="@+id/rlJobInfo"
+                    android:layout_marginTop="@dimen/activity_margin_extra_small"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvNoOfJOBS"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Tuesday"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/llPickDropInfo"
+                        android:layout_marginTop="@dimen/activity_margin_small"
+                        android:text="No Of Total Jobs :"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
 
                     <TextView
-                        android:id="@+id/tvDate2"
+                        android:id="@+id/tvJobPosted"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text=""
-                        android:textColor="@color/primary"
-                        android:textSize="@dimen/text_size_extra_small" />
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="5dp"
+                        android:text="...Loading"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:visibility="visible" />
 
 
+                    <TextView
+                        android:id="@+id/tvJobHired"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:text="...Loading"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="@dimen/activity_margin_small"
+                        android:text="URL : "
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tvUrl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="5dp"
+                        android:autoLink="web"
+                        android:text="...Loading"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="@dimen/activity_margin_small"
+                        android:text="SKILLS : "
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tvSkills"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="5dp"
+                        android:autoLink="web"
+                        android:text="...Loading"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/text_size_extra_small"
+                        android:visibility="visible" />
+
+
+                    <TextView
+                        android:id="@+id/tvJobSnippet1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="@dimen/activity_margin_small"
+                        android:text="Job Snippet : "
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
                 </LinearLayout>
 
-                <EditText
-                    android:id="@+id/etTueshour"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
 
-            </LinearLayout>
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llJobTotalInfo"
+                    android:layout_marginTop="@dimen/activity_margin_extra_small"
+                    android:scrollbars="none">
 
 
-            <LinearLayout
-                android:id="@+id/llDay3"
+                    <LinearLayout
+                        android:id="@+id/llJobSnippetInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/llJobTotalInfo"
+                        android:layout_marginTop="@dimen/activity_margin_extra_small"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/tvJobSnippet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginTop="5dp"
+                            android:text="...Loading"
+                            android:textColor="@color/secondary_text"
+                            android:textSize="@dimen/text_size_extra_small"
+                            android:visibility="visible" />
+
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/tvScan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/llDay2"
+                android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
-                android:background="@drawable/bg_question"
-                android:orientation="horizontal"
-                android:weightSum="4">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_question"
-                    android:orientation="vertical"
-                    android:padding="@dimen/activity_margin_small">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Wednesday"
-                        android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tvDate3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text=""
-                        android:textColor="@color/primary"
-                        android:textSize="@dimen/text_size_extra_small" />
-
-
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/etWednesdayHour"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/llDay4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/llDay3"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:background="@drawable/bg_question"
-                android:orientation="horizontal"
-                android:weightSum="4">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_question"
-                    android:orientation="vertical"
-                    android:padding="@dimen/activity_margin_small">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Thrusday"
-                        android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tvDate4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text=""
-                        android:textColor="@color/primary"
-                        android:textSize="@dimen/text_size_extra_small" />
-
-
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/etThursdayhour"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/llDay5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/llDay4"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:background="@drawable/bg_question"
-                android:orientation="horizontal"
-                android:weightSum="4">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_question"
-                    android:orientation="vertical"
-                    android:padding="@dimen/activity_margin_small">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Friday"
-                        android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tvDate5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text=""
-                        android:textColor="@color/primary"
-                        android:textSize="@dimen/text_size_extra_small" />
-
-
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/etFridayhour"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/llDay6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/llDay5"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:background="@drawable/bg_question"
-                android:orientation="horizontal"
-                android:weightSum="4">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_question"
-                    android:orientation="vertical"
-                    android:padding="@dimen/activity_margin_small">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Sturday"
-                        android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tvDate6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text=""
-                        android:textColor="@color/primary"
-                        android:textSize="@dimen/text_size_extra_small" />
-
-
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/etSaturdayhour"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/llDay7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/llDay6"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:background="@drawable/bg_question"
-                android:orientation="horizontal"
-                android:weightSum="4">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_question"
-                    android:orientation="vertical"
-                    android:padding="@dimen/activity_margin_small">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="Sunday"
-                        android:textColor="@color/primary_text"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:id="@+id/tvDate7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text=""
-                        android:textColor="@color/primary"
-                        android:textSize="@dimen/text_size_extra_small" />
-
-
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/etSundayhour"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/llDay7"
-                android:layout_margin="@dimen/activity_margin"
-                android:background="@drawable/edit_background"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_previous"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:padding="8dp"
-                    android:text="Previous Week"
-                    android:textSize="@dimen/text_size_large"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-
+                android:layout_marginTop="5dp"
+                android:background="@color/primary"
+                android:gravity="center"
+                android:padding="@dimen/activity_margin_small"
+                android:text="ADD ITEMS"
+                android:textColor="@color/text_color_white"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </RelativeLayout>
-
-
-        <TextView
-            android:id="@+id/tvSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:background="@drawable/circle_button"
-            android:gravity="center"
-            android:padding="@dimen/activity_margin_small"
-            android:text="SUBMIT"
-            android:textColor="@color/text_color_white"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
-
-
-    </RelativeLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

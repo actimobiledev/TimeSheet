@@ -119,7 +119,7 @@ public class ProjectActivity extends AppCompatActivity {
        /* projectAdapter.SetOnItemClickListener(new ProjectAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(ProjectActivity.this, ProjectActivityDetail.class);
+                Intent intent=new Intent(ProjectActivity.this, ProjectBackUp1.class);
                 intent.putExtra("allClients",allClients);
                 intent.putExtra("position",position);
                 overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);

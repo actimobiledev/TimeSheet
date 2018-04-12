@@ -1,6 +1,5 @@
 package com.actiknow.timesheet.activity;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,8 +20,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -68,7 +65,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -142,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(MainActivity.this, ProjectActivityDetail4.class);
+                Intent intent = new Intent(MainActivity.this, ProjectTimeSheetDetailActivity.class);
                 intent.putExtra("allProjects", allProjects);
                 intent.putExtra("position", position);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
