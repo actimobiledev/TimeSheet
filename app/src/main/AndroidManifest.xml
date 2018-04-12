@@ -30,6 +30,13 @@
         <activity android:name=".activity.ProjectActivityDetail2"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".activity.ProjectActivityDetail4"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".activity.PreviousWeekProjectDetailActivity"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".activity.ProjectActivity"
             android:screenOrientation="portrait"/>
 

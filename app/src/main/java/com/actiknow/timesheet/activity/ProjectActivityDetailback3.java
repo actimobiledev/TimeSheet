@@ -7,8 +7,6 @@ import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -49,7 +47,7 @@ import java.util.Map;
  * Created by l on 27/07/2017.
  */
 
-public class ProjectActivityDetail2 extends AppCompatActivity {
+public class ProjectActivityDetailback3 extends AppCompatActivity {
     Bundle savedInstanceState;
 
     private RelativeLayout rlBack;
@@ -120,7 +118,6 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
         try {
             projects = getIntent().getExtras().getString("allProjects");
             position = getIntent().getExtras().getInt("position", 0);
-
             JSONArray jsonArray = new JSONArray(projects);
             array_length = jsonArray.length();
             Log.e("lenght", "" + array_length);
@@ -247,56 +244,51 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
                         tvProjectName.setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
                         project_id = jsonArray.getJSONObject(array_length - 1).getInt(AppConfigTags.PROJECT_ID);
 
-                        JSONArray jsonArrayHour = jsonObject.getJSONArray(AppConfigTags.HOURS);
 
-                        if (jsonArrayHour.length()>0) {
-                            Log.e("jsonArrayHour", jsonArrayHour.toString());
-                            for (int i = 0; i < jsonArrayHour.length(); i++) {
-                                JSONObject jsonObject2 = jsonArrayHour.getJSONObject(i);
+                        tasklist.add(new Task(project_id,Utils.dateFormat2(tvDate1.getText().toString()),Utils.dateFormat2(tvDate7.getText().toString()),
+                                       day1,day2,day3,day4,day5,day6,day7));
+/*
 
-                                if (Utils.dateFormat2(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate1.getText().toString())) {
-                                    etMondayhour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat2(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate2.getText().toString())) {
-                                    etTueshour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat2(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate3.getText().toString())) {
-                                    etWednesdayHour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat2(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate4.getText().toString())) {
-                                    etThursdayhour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat2(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate5.getText().toString())) {
-                                    etFridayhour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat2(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate6.getText().toString())) {
-                                    etSaturdayhour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat2(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate7.getText().toString())) {
-                                    etSundayhour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                            }
+                        }
+                        if (etTueshour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etTueshour.getText().toString(), Utils.dateFormat2(tvDate2.getText().toString())));
                         }
 
-                        tasklist.add(new Task(project_id,
-                                Utils.dateFormat2(tvDate1.getText().toString()),
-                                Utils.dateFormat2(tvDate7.getText().toString()),
-                                day1,
-                                day2,
-                                day3,
-                                day4,
-                                day5,
-                                day6,
-                                day7));
+                        if (etWednesdayHour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etWednesdayHour.getText().toString(), Utils.dateFormat2(tvDate3.getText().toString())));
+                        }
+
+                        if (etThursdayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etThursdayhour.getText().toString(), Utils.dateFormat2(tvDate4.getText().toString())));
+                        }
+
+                        if (etFridayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etFridayhour.getText().toString(), Utils.dateFormat2(tvDate5.getText().toString())));
+                        }
+
+                        if (etSaturdayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etSaturdayhour.getText().toString(), Utils.dateFormat2(tvDate6.getText().toString())));
+                        }
+
+                        if (etSundayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etSundayhour.getText().toString(), Utils.dateFormat2(tvDate7.getText().toString())));
+                        }
+
 
                         for (int i = 0; i < tasklist.size(); i++) {
-                            Log.e("timesheet", String.valueOf(tasklist.get(i).getProject_id() + "-" + tasklist.get(i).getStart_date() + "-" + tasklist.get(i).getEnd_date() + " day1- " + day1 + " day2- " + day2 + " day3- " + day3 + " day4- " + day4 + " day5- " + day5 + " day6- " + day6 + " day7- " + day7));
+                            Log.e("timesheet", String.valueOf(tasklist.get(i).getProject_id() + "-" + tasklist.get(i).getDate() + "-" + tasklist.get(i).getNo_of_hrs()));
 
                         }
-                        ivNextProject.setEnabled(false);
+*/
 
 
-       /*  for (Task t : tasklist) {
+
+
+
+
+
+
+                      /*  for (Task t : tasklist) {
                             if (t.getProject_id() == project_id && t.getDate().equalsIgnoreCase(tvDate1.getText().toString())) {
                                 etMondayhour.setText("" + t.getNo_of_hrs());
                             }
@@ -304,19 +296,7 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                } else {
-                    ivNextProject.setEnabled(true);
                 }
-/*
-                etMondayhour.setText("");
-                etTueshour.setText("");
-                etWednesdayHour.setText("");
-                etThursdayhour.setText("");
-                etFridayhour.setText("");
-                etSaturdayhour.setText("");
-                etSundayhour.setText("");*/
-
-
                 if (array_length - 1 > position) {
                     position = position + 1;
                     try {
@@ -324,54 +304,48 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
                         JSONObject jsonObject = jsonArray.getJSONObject(position);
                         tvProjectName.setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
                         project_id = jsonArray.getJSONObject(position - 1).getInt(AppConfigTags.PROJECT_ID);
-                        JSONArray jsonArrayHour = jsonObject.getJSONArray(AppConfigTags.HOURS);
-                        if (jsonArrayHour.length()>0){
-                            Log.e("jsonArrayHour", jsonArrayHour.toString());
-                            for (int i = 0; i < jsonArrayHour.length(); i++) {
-                                JSONObject jsonObject2 = jsonArrayHour.getJSONObject(i);
 
-                                if (Utils.dateFormat(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate1.getText().toString())) {
-                                    etMondayhour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate2.getText().toString())) {
-                                    etTueshour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate3.getText().toString())) {
-                                    etWednesdayHour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate4.getText().toString())) {
-                                    etThursdayhour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate5.getText().toString())) {
-                                    etFridayhour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate6.getText().toString())) {
-                                    etSaturdayhour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                                if (Utils.dateFormat(jsonObject2.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate7.getText().toString())) {
-                                    etSundayhour.setText(jsonObject2.getString(AppConfigTags.hour));
-                                }
-                            }
-                        }else{
 
-                            etMondayhour.setText("");
-                            etTueshour.setText("");
-                            etWednesdayHour.setText("");
-                            etThursdayhour.setText("");
-                            etFridayhour.setText("");
-                            etSaturdayhour.setText("");
-                            etSundayhour.setText("");
+                        tasklist.add(new Task(project_id,Utils.dateFormat2(tvDate1.getText().toString()),Utils.dateFormat2(tvDate7.getText().toString()),
+                                day1,day2,day3,day4,day5,day6,day7));
+
+
+                     /*     if (etTueshour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etTueshour.getText().toString(), Utils.dateFormat2(tvDate2.getText().toString())));
                         }
 
+                        if (etWednesdayHour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etWednesdayHour.getText().toString(), Utils.dateFormat2(tvDate3.getText().toString())));
+                        }
 
-                        tasklist.add(new Task(project_id, Utils.dateFormat2(tvDate1.getText().toString()), Utils.dateFormat2(tvDate7.getText().toString()),
-                                day1, day2, day3, day4, day5, day6, day7));
+                        if (etThursdayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etThursdayhour.getText().toString(), Utils.dateFormat2(tvDate4.getText().toString())));
+                        }
 
+                        if (etFridayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etFridayhour.getText().toString(), Utils.dateFormat2(tvDate5.getText().toString())));
+                        }
+
+                        if (etSaturdayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etSaturdayhour.getText().toString(), Utils.dateFormat2(tvDate6.getText().toString())));
+                        }
+
+                        if (etSundayhour.getText().toString().length() > 0) {
+                            tasklist.add(new Task(project_id, etSundayhour.getText().toString(), Utils.dateFormat2(tvDate7.getText().toString())));
+                        }
+*/
 
                         for (int i = 0; i < tasklist.size(); i++) {
-                            Log.e("timesheet", String.valueOf(tasklist.get(i).getProject_id() + "-" + tasklist.get(i).getStart_date() + "-" + tasklist.get(i).getEnd_date() + " day1- " + day1 + " day2- " + day2 + " day3- " + day3 + " day4- " + day4 + " day5- " + day5 + " day6- " + day6 + " day7- " + day7));
+                            Log.e("timesheet", String.valueOf(tasklist.get(i).getProject_id() + "-" + tasklist.get(i).getStart_date() + "-" + tasklist.get(i).getEnd_date()+" day1- "+day1+" day2- "+day2+" day3- "+day3+" day4- "+day4+" day5- "+day5+" day6- "+day6+" day7- "+day7));
 
                         }
+
+
+
+
+
+
+
 
                       /*  for (Task t : tasklist) {
                             if (t.getProject_id() == project_id && t.getDate().equalsIgnoreCase(tvDate1.getText().toString())) {
@@ -423,7 +397,7 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
     }
 
     private void initData() {
-        progressDialog = new ProgressDialog(ProjectActivityDetail2.this);
+        progressDialog = new ProgressDialog(ProjectActivityDetailback3.this);
         Calendar c = Calendar.getInstance(); // Set the calendar to Sunday of the current week
         c.set(Calendar.DAY_OF_WEEK, c.MONDAY); // Print dates of the current week starting on Sunday
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -457,11 +431,183 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
 
         }
 
+      /*  etMondayhour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.e("Value", project_id + "-" + s.toString() + "-" + tvDate6.getText().toString());
+                if (s.toString().length() > 0) {
 
+                    tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate1.getText().toString()));
+                    Log.e("TaskList", "" + tasklist.get(0).getNo_of_hrs());
+                } else {
+
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etTueshour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate2.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etWednesdayHour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate3.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etThursdayhour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate4.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etFridayhour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate5.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etSaturdayhour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate6.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+        etSundayhour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Log.e("Value", s.toString()+"-"+tvDate6.getText().toString());
+                // Task task = new Task();
+                // task.setDate(tvDate1.getText().toString());
+                tasklist.add(new Task(project_id, Integer.valueOf(s.toString()), tvDate7.getText().toString()));
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                // TODO Auto-generated method stub
+            }
+        });
+
+*/
         tvSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tasklist.size()==0){
+
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    DateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String inputDateStr = tvDate1.getText().toString();
+                    String inputDateStr2 = tvDate7.getText().toString();
+                    Date date = null;
+                    Date date1 = null;
+                    date = inputFormat.parse(inputDateStr);
+                    date1 = inputFormat.parse(inputDateStr2);
+                    String startDate = outputFormat.format(date);
+                    String endDate = outputFormat.format(date1);
+
+
                     day1 = etMondayhour.getText().toString().trim().equalsIgnoreCase("") ? "0" : etMondayhour.getText().toString();
                     day2 = etTueshour.getText().toString().trim().equalsIgnoreCase("") ? "0" : etTueshour.getText().toString();
                     day3 = etWednesdayHour.getText().toString().trim().equalsIgnoreCase("") ? "0" : etWednesdayHour.getText().toString();
@@ -470,80 +616,22 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
                     day6 = etSaturdayhour.getText().toString().trim().equalsIgnoreCase("") ? "0" : etSaturdayhour.getText().toString();
                     day7 = etSundayhour.getText().toString().trim().equalsIgnoreCase("") ? "0" : etSundayhour.getText().toString();
 
-                    tasklist.add(new Task(project_id, Utils.dateFormat2(tvDate1.getText().toString()), Utils.dateFormat2(tvDate7.getText().toString()),
-                            day1, day2, day3, day4, day5, day6, day7));
-                }
+
+                    jsonObject.put("project_id", project_id);
+                    jsonObject.put("start_date", startDate);
+                    jsonObject.put("end_date", endDate);
+                    jsonObject.put("day_1", day1.equalsIgnoreCase("") ? "0" : etMondayhour.getText().toString());
+                    jsonObject.put("day_2", day2.equalsIgnoreCase("") ? "0" : etTueshour.getText().toString());
+                    jsonObject.put("day_3", day3.equalsIgnoreCase("") ? "0" : etWednesdayHour.getText().toString());
+                    jsonObject.put("day_4", day4.equalsIgnoreCase("") ? "0" : etThursdayhour.getText().toString());
+                    jsonObject.put("day_5", day5.equalsIgnoreCase("") ? "0" : etFridayhour.getText().toString());
+                    jsonObject.put("day_6", day6.equalsIgnoreCase("") ? "0" : etSaturdayhour.getText().toString());
+                    jsonObject.put("day_7", day7.equalsIgnoreCase("") ? "0" : etSundayhour.getText().toString());
 
 
-                if (array_length == position + 1) {
-                            try {
-                                JSONArray jsonArray = new JSONArray(projects);
-                                JSONObject jsonObject = jsonArray.getJSONObject(array_length - 1);
-                                tvProjectName.setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
-                                project_id = jsonArray.getJSONObject(array_length - 1).getInt(AppConfigTags.PROJECT_ID);
+                    Log.e("jsonObject", "" + jsonObject.toString());
 
-                        for(int i=0; i<tasklist.size(); i++) {
-                            if (!(tasklist.get(i).getProject_id() == project_id)) {
-
-                                tasklist.add(new Task(project_id, Utils.dateFormat2(tvDate1.getText().toString()), Utils.dateFormat2(tvDate7.getText().toString()),
-                                        day1, day2, day3, day4, day5, day6, day7));
-                            }
-                        }
-
-                        for (int i = 0; i < tasklist.size(); i++) {
-                            Log.e("timesheet", String.valueOf(tasklist.get(i).getProject_id() + "-" + tasklist.get(i).getStart_date() + "-" + tasklist.get(i).getEnd_date() + " day1- " + day1 + " day2- " + day2 + " day3- " + day3 + " day4- " + day4 + " day5- " + day5 + " day6- " + day6 + " day7- " + day7));
-
-                        }
-
-                      /*  for (Task t : tasklist) {
-                            if (t.getProject_id() == project_id && t.getDate().equalsIgnoreCase(tvDate1.getText().toString())) {
-                                etMondayhour.setText("" + t.getNo_of_hrs());
-                            }
-                        }*/
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-
-                }
-
-
-              /*  for(int i=0; i<tasklist.size(); i++){
-                    if(tasklist.get(i).getProject_id() == project_id){
-
-                    }
-                }*/
-
-                try {
-
-                    JSONArray jArray = new JSONArray();// /ItemDetail jsonArray
-                    for (int i = 0; i < tasklist.size(); i++) {
-                        JSONObject jGroup = new JSONObject();// /sub Object
-
-                        try {
-                            jGroup.put("project_id", tasklist.get(i).getProject_id());
-                            jGroup.put("start_date", tasklist.get(i).getStart_date());
-                            jGroup.put("end_date", tasklist.get(i).getEnd_date());
-                            jGroup.put("day_1", tasklist.get(i).getDay_1());
-                            jGroup.put("day_2", tasklist.get(i).getDay_2());
-                            jGroup.put("day_3", tasklist.get(i).getDay_3());
-                            jGroup.put("day_4", tasklist.get(i).getDay_4());
-                            jGroup.put("day_5", tasklist.get(i).getDay_5());
-                            jGroup.put("day_6", tasklist.get(i).getDay_6());
-                            jGroup.put("day_7", tasklist.get(i).getDay_7());
-
-                            jArray.put(jGroup);
-                            sendProjectDetailsToServer(jArray.toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                        }
-
-
-                    }
-
-
-                    //  sendProjectDetailsToServer(jsonObject.toString());
+                    sendProjectDetailsToServer(jsonObject.toString());
 
 
                 } catch (Exception e) {
@@ -556,10 +644,10 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
     }
 
     private void sendProjectDetailsToServer(final String timeSheet) {
-        if (NetworkConnection.isNetworkAvailable(ProjectActivityDetail2.this)) {
-            Utils.showProgressDialog(ProjectActivityDetail2.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
-            Utils.showLog(Log.INFO, "" + AppConfigTags.URL, AppConfigURL.ADD_TASK4, true);
-            StringRequest strRequest1 = new StringRequest(Request.Method.POST, AppConfigURL.ADD_TASK4,
+        if (NetworkConnection.isNetworkAvailable(ProjectActivityDetailback3.this)) {
+            Utils.showProgressDialog(ProjectActivityDetailback3.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
+            Utils.showLog(Log.INFO, "" + AppConfigTags.URL, AppConfigURL.ADD_TASK, true);
+            StringRequest strRequest1 = new StringRequest(Request.Method.POST, AppConfigURL.ADD_TASK,
                     new com.android.volley.Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -573,16 +661,16 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
                                         finish();
 
                                     } else {
-                                        Utils.showSnackBar(ProjectActivityDetail2.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
+                                        Utils.showSnackBar(ProjectActivityDetailback3.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
                                     progressDialog.dismiss();
                                 } catch (Exception e) {
                                     progressDialog.dismiss();
-                                    Utils.showSnackBar(ProjectActivityDetail2.this, clMain, getResources().getString(R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                    Utils.showSnackBar(ProjectActivityDetailback3.this, clMain, getResources().getString(R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
                                     e.printStackTrace();
                                 }
                             } else {
-                                Utils.showSnackBar(ProjectActivityDetail2.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                Utils.showSnackBar(ProjectActivityDetailback3.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
                                 Utils.showLog(Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
                             }
                             progressDialog.dismiss();
@@ -596,7 +684,7 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
                             if (response != null && response.data != null) {
                                 Utils.showLog(Log.ERROR, AppConfigTags.ERROR, new String(response.data), true);
                             }
-                            Utils.showSnackBar(ProjectActivityDetail2.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                            Utils.showSnackBar(ProjectActivityDetailback3.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
                             progressDialog.dismiss();
                         }
                     }) {
@@ -612,7 +700,7 @@ public class ProjectActivityDetail2 extends AppCompatActivity {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     params.put(AppConfigTags.HEADER_API_KEY, Constants.api_key);
-                    params.put(AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref(ProjectActivityDetail2.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
+                    params.put(AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref(ProjectActivityDetailback3.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
                     Utils.showLog(Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
                     return params;
                 }

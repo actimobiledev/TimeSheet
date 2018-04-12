@@ -164,7 +164,7 @@ public class ProjectActivity extends AppCompatActivity {
                                     String message = jsonObj.getString(AppConfigTags.MESSAGE);
                                     if (!is_error) {
                                         JSONArray jsonArray = jsonObj.getJSONArray(AppConfigTags.PROJECTS);
-                                        allClients = jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString();
+//                                        allClients = jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString();
                                         // Log.e("projects",allClients);
                                         for (int i = 0; i < jsonArray.length(); i++) {
                                             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -172,7 +172,7 @@ public class ProjectActivity extends AppCompatActivity {
                                                     jsonObject.getInt(AppConfigTags.PROJECT_ID),
                                                     jsonObject.getString(AppConfigTags.PROJECT_TITLE),
                                                     jsonObject.getString(AppConfigTags.PROJECT_DESCRIPTION),
-                                                    jsonObject.getString(AppConfigTags.PROJECT_ALLOTED_HOUR)
+                                                    jsonObject.getString(AppConfigTags.PROJECT_STARTED_AT)
 
 
                                             );

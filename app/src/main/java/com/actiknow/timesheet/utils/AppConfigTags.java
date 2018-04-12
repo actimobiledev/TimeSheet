@@ -77,6 +77,19 @@ public class AppConfigTags {
     public static final String hour = "hour";
 
 
+    public static final String PREVIOUS_WEEK = "previous_week";
+    public static final String START_DATE = "start_date";
+    public static final String END_END = "end_date";
+    public static final String DAY_1 = "day_1";
+    public static final String DAY_2 = "day_2";
+    public static final String DAY_3 = "day_3";
+    public static final String DAY_4 = "day_4";
+    public static final String DAY_5 = "day_5";
+    public static final String DAY_6 = "day_6";
+    public static final String DAY_7 = "day_7";
+
+
+
 
 
 

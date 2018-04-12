@@ -17,9 +17,11 @@ public class AppConfigURL {
     public static String CONCLUSION_SURVEY = BASE_URL + "survey/response/conclusion";
     public static String DAILY_SURVEY = BASE_URL + "survey/response/daily";
     public static String ADD_TASK = BASE_URL + "add/task3";
+    public static String ADD_TASK4 = BASE_URL + "add/task4";
+   public static String PREVIOUS_WEEK = BASE_URL + "previous_week_task";
 
 
-
+   // public static String PREVIOUS_WEEK =" https://project-timesheet-cammy92.c9users.io/api/v1.0/previous_week_task";
 
 
 
