@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.model.Clients;
+import com.actiknow.timesheet.utils.SetTypeFace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,8 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, int position) {//        runEnterAnimation (holder.itemView);
 
         final Clients client = clientList.get(position);
+        holder.tvName.setTypeface (SetTypeFace.getTypeface (activity));
+        holder.tvDescription.setTypeface (SetTypeFace.getTypeface (activity));
 
         holder.tvName.setText(client.getName());
         holder.tvDescription.setText(client.getCompany());

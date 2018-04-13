@@ -122,6 +122,7 @@ public class AddClientDialogFragment extends DialogFragment {
     }
 
     private void initData() {
+        Utils.setTypefaceToAllViews (getActivity(), clMain);
         appDetailsPref = AppDetailsPref.getInstance();
         progressDialog = new ProgressDialog(getActivity());
 
@@ -145,8 +146,6 @@ public class AddClientDialogFragment extends DialogFragment {
         });
 
     }
-
-
     private void sendClientsDetailsToServer(final String clientName, final String clientEmail, final String clientNumber, final String clientSkype, final String clientSource, final String clientLocation, final String clientCompany, final String clientStatus) {
         if (NetworkConnection.isNetworkAvailable(getActivity())) {
             Utils.showProgressDialog(getActivity(), progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);

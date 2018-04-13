@@ -15,6 +15,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.Settings;
@@ -167,6 +168,11 @@ public class Utils {
         } else {
             Toast.makeText (activity, message, Toast.LENGTH_SHORT).show ();
         }
+    }
+
+    public static void setTypefaceToAllViews (Activity activity, View view) {
+        Typeface tf = SetTypeFace.getTypeface (activity);
+        SetTypeFace.applyTypeface (SetTypeFace.getParentView (view), tf);
     }
 
 

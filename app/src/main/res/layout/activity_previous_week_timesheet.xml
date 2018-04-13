@@ -110,7 +110,8 @@
                     android:padding="8dp"
                     android:text="Project name"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textSize="@dimen/text_size_medium"
+                    android:drawableRight="@drawable/ic_arrow_down" />
 
                 <ImageView
                     android:id="@+id/ivNextProject"
@@ -118,7 +119,7 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_next"
+                    android:src="@drawable/ic_arrow_down"
                     android:visibility="gone" />
 
             </LinearLayout>

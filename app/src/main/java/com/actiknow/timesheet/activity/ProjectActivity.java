@@ -130,6 +130,7 @@ public class ProjectActivity extends AppCompatActivity {
 
     private void initData() {
         projectList.clear();
+        Utils.setTypefaceToAllViews (this, clMain);
         appDetailsPref = AppDetailsPref.getInstance();
         progressDialog = new ProgressDialog(this);
         projectAdapter = new ProjectAdapter(this, projectList);
@@ -173,9 +174,9 @@ public class ProjectActivity extends AppCompatActivity {
                                         }
 
                                         projectAdapter.notifyDataSetChanged();
-                                        appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString());
-                                        appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray(AppConfigTags.EMPLOYEES).toString());
-                                        appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.ROLES, jsonObj.getJSONArray(AppConfigTags.ROLES).toString());
+                                       // appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString());
+                                        //appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray(AppConfigTags.EMPLOYEES).toString());
+                                        //appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.ROLES, jsonObj.getJSONArray(AppConfigTags.ROLES).toString());
 
                                         if (jsonArray.length() > 0) {
                                             rlNoResultFound.setVisibility(View.GONE);

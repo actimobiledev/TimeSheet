@@ -4,6 +4,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -46,6 +47,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
     String projects;
     int id;
     int project_id=0;
+    CoordinatorLayout clMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,9 +100,11 @@ public class ProjectDetailActivity extends AppCompatActivity {
         etProjectAllottedHour = (EditText)findViewById( R.id.etProjectAllottedHour );
         etProjectDescription = (EditText)findViewById( R.id.etProjectDescription );
         tvAddEmployee = (TextView)findViewById( R.id.tvAddEmployee );
+        clMain=(CoordinatorLayout)findViewById(R.id.clMain);
     }
 
     private void initData() {
+        Utils.setTypefaceToAllViews (this, clMain);
 
     }
     @Override

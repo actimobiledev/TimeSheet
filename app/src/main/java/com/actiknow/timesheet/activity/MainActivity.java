@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -39,6 +41,7 @@ import com.actiknow.timesheet.utils.Utils;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -95,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         initData();
         initAdapter();
         initListener();
+        initApplication();
         isLogin();
         initDrawer();
     }
@@ -134,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        Utils.setTypefaceToAllViews (this, clMain);
         swipeRefreshLayout.setRefreshing (true);
         appDetailsPref = AppDetailsPref.getInstance();
         projectList.clear();
@@ -317,6 +322,7 @@ public class MainActivity extends AppCompatActivity {
                         .addDrawerItems(
                                 new PrimaryDrawerItem().withName("Home").withIcon(FontAwesome.Icon.faw_home).withIdentifier(1).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                // new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Feedback").withIcon(FontAwesome.Icon.faw_star).withIdentifier(7).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Change Password").withIcon(FontAwesome.Icon.faw_asterisk).withIdentifier(6).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this))
                         )
@@ -336,6 +342,11 @@ public class MainActivity extends AppCompatActivity {
                                     case 6:
                                         Intent intent6 = new Intent(MainActivity.this, ChangePasswordActivity.class);
                                         startActivity(intent6);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+                                        break;
+                                    case 7:
+                                        Intent intent7 = new Intent(MainActivity.this, FeedbackActivity.class);
+                                        startActivity(intent7);
                                         overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                         break;
 
@@ -357,6 +368,7 @@ public class MainActivity extends AppCompatActivity {
                                 new PrimaryDrawerItem().withName("Projects").withIcon(FontAwesome.Icon.faw_wordpress).withIdentifier(2).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                // new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                               //  new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Feedback").withIcon(FontAwesome.Icon.faw_star).withIdentifier(7).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Change Password").withIcon(FontAwesome.Icon.faw_asterisk).withIdentifier(6).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this))
                         )
@@ -386,6 +398,12 @@ public class MainActivity extends AppCompatActivity {
                                     case 6:
                                         Intent intent6 = new Intent(MainActivity.this, ChangePasswordActivity.class);
                                         startActivity(intent6);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+                                        break;
+
+                                    case 7:
+                                        Intent intent7 = new Intent(MainActivity.this, FeedbackActivity.class);
+                                        startActivity(intent7);
                                         overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                         break;
 
@@ -407,6 +425,7 @@ public class MainActivity extends AppCompatActivity {
                                 new PrimaryDrawerItem().withName("Projects").withIcon(FontAwesome.Icon.faw_wordpress).withIdentifier(2).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                               //  new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                               //  new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Feedback").withIcon(FontAwesome.Icon.faw_star).withIdentifier(7).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Change Password").withIcon(FontAwesome.Icon.faw_asterisk).withIdentifier(6).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this))
                         )
@@ -437,6 +456,11 @@ public class MainActivity extends AppCompatActivity {
                                     case 6:
                                         Intent intent6 = new Intent(MainActivity.this, ChangePasswordActivity.class);
                                         startActivity(intent6);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+                                        break;
+                                    case 7:
+                                        Intent intent7 = new Intent(MainActivity.this, FeedbackActivity.class);
+                                        startActivity(intent7);
                                         overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                         break;
 
@@ -510,9 +534,9 @@ public class MainActivity extends AppCompatActivity {
                                             );
                                             projectList.add(i, project);
                                         }
-                                        appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString());
-                                        appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray(AppConfigTags.EMPLOYEES).toString());
-                                        appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.ROLES, jsonObj.getJSONArray(AppConfigTags.ROLES).toString());
+                                     //   appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString());
+                                     //   appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray(AppConfigTags.EMPLOYEES).toString());
+                                     //   appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.ROLES, jsonObj.getJSONArray(AppConfigTags.ROLES).toString());
 
                                         if (jsonArray.length() > 0) {
                                             rlNoResultFound.setVisibility(View.GONE);
@@ -580,6 +604,77 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(dialogIntent);
                 }
             });
+        }
+    }
+
+
+
+    private void initApplication () {
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getPackageManager ().getPackageInfo (getPackageName (), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace ();
+        }
+        if (NetworkConnection.isNetworkAvailable (this)) {
+            Utils.showLog (Log.INFO, AppConfigTags.URL, AppConfigURL.URL_INIT, true);
+            final PackageInfo finalPInfo = pInfo;
+            StringRequest strRequest = new StringRequest (Request.Method.POST, AppConfigURL.URL_INIT,
+                    new Response.Listener<String> () {
+                        @Override
+                        public void onResponse (String response) {
+                            Utils.showLog (Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
+                            if (response != null) {
+                                try {
+                                    JSONObject jsonObj = new JSONObject (response);
+                                    boolean error = jsonObj.getBoolean (AppConfigTags.ERROR);
+                                    String message = jsonObj.getString (AppConfigTags.MESSAGE);
+
+                                    if (! error) {
+                                      //  swipeRefreshLayout.setRefreshing (false);
+                                        appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString());
+                                        appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray(AppConfigTags.EMPLOYEES).toString());
+                                        appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.ROLES, jsonObj.getJSONArray(AppConfigTags.ROLES).toString());
+
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace ();
+                                }
+                            } else {
+                                Utils.showLog (Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
+                            }
+                        }
+                    },
+                    new Response.ErrorListener () {
+                        @Override
+                        public void onErrorResponse (VolleyError error) {
+
+                            Utils.showLog (Log.ERROR, AppConfigTags.VOLLEY_ERROR, error.toString (), true);
+                        }
+                    }) {
+
+                @Override
+                protected Map<String, String> getParams () throws AuthFailureError {
+                    Map<String, String> params = new Hashtable<> ();
+
+                    params.put (AppConfigTags.APP_VERSION, String.valueOf (finalPInfo.versionCode));
+                    params.put (AppConfigTags.DEVICE, "ANDROID");
+                    Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders () throws AuthFailureError {
+                    Map<String, String> params = new HashMap<> ();
+                    params.put (AppConfigTags.HEADER_API_KEY, Constants.api_key);
+                    params.put(AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref(MainActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
+                    Utils.showLog (Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
+                    return params;
+                }
+            };
+            strRequest.setRetryPolicy (new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Utils.sendRequest (strRequest, 30);
+        } else {
         }
     }
 

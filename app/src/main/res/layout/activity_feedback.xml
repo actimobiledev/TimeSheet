@@ -56,9 +56,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="center"
-                    android:text="Change Password"
+                    android:text="Feedback"
                     android:textColor="@color/text_color_white"
-                    android:textSize="@dimen/text_size_large"/>
+                    android:textSize="@dimen/text_size_extra_large"/>
 
             </RelativeLayout>
 
@@ -74,57 +74,38 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-        <TextView
+
+
+        <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:text="Old Password"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_size_small"/>
-
-        <EditText
-            android:id="@+id/etOldPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/et_background"
-            android:inputType="textPassword"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_medium"/>
+            android:stepSize="0.5"
+            android:numStars="5"
+            android:layout_margin="@dimen/activity_margin"
+            android:rating="1"
+            android:layout_gravity="center"
+            android:id="@+id/ratingBar"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_margin"
-            android:text="New Password"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_size_small"/>
-
-        <EditText
-            android:id="@+id/etNewPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/et_background"
-            android:inputType="textPassword"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_medium"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:text="Confirm Password"
+            android:text="Comment"
             android:textSize="@dimen/text_size_small"
             android:textStyle="bold"/>
 
         <EditText
-            android:id="@+id/etConfirmPassword"
+            android:id="@+id/etComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/et_background"
-            android:inputType="textPassword"
-            android:maxLength="10"
+            android:background="@drawable/login_card_bg"
+            android:inputType="textMultiLine"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_medium"/>
+            android:textSize="@dimen/text_size_medium"
+            android:lines="4"
+            android:layout_marginTop="10dp"
+            android:gravity="top"
+            android:padding="10dp"/>
 
         <TextView
             android:id="@+id/tvSubmit"

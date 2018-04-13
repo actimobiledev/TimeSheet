@@ -143,6 +143,7 @@ public class AddProjectDialogFragment extends DialogFragment {
     }
 
     private void initData() {
+        Utils.setTypefaceToAllViews (getActivity(), clMain);
         progressDialog=new ProgressDialog(getActivity());
         appDetailsPref=AppDetailsPref.getInstance();
 

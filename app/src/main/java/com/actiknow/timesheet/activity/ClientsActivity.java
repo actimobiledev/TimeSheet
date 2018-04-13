@@ -119,7 +119,7 @@ public class ClientsActivity extends AppCompatActivity {
 
     
     private void initData () {
-
+        Utils.setTypefaceToAllViews (this, clMain);
         progressDialog = new ProgressDialog (this);
 
 

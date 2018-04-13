@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     
     private void initData () {
+        Utils.setTypefaceToAllViews (this, clMain);
         appDetailsPref = AppDetailsPref.getInstance ();
         progressDialog = new ProgressDialog (this);
         tvForgotPassword=(TextView)findViewById(R.id.tvForgotPassword);

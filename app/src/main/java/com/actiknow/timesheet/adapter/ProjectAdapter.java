@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.model.Project;
+import com.actiknow.timesheet.utils.SetTypeFace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,9 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, int position) {//        runEnterAnimation (holder.itemView);
 
         final Project project = projectList.get(position);
-
+        holder.tvName.setTypeface (SetTypeFace.getTypeface (activity));
+        holder.tvDescription.setTypeface (SetTypeFace.getTypeface (activity));
+        holder.tvTime.setTypeface (SetTypeFace.getTypeface (activity));
         holder.tvName.setText(project.getProject_title());
         holder.tvDescription.setText(project.getDescription());
         holder.tvTime.setText("Start Project -"+dateFormat(project.getStarted_at()));

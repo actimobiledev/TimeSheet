@@ -223,6 +223,7 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        Utils.setTypefaceToAllViews (this, clMain);
         progressDialog = new ProgressDialog(ProjectTimeSheetDetailActivity.this);
         Calendar c = Calendar.getInstance(); // Set the calendar to Sunday of the current week
         c.set(Calendar.DAY_OF_WEEK, c.MONDAY); // Print dates of the current week starting on Sunday

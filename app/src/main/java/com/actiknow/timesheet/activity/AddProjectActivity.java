@@ -96,6 +96,7 @@ public class AddProjectActivity extends AppCompatActivity {
     private void initData() {
         progressDialog=new ProgressDialog(AddProjectActivity.this);
         appDetailsPref=AppDetailsPref.getInstance();
+        Utils.setTypefaceToAllViews (this, clMain);
 
     }
 

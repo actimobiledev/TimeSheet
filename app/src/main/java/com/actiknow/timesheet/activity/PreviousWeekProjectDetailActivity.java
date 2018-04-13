@@ -118,9 +118,7 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
         initView();
         initData();
         initListener();
-      //  PreviousDetail(0);
 
-        //    recommendedJobList ();
     }
 
 
@@ -220,6 +218,7 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
     }
 
     private void initData() {
+        Utils.setTypefaceToAllViews (this, clMain);
         Calendar c = Calendar.getInstance(); // Set the calendar to Sunday of the current week
         c.set(Calendar.DAY_OF_WEEK, c.MONDAY); // Print dates of the current week starting on Sunday
         c.add(Calendar.DATE, -7);

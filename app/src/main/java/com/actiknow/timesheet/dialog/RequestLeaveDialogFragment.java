@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,11 +18,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.actiknow.timesheet.R;
+import com.actiknow.timesheet.utils.Utils;
 
 public class RequestLeaveDialogFragment extends DialogFragment {
     ImageView ivCancel;
     EditText etRequestDescription;
     LinearLayout ll2;
+    CoordinatorLayout clMain;
     
     public static RequestLeaveDialogFragment newInstance(){
         RequestLeaveDialogFragment f = new RequestLeaveDialogFragment();
@@ -71,6 +74,7 @@ public class RequestLeaveDialogFragment extends DialogFragment {
         ivCancel = (ImageView) root.findViewById(R.id.ivCancel);
         etRequestDescription = (EditText) root.findViewById(R.id.etRequestDescription);
         ll2 = (LinearLayout) root.findViewById(R.id.ll2);
+        clMain=(CoordinatorLayout)root.findViewById(R.id.clMain);
     }
     
     private void initBundle () {
@@ -78,6 +82,7 @@ public class RequestLeaveDialogFragment extends DialogFragment {
     }
     
     private void initData () {
+        Utils.setTypefaceToAllViews (getActivity(), clMain);
         etRequestDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
