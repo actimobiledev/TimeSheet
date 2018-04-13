@@ -52,6 +52,9 @@
 
         <activity android:name=".activity.AddProjectActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.ChangePasswordActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,8 @@ import com.actiknow.timesheet.utils.NetworkConnection;
 import com.actiknow.timesheet.utils.SetTypeFace;
 import com.actiknow.timesheet.utils.TypefaceSpan;
 import com.actiknow.timesheet.utils.Utils;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -37,7 +40,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
-
+// created by rahul jain 12/04/2018
 public class LoginActivity extends AppCompatActivity {
     EditText etUserName;
     EditText etPassword;
@@ -46,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     CoordinatorLayout clMain;
     AppDetailsPref appDetailsPref;
+    TextView tvForgotPassword;
     
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -59,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initData () {
         appDetailsPref = AppDetailsPref.getInstance ();
         progressDialog = new ProgressDialog (this);
+        tvForgotPassword=(TextView)findViewById(R.id.tvForgotPassword);
     }
     
     private void initView () {
@@ -146,6 +151,12 @@ public class LoginActivity extends AppCompatActivity {
             public void afterTextChanged (Editable s) {
             }
         });
+        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showForgotPasswordDialog();
+            }
+        });
      
     }
     
@@ -166,14 +177,14 @@ public class LoginActivity extends AppCompatActivity {
                                     if (! error) {
                                         appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_ID, jsonObj.getInt (AppConfigTags.EMPLOYEE_ID));
                                         appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_NAME, jsonObj.getString (AppConfigTags.EMPLOYEE_NAME));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_DOB, jsonObj.getString (AppConfigTags.EMPLOYEE_DOB));
+                                      //  appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_DOB, jsonObj.getString (AppConfigTags.EMPLOYEE_DOB));
                                         appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_MOBILE, jsonObj.getString (AppConfigTags.EMPLOYEE_MOBILE));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_EMAIL, jsonObj.getString (AppConfigTags.EMPLOYEE_EMAIL));
+                                      //  appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_EMAIL, jsonObj.getString (AppConfigTags.EMPLOYEE_EMAIL));
                                         appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_TYPE, jsonObj.getInt (AppConfigTags.EMPLOYEE_TYPE));
                                         appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL, jsonObj.getString (AppConfigTags.EMPLOYEE_WORK_EMAIL));
                                         appDetailsPref.putStringPref(LoginActivity.this, AppDetailsPref.EMPLOYEE_IMAGE, jsonObj.getString(AppConfigTags.EMPLOYEE_IMAGE));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_ID, jsonObj.getString (AppConfigTags.EMPLOYEE_LOGIN_ID));
-                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_PASS, jsonObj.getString (AppConfigTags.EMPLOYEE_LOGIN_PASS));
+                                      //  appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_ID, jsonObj.getString (AppConfigTags.EMPLOYEE_LOGIN_ID));
+                                       // appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_PASS, jsonObj.getString (AppConfigTags.EMPLOYEE_LOGIN_PASS));
                                         appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY, jsonObj.getString (AppConfigTags.EMPLOYEE_LOGIN_KEY));
                                         Intent intent = new Intent (LoginActivity.this, MainActivity.class);
                                         startActivity (intent);
@@ -243,4 +254,118 @@ public class LoginActivity extends AppCompatActivity {
         finish ();
 //        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
+
+
+    private void showForgotPasswordDialog () {
+        final MaterialDialog.Builder mBuilder = new MaterialDialog.Builder (LoginActivity.this)
+                .content ("Enter your Email Address")
+                .contentColor (getResources ().getColor (R.color.app_text_color_dark))
+                .inputType (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS)
+                .typeface (SetTypeFace.getTypeface (LoginActivity.this), SetTypeFace.getTypeface (LoginActivity.this))
+                .alwaysCallInputCallback ()
+                .canceledOnTouchOutside (true)
+                .cancelable (true)
+                .positiveText ("OK");
+
+        mBuilder.input (null, null, new MaterialDialog.InputCallback () {
+            @Override
+            public void onInput (MaterialDialog dialog, CharSequence input) {
+                // Do something
+                dialog.getActionButton (DialogAction.POSITIVE).setEnabled (true);
+            }
+        });
+
+        mBuilder.onPositive (new MaterialDialog.SingleButtonCallback () {
+            @Override
+            public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                if (dialog.getInputEditText ().getText ().toString ().length () > 0 && Utils.isValidEmail1 (dialog.getInputEditText ().getText ().toString ())) {
+                    sendForgotPasswordRequestToServer (dialog.getInputEditText ().getText ().toString ());
+                } else {
+                    new MaterialDialog.Builder (LoginActivity.this)
+                            .typeface (SetTypeFace.getTypeface (LoginActivity.this), SetTypeFace.getTypeface (LoginActivity.this))
+                            .content ("Invalid Email")
+                            .positiveText ("OK")
+                            .show ();
+                }
+            }
+        });
+
+        MaterialDialog dialog = mBuilder.build ();
+        dialog.getActionButton (DialogAction.POSITIVE).setEnabled (false);
+        dialog.show ();
+    }
+
+
+
+
+    private void sendForgotPasswordRequestToServer (final String email) {
+        if (NetworkConnection.isNetworkAvailable (LoginActivity.this)) {
+            Utils.showProgressDialog(LoginActivity.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
+            Utils.showLog (Log.INFO, "" + AppConfigTags.URL, AppConfigURL.FORGOT_PASSWORD, true);
+            StringRequest strRequest1 = new StringRequest (Request.Method.POST, AppConfigURL.FORGOT_PASSWORD,
+                    new com.android.volley.Response.Listener<String> () {
+                        @Override
+                        public void onResponse (String response) {
+                            Utils.showLog (Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
+                            if (response != null) {
+                                try {
+                                    JSONObject jsonObj = new JSONObject (response);
+                                    boolean error = jsonObj.getBoolean (AppConfigTags.ERROR);
+                                    String message = jsonObj.getString (AppConfigTags.MESSAGE);
+                                    if (! error) {
+                                        Utils.showSnackBar (LoginActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
+                                    } else {
+                                        Utils.showSnackBar (LoginActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
+                                    }
+                                    progressDialog.dismiss ();
+                                } catch (Exception e) {
+                                    progressDialog.dismiss ();
+                                    Utils.showSnackBar (LoginActivity.this, clMain, getResources ().getString (R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
+                                    e.printStackTrace ();
+                                }
+                            } else {
+                                Utils.showSnackBar (LoginActivity.this, clMain, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
+                                Utils.showLog (Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
+                            }
+                            progressDialog.dismiss ();
+                        }
+                    },
+                    new com.android.volley.Response.ErrorListener () {
+                        @Override
+                        public void onErrorResponse (VolleyError error) {
+                            progressDialog.dismiss ();
+                            Utils.showLog (Log.ERROR, AppConfigTags.VOLLEY_ERROR, error.toString (), true);
+                            Utils.showSnackBar (LoginActivity.this, clMain, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams () throws AuthFailureError {
+                    Map<String, String> params = new Hashtable<String, String> ();
+                    params.put (AppConfigTags.EMAIL, email);
+                    Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders () throws AuthFailureError {
+                    Map<String, String> params = new HashMap<> ();
+                    params.put (AppConfigTags.HEADER_API_KEY, Constants.api_key);
+                    Utils.showLog (Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
+                    return params;
+                }
+            };
+            Utils.sendRequest (strRequest1, 60);
+        } else {
+            Utils.showSnackBar (LoginActivity.this, clMain, getResources ().getString (R.string.snackbar_text_no_internet_connection_available), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_go_to_settings), new View.OnClickListener () {
+                @Override
+                public void onClick (View v) {
+                    Intent dialogIntent = new Intent (Settings.ACTION_SETTINGS);
+                    dialogIntent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity (dialogIntent);
+                }
+            });
+        }
+    }
+
 }

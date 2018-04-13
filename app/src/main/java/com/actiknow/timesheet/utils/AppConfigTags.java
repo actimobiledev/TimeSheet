@@ -88,6 +88,14 @@ public class AppConfigTags {
     public static final String DAY_6 = "day_6";
     public static final String DAY_7 = "day_7";
 
+    public static final String ROLES = "roles";
+    public static final String ROLE_ID = "role_id";
+    public static final String ROLE_TITLE = "role_title";
+
+    public static final String ASSIGNED_BY = "assigned_by";
+    public static final String DESCRIPTION = "description";
+    public static final String OLD_PASSWORD = "old_password";
+    public static final String NEW_PASSWORD = "new_password";
 
 
 

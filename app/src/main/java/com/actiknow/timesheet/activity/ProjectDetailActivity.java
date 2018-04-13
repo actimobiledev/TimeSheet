@@ -1,6 +1,7 @@
 package com.actiknow.timesheet.activity;
 
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
+import com.actiknow.timesheet.dialog.AddEmployeeDialogFragment;
 import com.actiknow.timesheet.dialog.RequestLeaveDialogFragment;
 import com.actiknow.timesheet.utils.AppConfigTags;
 import com.actiknow.timesheet.utils.Utils;
@@ -22,9 +24,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+//created by rahul jain 12/04/2018
+
 public class ProjectDetailActivity extends AppCompatActivity {
     Bundle savedInstanceState;
-
     private AppBarLayout appBar;
     private RelativeLayout toolbarLayout;
     private RelativeLayout rlBack;
@@ -42,6 +45,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
     private TextView tvAddEmployee;
     String projects;
     int id;
+    int project_id=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +57,18 @@ public class ProjectDetailActivity extends AppCompatActivity {
         initListener();
         setData();
     }
-
     private void initListener() {
-
         tvAddEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                RequestLeaveDialogFragment fragment = RequestLeaveDialogFragment.newInstance();
+                AddEmployeeDialogFragment fragment = AddEmployeeDialogFragment.newInstance(project_id);
+                fragment.setDismissListener(new ProjectDetailActivity.MyDialogCloseListener3() {
+                    @Override
+                    public void handleDialogClose(DialogInterface dialog) {
+
+                    }
+                });
                 fragment.show(ft, "test");
             }
         });
@@ -74,10 +82,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
     }
 
     private void initView() {
-
         ivBack = (ImageView) findViewById(R.id.ivBack);
-
-
         appBar = (AppBarLayout) findViewById(R.id.appBar);
         toolbarLayout = (RelativeLayout) findViewById(R.id.toolbar_layout);
         rlBack = (RelativeLayout) findViewById(R.id.rlBack);
@@ -98,28 +103,25 @@ public class ProjectDetailActivity extends AppCompatActivity {
     private void initData() {
 
     }
-
-
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
     }
-
     private void initAdapter() {
 
     }
 
-
     private void setData() {
         projects = getIntent().getExtras().getString("allProject");
         id = getIntent().getExtras().getInt("position", 0);
-        Log.d("projectId","000"+id);
         try {
             JSONArray jsonArray = new JSONArray(projects);
             if (jsonArray.length() > 0) {
                 for (int j = 0; j < jsonArray.length(); j++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(j);
                    if (j==id){
+                       project_id=jsonObject.getInt(AppConfigTags.PROJECT_ID);
                        etProjectName .setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
                        etProjectDescription.setText(jsonObject.getString(AppConfigTags.PROJECT_DESCRIPTION));
                        etProjectBudget .setText(jsonObject.getString(AppConfigTags.PROJECT_BUDGET));
@@ -135,6 +137,8 @@ public class ProjectDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
+    public interface MyDialogCloseListener3 {
+        public void handleDialogClose(DialogInterface dialog);
+    }
 
 }

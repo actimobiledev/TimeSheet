@@ -254,7 +254,8 @@
                     android:text="Project Description"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:inputType="textMultiLine"/>
 
                 <EditText
                     android:id="@+id/etProjectDescription"
@@ -263,11 +264,12 @@
                     android:layout_marginBottom="30dp"
                     android:background="@drawable/login_card_bg"
                     android:gravity="top"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:lines="4"
                     android:textColor="@color/text_color_black"
                     android:textSize="@dimen/text_size_medium"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:padding="10dp"/>
 
             </LinearLayout>
 

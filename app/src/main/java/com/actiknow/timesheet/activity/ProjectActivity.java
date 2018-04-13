@@ -56,11 +56,13 @@ public class ProjectActivity extends AppCompatActivity {
     FloatingActionButton fabAddProject;
 
     RelativeLayout rlBack;
+    RelativeLayout rlNoResultFound;
     ProjectAdapter projectAdapter;
     ArrayList<Project> projectList = new ArrayList<>();
     ProgressDialog progressDialog;
     String allClients;
     String allProject;
+    AppDetailsPref appDetailsPref;
 
 
     @Override
@@ -88,6 +90,7 @@ public class ProjectActivity extends AppCompatActivity {
         rvProjectList = (RecyclerView) findViewById(R.id.rvProjectList);
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         rlBack = (RelativeLayout) findViewById(R.id.rlBack);
+        rlNoResultFound = (RelativeLayout) findViewById(R.id.rlNoResultFound);
         fabAddProject = (FloatingActionButton) findViewById(R.id.fabAddProject);
     }
 
@@ -104,21 +107,20 @@ public class ProjectActivity extends AppCompatActivity {
         fabAddProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent intent=new Intent(ProjectActivity.this,AddProjectActivity.class);
-               startActivity(intent);
+                Intent intent = new Intent(ProjectActivity.this, AddProjectActivity.class);
+                startActivity(intent);
                 overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
-       projectAdapter.SetOnItemClickListener(new ProjectAdapter.OnItemClickListener() {
+        projectAdapter.SetOnItemClickListener(new ProjectAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(ProjectActivity.this, ProjectDetailActivity.class);
-                intent.putExtra("allProject",allProject);
-                intent.putExtra("position",position);
-                overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+                Intent intent = new Intent(ProjectActivity.this, ProjectDetailActivity.class);
+                intent.putExtra("allProject", allProject);
+                intent.putExtra("position", position);
                 startActivity(intent);
-
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
             }
         });
@@ -128,10 +130,8 @@ public class ProjectActivity extends AppCompatActivity {
 
     private void initData() {
         projectList.clear();
+        appDetailsPref = AppDetailsPref.getInstance();
         progressDialog = new ProgressDialog(this);
-     /*   projectList.add (new Project (1, "HomeTrust", "This is the timesheet application for actinow employees", "3 hours"));
-        projectList.add (new Project (2, "ActiProject", "This is the timesheet application for actinow employees", "3 hours"));
-        projectList.add (new Project (3, "P&K", "This is the timesheet application for actinow employees", "3 hours"));*/
         projectAdapter = new ProjectAdapter(this, projectList);
         rvProjectList.setAdapter(projectAdapter);
         rvProjectList.setHasFixedSize(true);
@@ -159,8 +159,6 @@ public class ProjectActivity extends AppCompatActivity {
                                     if (!is_error) {
                                         JSONArray jsonArray = jsonObj.getJSONArray(AppConfigTags.PROJECTS);
                                         allProject = jsonObj.getJSONArray(AppConfigTags.PROJECTS).toString();
-//                                        allClients = jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString();
-                                        // Log.e("projects",allClients);
                                         for (int i = 0; i < jsonArray.length(); i++) {
                                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                                             Project project = new Project(
@@ -174,8 +172,19 @@ public class ProjectActivity extends AppCompatActivity {
                                             projectList.add(i, project);
                                         }
 
-
                                         projectAdapter.notifyDataSetChanged();
+                                        appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString());
+                                        appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray(AppConfigTags.EMPLOYEES).toString());
+                                        appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.ROLES, jsonObj.getJSONArray(AppConfigTags.ROLES).toString());
+
+                                        if (jsonArray.length() > 0) {
+                                            rlNoResultFound.setVisibility(View.GONE);
+                                        } else {
+                                            rlNoResultFound.setVisibility(View.VISIBLE);
+                                        }
+
+
+
                                     } else {
                                         Utils.showSnackBar(ProjectActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }

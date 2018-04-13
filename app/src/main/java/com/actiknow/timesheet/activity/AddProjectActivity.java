@@ -104,7 +104,8 @@ public class AddProjectActivity extends AppCompatActivity {
         rlBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
 
@@ -114,7 +115,7 @@ public class AddProjectActivity extends AppCompatActivity {
                 new MaterialDialog.Builder(AddProjectActivity.this)
                         .title("Clients")
                         .items(clientList)
-                        .positiveText("Add Project")
+                        .positiveText("Add Client")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(MaterialDialog dialog, DialogAction which) {

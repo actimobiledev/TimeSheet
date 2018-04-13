@@ -45,7 +45,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 /**
- * Created by l on 27/07/2017.
+ * Created by l on 12/04/2018 rahul jain.
  */
 
 public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
@@ -118,15 +118,11 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
         initListener();
 
     }
-
-
     @Override
     public void onResume() {
         super.onResume();
 
     }
-
-
     private void initView() {
         rlBack = (RelativeLayout) findViewById(R.id.rlBack);
         ivBack = (ImageView) findViewById(R.id.ivBack);
@@ -183,7 +179,6 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
                 new MaterialDialog.Builder(ProjectTimeSheetDetailActivity.this)
                         .title("Project List")
                         .items(projectList)
-
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
@@ -196,17 +191,13 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
                                     saveDataLocally(projectdialogid, 1);
                                 }
                                 projectdialogid = projectId;
-                                //setData(projectId);
-                                //saveDataLocally(projectId);
                                 Log.e("item number", "test-" + projectId);
                             }
                         })
-
                         .show();
 
             }
         });
-
 
         tvSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,26 +206,20 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
 
             }
         });
-
         llPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("project_id",tvProjectName.getText().toString()+project_id);
                 Intent intent=new Intent(ProjectTimeSheetDetailActivity.this,PreviousWeekProjectDetailActivity.class);
                 if(projectdialogid == 0){
                     intent.putExtra("id",project_id);
                 }else {
                     intent.putExtra("id",projectId);
                 }
-
                 intent.putExtra("project_name",tvProjectName.getText().toString());
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
-
-
-
-
     }
 
     private void initData() {
@@ -302,15 +287,9 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
                         for (int i = 0; i < jsonArrayHour.length(); i++) {
                             JSONObject jsonObject2 = jsonArrayHour.getJSONObject(i);
 
-
-                            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                            String inputDateStr = jsonObject2.getString(AppConfigTags.DATE);
-
-                            Date date = null;
-                            date = inputFormat.parse(inputDateStr);
-                            String Date = outputFormat.format(date);
+                            String Date=Utils.dateFormat(jsonObject2.getString(AppConfigTags.DATE));
                             Log.e("date1234", Date);
+
 
                             if (Date.equalsIgnoreCase(tvDate1.getText().toString())) {
                                 etMondayhour.setText(jsonObject2.getString(AppConfigTags.hour));
@@ -354,17 +333,7 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
                         }
                         for (int i = 0; i < jsonArrayHour2.length(); i++) {
                             JSONObject jsonObject2 = jsonArrayHour2.getJSONObject(i);
-
-
-                            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            DateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                            String inputDateStr = jsonObject2.getString(AppConfigTags.DATE);
-
-                            Date date = null;
-                            date = inputFormat.parse(inputDateStr);
-                            String Date = outputFormat.format(date);
-                            Log.e("date1234", Date);
-
+                            String Date=Utils.dateFormat(jsonObject2.getString(AppConfigTags.DATE));
 
                             if (Date.equalsIgnoreCase(tvDate1.getText().toString())) {
                                 etMondayhour.setText(jsonObject2.getString(AppConfigTags.hour));
@@ -395,8 +364,6 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
             }
 
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
             e.printStackTrace();
         }
 

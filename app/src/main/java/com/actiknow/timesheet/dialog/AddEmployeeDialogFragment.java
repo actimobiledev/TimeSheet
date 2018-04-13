@@ -1,33 +1,28 @@
 package com.actiknow.timesheet.dialog;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.util.EventLogTags;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.activity.ProjectActivity;
+import com.actiknow.timesheet.activity.ProjectDetailActivity;
 import com.actiknow.timesheet.utils.AppConfigTags;
 import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
@@ -45,40 +40,33 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-//created by rahul jain 12/04/2018
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
-//created by rahul jain 12/04/2018
-public class AddProjectDialogFragment extends DialogFragment {
+
+public class AddEmployeeDialogFragment extends DialogFragment {
     ImageView ivCancel;
-    EditText etStartDate;
-    EditText etEndDate;
-    EditText etClientName;
-    EditText etProjectName;
-    EditText etProjectBudget;
-    EditText etProjectHourCost;
-    EditText etProjectAllottedHour;
-    EditText etProjectDescription;
-    private int mYear, mMonth, mDay;
-    String start_date = "";
-    String end_date = "";
-    String clients;
-    int clientId;
-    ArrayList<String> clientList = new ArrayList<>();
-    ArrayList<Integer> clientID = new ArrayList<>();
+    EditText etSelectEmployee;
+    EditText etRoleType;
+    EditText etDescription;
     ProgressDialog progressDialog;
     CoordinatorLayout clMain;
     AppDetailsPref appDetailsPref;
+    ArrayList<String>employeelist_name = new ArrayList<>();
+    ArrayList<Integer>employeelist_id = new ArrayList<>();
+    ArrayList<String>roletitle_list = new ArrayList<>();
+    ArrayList<Integer>roleid_list = new ArrayList<>();
     TextView tvSubmit;
-    ProjectActivity.MyDialogCloseListener2 myDialogCloseListener2;
+    ProjectDetailActivity.MyDialogCloseListener3 myDialogCloseListener3;
+    int project_id = 0;
+    int role_id = 0;
+    int assigned_employee_id = 0;
 
-    public static AddProjectDialogFragment newInstance(String allClients) {
-        AddProjectDialogFragment f = new AddProjectDialogFragment();
+    public static AddEmployeeDialogFragment newInstance(int project_id) {
+        AddEmployeeDialogFragment f = new AddEmployeeDialogFragment();
         Bundle args = new Bundle();
-        args.putString("allClients", allClients);
+        args.putInt(AppConfigTags.PROJECT_ID, project_id);
         f.setArguments(args);
         return f;
     }
@@ -114,32 +102,28 @@ public class AddProjectDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_dialog_add_project, container, false);
+        View root = inflater.inflate(R.layout.fragment_dialog_add_employee, container, false);
         initView(root);
         initBundle();
         initData();
-        initListener();
         setData();
+        initListener();
+     //   setData();
         return root;
     }
 
     private void initView(View root) {
         ivCancel = (ImageView) root.findViewById(R.id.ivCancel);
-        etStartDate = (EditText) root.findViewById(R.id.etStartDate);
-        etEndDate = (EditText) root.findViewById(R.id.etEndDate);
-        etClientName = (EditText) root.findViewById(R.id.etClientName);
-        etProjectName = (EditText) root.findViewById(R.id.etProjectName);
-        etProjectBudget = (EditText) root.findViewById(R.id.etProjectBudget);
-        etProjectHourCost = (EditText) root.findViewById(R.id.etProjectHourCost);
-        etProjectAllottedHour = (EditText) root.findViewById(R.id.etProjectAllottedHour);
-        etProjectDescription = (EditText) root.findViewById(R.id.etProjectDescription);
+        etSelectEmployee = (EditText) root.findViewById(R.id.etSelectEmployee);
+        etRoleType = (EditText) root.findViewById(R.id.etRoleType);
+        etDescription = (EditText) root.findViewById(R.id.etDescription);
         clMain=(CoordinatorLayout)root.findViewById(R.id.clMain);
         tvSubmit=(TextView)root.findViewById(R.id.tvSubmit);
     }
 
     private void initBundle() {
         Bundle bundle = this.getArguments();
-        clients = bundle.getString("allClients");
+        project_id = bundle.getInt(AppConfigTags.PROJECT_ID, 0 );
     }
 
     private void initData() {
@@ -156,79 +140,155 @@ public class AddProjectDialogFragment extends DialogFragment {
             }
         });
 
-        etClientName.setOnClickListener(new View.OnClickListener() {
+        etSelectEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new MaterialDialog.Builder(getActivity())
-                        .title("Clients")
-                        .items(clientList)
+                        .title("Select Employee")
+                        .items(employeelist_name)
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                etClientName.setText(text);
-                                clientId=clientID.get(which);
-                                Log.e("item number", "" + clientID.get(which));
+                                etSelectEmployee.setText(text);
+                                assigned_employee_id = employeelist_id.get(which);
+                                /*clientId=clientID.get(which);
+                                Log.e("item number", "" + clientID.get(which));*/
                             }
                         })
                         .show();
             }
         });
-
-        etStartDate.setOnClickListener(new View.OnClickListener() {
+        etRoleType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectDate(etStartDate, 1);
+                new MaterialDialog.Builder(getActivity())
+                        .title("Select Role")
+                        .items(roletitle_list)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                etRoleType.setText(text);
+                                role_id = roleid_list.get(which);
+                                Log.e("item number", "" + role_id);
+                            }
+                        })
+                        .show();
             }
         });
-
-        etEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectDate(etEndDate,2);
-            }
-        });
-
         tvSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendProjectDetailsToServer(etProjectName.getText().toString(),clientId,etProjectBudget.getText().toString(),
-                        etProjectHourCost.getText().toString(),etProjectAllottedHour.getText().toString(),etProjectDescription.getText().toString(),
-                        start_date,end_date);
+                assignProject();
             }
         });
 
 
     }
 
-    private void selectDate(final EditText etPickupDate, final int i) {
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
+    private void assignProject() {
+        if (NetworkConnection.isNetworkAvailable(getActivity())) {
+            Utils.showProgressDialog(getActivity(), progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
+            Utils.showLog(Log.INFO, "" + AppConfigTags.URL, AppConfigURL.ADD_PROJECT_OWNER, true);
+            StringRequest strRequest1 = new StringRequest(Request.Method.POST, AppConfigURL.ADD_PROJECT_OWNER,
+                    new com.android.volley.Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Utils.showLog(Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
+                            if (response != null) {
+                                try {
+                                    JSONObject jsonObj = new JSONObject(response);
+                                    boolean error = jsonObj.getBoolean(AppConfigTags.ERROR);
+                                    String message = jsonObj.getString(AppConfigTags.MESSAGE);
+                                    if (!error) {
+                                        getDialog().dismiss();
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                if(i == 1){
-                    start_date = year + "-" + String.format("%02d", monthOfYear + 1) + "-" + String.format("%02d", dayOfMonth);
-                }else if(i == 2) {
-                    end_date = year + "-" + String.format("%02d", monthOfYear + 1) + "-" + String.format("%02d", dayOfMonth);
+                                    } else {
+                                        Utils.showSnackBar(getActivity(), clMain, message, Snackbar.LENGTH_LONG, null, null);
+                                    }
+                                    progressDialog.dismiss();
+                                } catch (Exception e) {
+                                    progressDialog.dismiss();
+                                    Utils.showSnackBar(getActivity(), clMain, getResources().getString(R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                Utils.showSnackBar(getActivity(), clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                Utils.showLog(Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
+                            }
+                            progressDialog.dismiss();
+                        }
+                    },
+                    new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Utils.showLog(Log.ERROR, AppConfigTags.VOLLEY_ERROR, error.toString(), true);
+                            NetworkResponse response = error.networkResponse;
+                            if (response != null && response.data != null) {
+                                Utils.showLog(Log.ERROR, AppConfigTags.ERROR, new String(response.data), true);
+                            }
+                            Utils.showSnackBar(getActivity(), clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                            progressDialog.dismiss();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new Hashtable<String, String>();
+                    params.put(AppConfigTags.PROJECT_ID, String.valueOf(project_id));
+                    params.put(AppConfigTags.EMPLOYEE_ID, String.valueOf(assigned_employee_id));
+                    params.put(AppConfigTags.ROLE_ID, String.valueOf(role_id));
+                    params.put(AppConfigTags.DESCRIPTION, etDescription.getText().toString());
+                    Utils.showLog(Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
+                    return params;
                 }
-                etPickupDate.setText(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", monthOfYear + 1) + "-" + year);
 
-            }
-        }, mYear, mMonth, mDay);
-        datePickerDialog.show();
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put(AppConfigTags.HEADER_API_KEY, Constants.api_key);
+                    params.put(AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref(getActivity(), AppDetailsPref.EMPLOYEE_LOGIN_KEY));
+                    Utils.showLog(Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
+                    return params;
+                }
+            };
+            Utils.sendRequest(strRequest1, 60);
+        } else {
+            Utils.showSnackBar(getActivity(), clMain, getResources().getString(R.string.snackbar_text_no_internet_connection_available), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_go_to_settings), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent dialogIntent = new Intent(Settings.ACTION_SETTINGS);
+                    dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(dialogIntent);
+                }
+            });
+        }
     }
 
+
     private void setData() {
+        employeelist_name.clear();
+        employeelist_id.clear();
+        roletitle_list.clear();
+        roleid_list.clear();
         try {
-            JSONArray jsonArray = new JSONArray(clients);
+            JSONArray jsonArray = new JSONArray(appDetailsPref.getStringPref(getActivity(), AppDetailsPref.EMPLOYEES));
             if (jsonArray.length() > 0) {
                 for (int j = 0; j < jsonArray.length(); j++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(j);
-                    clientList.add(jsonObject.getString(AppConfigTags.CLIENT_NAME));
-                    clientID.add(jsonObject.getInt(AppConfigTags.CLIENT_ID));
+                    employeelist_name.add(jsonObject.getString(AppConfigTags.EMPLOYEE_NAME));
+                    employeelist_id.add(jsonObject.getInt(AppConfigTags.EMPLOYEE_ID));
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JSONArray jsonArray = new JSONArray(appDetailsPref.getStringPref(getActivity(), AppDetailsPref.ROLES));
+            if (jsonArray.length() > 0) {
+                for (int j = 0; j < jsonArray.length(); j++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(j);
+                    roletitle_list.add(jsonObject.getString(AppConfigTags.ROLE_TITLE));
+                    roleid_list.add(jsonObject.getInt(AppConfigTags.ROLE_ID));
                 }
             }
 
@@ -241,7 +301,7 @@ public class AddProjectDialogFragment extends DialogFragment {
 
 
 
-    private void sendProjectDetailsToServer(final String projectName, final int clientId, final String projectBudget, final String hourCost, final String allottedHour, final String projectDescription, final String startDate, final String endDate) {
+    /*private void sendProjectDetailsToServer(final String projectName, final int clientId, final String projectBudget, final String hourCost, final String allottedHour, final String projectDescription, final String startDate, final String endDate) {
         if (NetworkConnection.isNetworkAvailable (getActivity())) {
             Utils.showProgressDialog (getActivity(), progressDialog, getResources ().getString (R.string.progress_dialog_text_please_wait), true);
             Utils.showLog (Log.INFO, "" + AppConfigTags.URL, AppConfigURL.ADD_PROJECT, true);
@@ -325,17 +385,17 @@ public class AddProjectDialogFragment extends DialogFragment {
                 }
             });
         }
-    }
+    }*/
 
-    public void setDismissListener (ProjectActivity.MyDialogCloseListener2 addProjectDialogFragment) {
-        this.myDialogCloseListener2 = addProjectDialogFragment;
+    public void setDismissListener (ProjectDetailActivity.MyDialogCloseListener3 addEmployeeDialogFragment) {
+        this.myDialogCloseListener3 = addEmployeeDialogFragment;
     }
 
     @Override
     public void onDismiss (DialogInterface dialog) {
         super.onDismiss (dialog);
-        if (myDialogCloseListener2 != null) {
-            myDialogCloseListener2.handleDialogClose (null);
+        if (myDialogCloseListener3 != null) {
+            myDialogCloseListener3.handleDialogClose (null);
         }
     }
 

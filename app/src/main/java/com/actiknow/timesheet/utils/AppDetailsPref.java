@@ -19,6 +19,8 @@ public class AppDetailsPref {
     public static String CLIENTS = "clients";
     public static String EMPLOYEE_ID = "employee_id";
     public static String EMPLOYEES = "employees";
+    public static String ROLES = "roles";
+
 
 
 

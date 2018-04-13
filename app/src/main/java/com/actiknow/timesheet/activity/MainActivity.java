@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
     CoordinatorLayout clMain;
     TextView tvTitle;
     FloatingActionButton fabAddProject;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +115,12 @@ public class MainActivity extends AppCompatActivity {
                 result.openDrawer();
             }
         });
+        swipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
+            @Override
+            public void onRefresh () {
+                projectList();
+            }
+        });
     }
 
     private void initView() {
@@ -122,9 +130,11 @@ public class MainActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         fabAddProject = (FloatingActionButton) findViewById(R.id.fabAddProject);
         rlNoResultFound = (RelativeLayout) findViewById(R.id.rlNoResultFound);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById (R.id.swipe_refresh_layout);
     }
 
     private void initData() {
+        swipeRefreshLayout.setRefreshing (true);
         appDetailsPref = AppDetailsPref.getInstance();
         projectList.clear();
         progressDialog = new ProgressDialog(this);
@@ -149,8 +159,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        projectList();
+        swipeRefreshLayout.setRefreshing (true);
         super.onResume();
+        projectList();
     }
 
     private void initAdapter() {
@@ -283,7 +294,6 @@ public class MainActivity extends AppCompatActivity {
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-
                         return false;
                     }
                 })
@@ -292,6 +302,10 @@ public class MainActivity extends AppCompatActivity {
                 .withIcon(R.drawable.user_image)
                 .withName(appDetailsPref.getStringPref(MainActivity.this, AppDetailsPref.EMPLOYEE_NAME))
                 .withEmail(appDetailsPref.getStringPref(MainActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL)));
+
+        //case 1: employee
+        //case 2: admin
+        //case 3: project manager
 
         switch (appDetailsPref.getIntPref(MainActivity.this, AppDetailsPref.EMPLOYEE_TYPE)) {
             case 1:
@@ -302,9 +316,8 @@ public class MainActivity extends AppCompatActivity {
 //                .withItemAnimator (new AlphaCrossFadeAnimator ())
                         .addDrawerItems(
                                 new PrimaryDrawerItem().withName("Home").withIcon(FontAwesome.Icon.faw_home).withIdentifier(1).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                                new PrimaryDrawerItem().withName("Projects").withIcon(FontAwesome.Icon.faw_wordpress).withIdentifier(2).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                                new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                                new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                               // new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Change Password").withIcon(FontAwesome.Icon.faw_asterisk).withIdentifier(6).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this))
                         )
                         .withSavedInstance(savedInstanceState)
@@ -312,30 +325,19 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                                 switch ((int) drawerItem.getIdentifier()) {
-                                    case 2:
-                                        Intent intent2 = new Intent(MainActivity.this, ProjectActivity.class);
-                                        startActivity(intent2);
-                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                                        break;
-
-
-                                    case 3:
-                                        Intent intent3 = new Intent(MainActivity.this, ClientsActivity.class);
-                                        startActivity(intent3);
-                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                                        break;
-
                                     case 4:
                                         Intent intent4 = new Intent(MainActivity.this, LeaveActivity.class);
                                         startActivity(intent4);
-                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                         break;
-
-
                                     case 5:
                                         showLogOutDialog();
                                         break;
-
+                                    case 6:
+                                        Intent intent6 = new Intent(MainActivity.this, ChangePasswordActivity.class);
+                                        startActivity(intent6);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+                                        break;
 
                                 }
                                 return false;
@@ -353,8 +355,9 @@ public class MainActivity extends AppCompatActivity {
                         .addDrawerItems(
                                 new PrimaryDrawerItem().withName("Home").withIcon(FontAwesome.Icon.faw_home).withIdentifier(1).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Projects").withIcon(FontAwesome.Icon.faw_wordpress).withIdentifier(2).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                                new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                                new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                               // new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                              //  new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Change Password").withIcon(FontAwesome.Icon.faw_asterisk).withIdentifier(6).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this))
                         )
                         .withSavedInstance(savedInstanceState)
@@ -365,27 +368,26 @@ public class MainActivity extends AppCompatActivity {
                                     case 2:
                                         Intent intent2 = new Intent(MainActivity.this, ProjectActivity.class);
                                         startActivity(intent2);
-                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                         break;
-
-
                                     case 3:
                                         Intent intent3 = new Intent(MainActivity.this, ClientsActivity.class);
                                         startActivity(intent3);
-                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                         break;
-
                                     case 4:
                                         Intent intent4 = new Intent(MainActivity.this, LeaveActivity.class);
                                         startActivity(intent4);
-                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                         break;
-
-
                                     case 5:
                                         showLogOutDialog();
                                         break;
-
+                                    case 6:
+                                        Intent intent6 = new Intent(MainActivity.this, ChangePasswordActivity.class);
+                                        startActivity(intent6);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+                                        break;
 
                                 }
                                 return false;
@@ -403,8 +405,9 @@ public class MainActivity extends AppCompatActivity {
                         .addDrawerItems(
                                 new PrimaryDrawerItem().withName("Home").withIcon(FontAwesome.Icon.faw_home).withIdentifier(1).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Projects").withIcon(FontAwesome.Icon.faw_wordpress).withIdentifier(2).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                                new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
-                                new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                              //  new PrimaryDrawerItem().withName("Clients").withIcon(FontAwesome.Icon.faw_user).withIdentifier(3).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                              //  new PrimaryDrawerItem().withName("Leave").withIcon(FontAwesome.Icon.faw_leaf).withIdentifier(4).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
+                                new PrimaryDrawerItem().withName("Change Password").withIcon(FontAwesome.Icon.faw_asterisk).withIdentifier(6).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this)),
                                 new PrimaryDrawerItem().withName("Sign Out").withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(5).withSelectable(false).withTypeface(SetTypeFace.getTypeface(MainActivity.this))
                         )
                         .withSavedInstance(savedInstanceState)
@@ -415,27 +418,27 @@ public class MainActivity extends AppCompatActivity {
                                     case 2:
                                         Intent intent2 = new Intent(MainActivity.this, ProjectActivity.class);
                                         startActivity(intent2);
-                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                         break;
-
-
                                     case 3:
                                         Intent intent3 = new Intent(MainActivity.this, ClientsActivity.class);
                                         startActivity(intent3);
-                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                         break;
 
                                     case 4:
                                         Intent intent4 = new Intent(MainActivity.this, LeaveActivity.class);
                                         startActivity(intent4);
-                                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                         break;
-
-
                                     case 5:
                                         showLogOutDialog();
                                         break;
-
+                                    case 6:
+                                        Intent intent6 = new Intent(MainActivity.this, ChangePasswordActivity.class);
+                                        startActivity(intent6);
+                                        overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+                                        break;
 
                                 }
                                 return false;
@@ -480,7 +483,7 @@ public class MainActivity extends AppCompatActivity {
     public void projectList() {
         if (NetworkConnection.isNetworkAvailable(MainActivity.this)) {
             projectList.clear();
-            Utils.showProgressDialog(MainActivity.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
+         //   Utils.showProgressDialog(MainActivity.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
             Utils.showLog(Log.INFO, AppConfigTags.URL, AppConfigURL.PROJECTS, true);
             StringRequest strRequest = new StringRequest(Request.Method.GET, AppConfigURL.PROJECTS,
                     new Response.Listener<String>() {
@@ -509,9 +512,11 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                         appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString());
                                         appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray(AppConfigTags.EMPLOYEES).toString());
+                                        appDetailsPref.putStringPref(MainActivity.this, AppDetailsPref.ROLES, jsonObj.getJSONArray(AppConfigTags.ROLES).toString());
 
                                         if (jsonArray.length() > 0) {
                                             rlNoResultFound.setVisibility(View.GONE);
+                                            swipeRefreshLayout.setRefreshing (false);
                                         } else {
                                             rlNoResultFound.setVisibility(View.VISIBLE);
                                         }
@@ -531,11 +536,13 @@ public class MainActivity extends AppCompatActivity {
                                 Utils.showSnackBar(MainActivity.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
                                 Utils.showLog(Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
                             }
+                            swipeRefreshLayout.setRefreshing (false);
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            swipeRefreshLayout.setRefreshing (false);
                             Utils.showLog(Log.ERROR, AppConfigTags.VOLLEY_ERROR, error.toString(), true);
                             NetworkResponse response = error.networkResponse;
                             if (response != null && response.data != null) {
@@ -564,6 +571,7 @@ public class MainActivity extends AppCompatActivity {
             };
             Utils.sendRequest(strRequest, 5);
         } else {
+            swipeRefreshLayout.setRefreshing (false);
             Utils.showSnackBar(MainActivity.this, clMain, getResources().getString(R.string.snackbar_text_no_internet_connection_available), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_go_to_settings), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

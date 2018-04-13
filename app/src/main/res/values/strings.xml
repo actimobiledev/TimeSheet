@@ -22,7 +22,9 @@
     <string name="please_enter_product_code">Please enter product code</string>
     <string name="please_enter_pin">Please enter PIN</string>
 
-
+    <string name="please_enter_password">Please enter password</string>
+    <string name="Password_not_matched">Password did not matched</string>
+    <string name="dialog_text_enter_email">Please enter the user email</string>
 
 
 
