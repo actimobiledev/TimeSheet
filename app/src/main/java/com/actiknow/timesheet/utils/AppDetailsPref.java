@@ -2,22 +2,17 @@ package com.actiknow.timesheet.utils;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 
 public class AppDetailsPref {
     public static String EMPLOYEE_NAME = "employee_name";
-    public static String EMPLOYEE_DOB = "employee_dob";
     public static String EMPLOYEE_MOBILE = "employee_mobile";
-    public static String EMPLOYEE_EMAIL = "employee_email";
     public static String EMPLOYEE_WORK_EMAIL = "employee_work_email";
     public static String EMPLOYEE_IMAGE = "employee_image";
-    public static String EMPLOYEE_LOGIN_ID = "employee_login_id";
-    public static String EMPLOYEE_LOGIN_PASS = "employee_login_pass";
     public static String EMPLOYEE_LOGIN_KEY = "employee_login_key";
     public static String EMPLOYEE_TYPE = "employee_type";
+    
     public static String CLIENTS = "clients";
-    public static String EMPLOYEE_ID = "employee_id";
     public static String EMPLOYEES = "employees";
     public static String ROLES = "roles";
 
@@ -27,7 +22,6 @@ public class AppDetailsPref {
 
 
 
-    
     
     private static AppDetailsPref appDetailsPref;
     private String APP_DETAILS = "APP_DETAILS";

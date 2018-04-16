@@ -70,7 +70,7 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ViewHold
 
         public ViewHolder(View view) {
             super(view);
-            tvName = (TextView) view.findViewById (R.id.tvName);
+            tvName = (TextView) view.findViewById (R.id.tvProjectName);
             tvDescription = (TextView) view.findViewById (R.id.tvDescription);
             tvTime = (TextView) view.findViewById (R.id.tvTime);
             view.setOnClickListener(this);

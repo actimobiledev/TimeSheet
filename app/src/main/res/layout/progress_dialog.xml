@@ -33,7 +33,7 @@
             android:layout_toRightOf="@+id/progressbar"
             android:gravity="center"
             android:text="@string/progress_dialog_text_loading"
-            android:textColor="@color/app_text_color_dark"
+            android:textColor="@color/primary_text"
             android:textSize="@dimen/text_size_medium"
             android:visibility="visible"/>
     </RelativeLayout>

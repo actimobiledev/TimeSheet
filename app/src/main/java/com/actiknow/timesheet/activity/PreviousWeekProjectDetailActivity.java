@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.model.Project;
 import com.actiknow.timesheet.model.Task;
 import com.actiknow.timesheet.utils.AppConfigTags;
 import com.actiknow.timesheet.utils.AppConfigURL;
@@ -28,23 +27,18 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,7 +47,26 @@ import java.util.Map;
 
 public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
     Bundle savedInstanceState;
-
+    ProgressDialog progressDialog;
+    CoordinatorLayout clMain;
+    String projects = "";
+    int position = 0;
+    int project_id = 0;
+    int array_length = 0;
+    int i = 0;
+    ArrayList<Task> tasklist = new ArrayList<> ();
+    String day1 = "0";
+    String day2 = "0";
+    String day3 = "0";
+    String day4 = "0";
+    String day5 = "0";
+    String day6 = "0";
+    String day7 = "0";
+    ArrayList<String> projectList = new ArrayList<> ();
+    ArrayList<Integer> projectID = new ArrayList<> ();
+    int projectId;
+    int projectdialogid = 0;
+    AppDetailsPref appDetailsPref = AppDetailsPref.getInstance ();
     private RelativeLayout rlBack;
     private ImageView ivBack;
     private TextView tvTitle;
@@ -84,31 +97,6 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
     private EditText etSundayhour;
     private TextView tvSubmit;
     private TextView tvProjectName;
-    ProgressDialog progressDialog;
-    CoordinatorLayout clMain;
-
-    String projects = "";
-    int position = 0;
-    int project_id = 0;
-    int array_length = 0;
-    int i = 0;
-    ArrayList<Task> tasklist = new ArrayList<>();
-
-    String day1 = "0";
-    String day2 = "0";
-    String day3 = "0";
-    String day4 = "0";
-    String day5 = "0";
-    String day6 = "0";
-    String day7 = "0";
-
-    ArrayList<String> projectList = new ArrayList<>();
-    ArrayList<Integer> projectID = new ArrayList<>();
-    int projectId;
-    int projectdialogid = 0;
-
-    AppDetailsPref appDetailsPref=AppDetailsPref.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +113,7 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //   projectList();
+        //   getProjectList();
         // put your code here...
 
     }
@@ -388,7 +376,7 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
 
    /* public void HourList(int project_id) {
         if (NetworkConnection.isNetworkAvailable(PreviousWeekProjectDetailActivity.this)) {
-            projectList.clear();
+            getProjectList.clear();
             Utils.showProgressDialog(PreviousWeekProjectDetailActivity.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
             Utils.showLog(Log.INFO, AppConfigTags.URL, AppConfigURL.PROJECTS, true);
             StringRequest strRequest = new StringRequest(Request.Method.GET, AppConfigURL.PROJECTS,

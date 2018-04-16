@@ -49,7 +49,22 @@ import java.util.Map;
 
 public class ProjectBackUp1 extends AppCompatActivity {
     Bundle savedInstanceState;
-
+    ProgressDialog progressDialog;
+    CoordinatorLayout clMain;
+    String projects = "";
+    int position = 0;
+    int project_id = 0;
+    int array_length = 0;
+    int i = 0;
+    ArrayList<Task> tasklist = new ArrayList<> ();
+    String day1 = "0";
+    String day2 = "0";
+    String day3 = "0";
+    String day4 = "0";
+    String day5 = "0";
+    String day6 = "0";
+    String day7 = "0";
+    AppDetailsPref appDetailsPref = AppDetailsPref.getInstance ();
     private RelativeLayout rlBack;
     private ImageView ivBack;
     private TextView tvTitle;
@@ -80,25 +95,6 @@ public class ProjectBackUp1 extends AppCompatActivity {
     private EditText etSundayhour;
     private TextView tvSubmit;
     private TextView tvProjectName;
-    ProgressDialog progressDialog;
-    CoordinatorLayout clMain;
-
-    String projects = "";
-    int position = 0;
-    int project_id = 0;
-    int array_length = 0;
-    int i = 0;
-    ArrayList<Task> tasklist = new ArrayList<>();
-
-    String day1 = "0";
-    String day2 = "0";
-    String day3 = "0";
-    String day4 = "0";
-    String day5 = "0";
-    String day6 = "0";
-    String day7 = "0";
-
-    AppDetailsPref appDetailsPref=AppDetailsPref.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +112,7 @@ public class ProjectBackUp1 extends AppCompatActivity {
     private void setData() {
 
         try {
-            projects = getIntent().getExtras().getString("allProjects");
+            projects = getIntent ().getExtras ().getString ("projects_json");
             position = getIntent().getExtras().getInt("position", 0);
             JSONArray jsonArray = new JSONArray(projects);
             array_length = jsonArray.length();
@@ -179,7 +175,7 @@ public class ProjectBackUp1 extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //   projectList();
+        //   getProjectList();
         // put your code here...
 
     }

@@ -35,7 +35,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,13 +43,30 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
-/**
- * Created by l on 12/04/2018 rahul jain.
- */
 
-public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
+public class TimeSheetActivity extends AppCompatActivity {
     Bundle savedInstanceState;
-
+    ProgressDialog progressDialog;
+    CoordinatorLayout clMain;
+    String projects = "";
+    int position = 0;
+    int project_id = 0;
+    int array_length = 0;
+    int i = 0;
+    ArrayList<Task> tasklist = new ArrayList<> ();
+    String day1 = "0";
+    String day2 = "0";
+    String day3 = "0";
+    String day4 = "0";
+    String day5 = "0";
+    String day6 = "0";
+    String day7 = "0";
+    ArrayList<String> projectList = new ArrayList<> ();
+    ArrayList<Integer> projectID = new ArrayList<> ();
+    int projectdialogid = 0;
+    int projectId;
+    LinearLayout llPrevious;
+    AppDetailsPref appDetailsPref = AppDetailsPref.getInstance ();
     private RelativeLayout rlBack;
     private ImageView ivBack;
     private TextView tvTitle;
@@ -81,31 +97,6 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
     private EditText etSundayhour;
     private TextView tvSubmit;
     private TextView tvProjectName;
-    ProgressDialog progressDialog;
-    CoordinatorLayout clMain;
-
-    String projects = "";
-    int position = 0;
-    int project_id = 0;
-    int array_length = 0;
-    int i = 0;
-    ArrayList<Task> tasklist = new ArrayList<>();
-
-    String day1 = "0";
-    String day2 = "0";
-    String day3 = "0";
-    String day4 = "0";
-    String day5 = "0";
-    String day6 = "0";
-    String day7 = "0";
-
-    ArrayList<String> projectList = new ArrayList<>();
-    ArrayList<Integer> projectID = new ArrayList<>();
-    int projectdialogid = 0;
-    int projectId;
-    LinearLayout llPrevious;
-
-    AppDetailsPref appDetailsPref = AppDetailsPref.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,7 +154,6 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
 
 
     private void initListener() {
-
         rlBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,12 +161,11 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
-
-
+    
         tvProjectName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new MaterialDialog.Builder(ProjectTimeSheetDetailActivity.this)
+                new MaterialDialog.Builder (TimeSheetActivity.this)
                         .title("Project List")
                         .items(projectList)
                         .itemsCallback(new MaterialDialog.ListCallback() {
@@ -209,7 +198,7 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
         llPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(ProjectTimeSheetDetailActivity.this,PreviousWeekProjectDetailActivity.class);
+                Intent intent = new Intent (TimeSheetActivity.this, PreviousWeekProjectDetailActivity.class);
                 if(projectdialogid == 0){
                     intent.putExtra("id",project_id);
                 }else {
@@ -224,7 +213,7 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
 
     private void initData() {
         Utils.setTypefaceToAllViews (this, clMain);
-        progressDialog = new ProgressDialog(ProjectTimeSheetDetailActivity.this);
+        progressDialog = new ProgressDialog (TimeSheetActivity.this);
         Calendar c = Calendar.getInstance(); // Set the calendar to Sunday of the current week
         c.set(Calendar.DAY_OF_WEEK, c.MONDAY); // Print dates of the current week starting on Sunday
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -266,10 +255,9 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
     private void setData(int project_id2) {
         Log.e("project_id", "setdata-" + project_id2);
         projectList.clear();
-
         try {
-            projects = getIntent().getExtras().getString("allProjects");
-            position = getIntent().getExtras().getInt("position", 0);
+            projects = getIntent ().getExtras ().getString (AppConfigTags.PROJECTS);
+            position = getIntent ().getExtras ().getInt (AppConfigTags.PROJECT_ID, 0);
             JSONArray jsonArray = new JSONArray(projects);
             array_length = jsonArray.length();
             if (jsonArray.length() > 0) {
@@ -277,11 +265,11 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
                     JSONObject jsonObject = jsonArray.getJSONObject(j);
                     projectList.add(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
                     projectID.add(jsonObject.getInt(AppConfigTags.PROJECT_ID));
-
-
-                    if (j == position && project_id2 == 20) {
+    
+    
+                    if (jsonObject.getInt (AppConfigTags.PROJECT_ID) == position && project_id2 == 20) {
                         tvProjectName.setText(jsonObject.getString(AppConfigTags.PROJECT_TITLE));
-                        project_id = jsonObject.getInt(AppConfigTags.PROJECT_ID);
+                        project_id = jsonObject.getInt (AppConfigTags.PROJECT_ID);
 
                         JSONArray jsonArrayHour = jsonObject.getJSONArray(AppConfigTags.HOURS);
                         Log.e("jsonArrayHour", jsonArrayHour.toString());
@@ -419,8 +407,8 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
 
 
     private void sendProjectDetailsToServer(final String timeSheet, final int type1, final int project_id4) {
-        if (NetworkConnection.isNetworkAvailable(ProjectTimeSheetDetailActivity.this)) {
-            Utils.showProgressDialog(ProjectTimeSheetDetailActivity.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
+        if (NetworkConnection.isNetworkAvailable (TimeSheetActivity.this)) {
+            Utils.showProgressDialog (TimeSheetActivity.this, progressDialog, getResources ().getString (R.string.progress_dialog_text_please_wait), true);
             Utils.showLog(Log.INFO, "" + AppConfigTags.URL, AppConfigURL.ADD_TASK, true);
             StringRequest strRequest1 = new StringRequest(Request.Method.POST, AppConfigURL.ADD_TASK,
                     new com.android.volley.Response.Listener<String>() {
@@ -485,16 +473,16 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
                                         }
 
                                     } else {
-                                        Utils.showSnackBar(ProjectTimeSheetDetailActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
+                                        Utils.showSnackBar (TimeSheetActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
                                     progressDialog.dismiss();
                                 } catch (Exception e) {
                                     progressDialog.dismiss();
-                                    Utils.showSnackBar(ProjectTimeSheetDetailActivity.this, clMain, getResources().getString(R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                    Utils.showSnackBar (TimeSheetActivity.this, clMain, getResources ().getString (R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
                                     e.printStackTrace();
                                 }
                             } else {
-                                Utils.showSnackBar(ProjectTimeSheetDetailActivity.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                                Utils.showSnackBar (TimeSheetActivity.this, clMain, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
                                 Utils.showLog(Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
                             }
                             progressDialog.dismiss();
@@ -508,7 +496,7 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
                             if (response != null && response.data != null) {
                                 Utils.showLog(Log.ERROR, AppConfigTags.ERROR, new String(response.data), true);
                             }
-                            Utils.showSnackBar(ProjectTimeSheetDetailActivity.this, clMain, getResources().getString(R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources().getString(R.string.snackbar_action_dismiss), null);
+                            Utils.showSnackBar (TimeSheetActivity.this, clMain, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
                             progressDialog.dismiss();
                         }
                     }) {
@@ -524,7 +512,7 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     params.put(AppConfigTags.HEADER_API_KEY, Constants.api_key);
-                    params.put(AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref(ProjectTimeSheetDetailActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
+                    params.put (AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref (TimeSheetActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
                     Utils.showLog(Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
                     return params;
                 }
@@ -566,7 +554,7 @@ public class ProjectTimeSheetDetailActivity extends AppCompatActivity {
 
    /* public void HourList(int project_id) {
         if (NetworkConnection.isNetworkAvailable(ProjectTimeSheetDetailActivity.this)) {
-            projectList.clear();
+            getProjectList.clear();
             Utils.showProgressDialog(ProjectTimeSheetDetailActivity.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
             Utils.showLog(Log.INFO, AppConfigTags.URL, AppConfigURL.PROJECTS, true);
             StringRequest strRequest = new StringRequest(Request.Method.GET, AppConfigURL.PROJECTS,

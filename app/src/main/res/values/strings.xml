@@ -17,17 +17,9 @@
     <string name="please_enter_valid_mobile">Please enter valid Mobile</string>
     <string name="please_select_user_type">Please select user type</string>
     <string name="otp_didnt_match">OTP didn\'t match</string>
-    <string name="please_enter_otp"></string>
     <string name="please_enter_serial_number">Please enter Serial #</string>
+
     <string name="please_enter_product_code">Please enter product code</string>
-    <string name="please_enter_pin">Please enter PIN</string>
-
-    <string name="please_enter_password">Please enter password</string>
-    <string name="Password_not_matched">Password did not matched</string>
-    <string name="dialog_text_enter_email">Please enter the user email</string>
-
-
-
 
 
     <string name="snackbar_text_no_internet_connection_available">No Internet Connection available
@@ -58,13 +50,15 @@
     <string name="dialog_action_save">SAVE</string>
     <string name="dialog_action_logout">LOGOUT</string>
     <string name="dialog_action_submit">SUBMIT</string>
-    <string name="dialog_action_resend_otp">RESEND OTP</string>
     <string name="dialog_action_proceed">PROCEED</string>
     <string name="dialog_action_ignore">IGNORE</string>
     <string name="dialog_action_update">UPDATE</string>
     <string name="dialog_action_close">CLOSE</string>
     <string name="dialog_action_show_all">SHOW ALL</string>
 
+
+    <string name="please_enter_password">Please enter password</string>
+    <string name="Password_not_matched">Password did not matched</string>
 
 
 </resources>

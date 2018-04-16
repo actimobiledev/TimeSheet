@@ -172,7 +172,7 @@ public class Utils {
 
     public static void setTypefaceToAllViews (Activity activity, View view) {
         Typeface tf = SetTypeFace.getTypeface (activity);
-        SetTypeFace.applyTypeface (SetTypeFace.getParentView (view), tf);
+        SetTypeFace.applyTypeface (activity, SetTypeFace.getParentView (view), tf);
     }
 
 

@@ -5,17 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.model.Project;
-import com.actiknow.timesheet.utils.SetTypeFace;
+import com.actiknow.timesheet.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.actiknow.timesheet.utils.Utils.dateFormat;
 
 
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
@@ -37,15 +34,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {//        runEnterAnimation (holder.itemView);
-
+    public void onBindViewHolder (final ViewHolder holder, int position) {
         final Project project = projectList.get(position);
-        holder.tvName.setTypeface (SetTypeFace.getTypeface (activity));
-        holder.tvDescription.setTypeface (SetTypeFace.getTypeface (activity));
-        holder.tvTime.setTypeface (SetTypeFace.getTypeface (activity));
-        holder.tvName.setText(project.getProject_title());
-        holder.tvDescription.setText(project.getDescription());
-        holder.tvTime.setText("Start Project -"+dateFormat(project.getStarted_at()));
+        Utils.setTypefaceToAllViews (activity, holder.tvProjectName);
+        holder.tvProjectName.setText (project.getProject_title ());
+        holder.tvProjectClient.setText ("Client : " + project.getClient_name ());
     }
 
     @Override
@@ -63,30 +56,21 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tvName;
-        TextView tvDescription;
-        TextView tvTime;
-
-        ProgressBar progressBar;
-
-
+        TextView tvProjectName;
+        TextView tvProjectClient;
+    
         public ViewHolder(View view) {
             super(view);
-            tvName = (TextView) view.findViewById (R.id.tvName);
-            tvDescription = (TextView) view.findViewById (R.id.tvDescription);
-            tvTime = (TextView) view.findViewById (R.id.tvTime);
-            view.setOnClickListener(this);
+            tvProjectName = (TextView) view.findViewById (R.id.tvProjectName);
+            tvProjectClient = (TextView) view.findViewById (R.id.tvProjectClient);
+            view.setOnClickListener (this);
         }
 
         @Override
         public void onClick(View v) {
            mItemClickListener.onItemClick (v, getLayoutPosition ());
-
-
         }
     }
-    
-    
 }
 
 

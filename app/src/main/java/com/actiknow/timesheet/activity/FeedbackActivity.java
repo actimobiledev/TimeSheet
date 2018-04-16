@@ -2,7 +2,6 @@ package com.actiknow.timesheet.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -19,11 +18,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.utils.AppConfigTags;
@@ -88,8 +85,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
         List<String> report = new ArrayList<String>();
         report.add("Bug");
-        report.add("Crushed");
-        report.add("Slow");
+        report.add ("Crashed");
         report.add("Incorrect data");
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, report);

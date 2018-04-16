@@ -5,163 +5,116 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <RelativeLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true">
-
-
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBar"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:visibility="visible">
+        <android.support.v7.widget.Toolbar
+            style="@style/Widget.MyApp.ActionBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:animateLayoutChanges="true"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            android:visibility="visible">
-
-            <android.support.v7.widget.Toolbar
-                style="@style/Widget.MyApp.ActionBar"
+            android:background="@android:color/transparent"
+            android:contentInsetEnd="0dp"
+            android:contentInsetLeft="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetStart="0dp"
+            android:visibility="visible"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp"
+            app:layout_collapseMode="pin">
+            <RelativeLayout
+                android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:animateLayoutChanges="true"
-                android:background="@android:color/transparent"
-                android:contentInsetEnd="0dp"
-                android:contentInsetLeft="0dp"
-                android:contentInsetRight="0dp"
-                android:contentInsetStart="0dp"
-                android:visibility="visible"
-                app:contentInsetEnd="0dp"
-                app:contentInsetLeft="0dp"
-                app:contentInsetRight="0dp"
-                app:contentInsetStart="0dp"
-                app:layout_collapseMode="pin">
-
+                android:layout_height="match_parent">
                 <RelativeLayout
-                    android:id="@+id/toolbar_layout"
-                    android:layout_width="match_parent"
+                    android:id="@+id/rlBack"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                    <RelativeLayout
-                        android:id="@+id/rlBack"
+                    <ImageView
+                        android:id="@+id/ivBack"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/ivBack"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_back"
-                            android:padding="@dimen/activity_margin"
-                            android:visibility="visible"/>
-
-                    </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/tvTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:text="Projects"
-                        android:textColor="@color/text_color_white"
-                        android:textSize="@dimen/text_size_title"
-                        android:textStyle="bold"/>
-
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/activity_margin"
+                        android:src="@drawable/ic_back"
+                        android:visibility="visible"/>
                 </RelativeLayout>
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/rlList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/appBar"
-            android:visibility="visible">
-
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvProjectList"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"/>
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="Projects"
+                    android:textColor="@color/text_color_white"
+                    android:textSize="@dimen/text_size_title"
+                    android:textStyle="bold"/>
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabAddProject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/activity_margin"
-                android:src="@drawable/ic_plus"
-                />
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/rlNoResultFound"
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/appBar"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:animateLayoutChanges="true"
-            android:gravity="center"
-            android:visibility="gone">
-
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvProjectList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabAddProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/activity_margin"
+            android:src="@drawable/ic_plus"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rlNoResultFound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <ImageView
                 android:id="@+id/ivNoResult"
-                android:layout_width="120dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
                 android:src="@drawable/no_project"/>
             <TextView
                 android:id="@+id/tvNoResultFound"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivNoResult"
-                android:layout_marginTop="@dimen/activity_margin"
                 android:gravity="center"
-                android:padding="@dimen/edittext_padding"
-                android:text="No Project Found..."
-                android:textColor="@color/text_color_black"
-                android:textSize="@dimen/text_size_extra_large"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/tvNoResultFound2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNoResultFound"
-                android:gravity="center"
-                android:padding="@dimen/activity_margin_extra_small"
-                android:text="No Project Allotted"
-                android:textSize="@dimen/text_size_medium"
-                android:visibility="gone"/>
-
-
-            <TextView
-                android:id="@+id/tvResetFilter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvNoResultFound2"
-                android:gravity="center"
-                android:padding="@dimen/activity_margin"
-                android:text="Reset Filter"
-                android:textColor="@color/primary"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold"
-                android:visibility="gone"/>
-        </RelativeLayout>
-
-        
+                android:padding="@dimen/activity_margin_small"
+                android:text="No Project Currently Allotted"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_large"/>
+        </LinearLayout>
     </RelativeLayout>
 
 

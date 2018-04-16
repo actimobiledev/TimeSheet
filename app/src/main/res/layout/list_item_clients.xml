@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tvName"
+                    android:id="@+id/tvProjectName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_margin_extra_small"
@@ -56,16 +56,16 @@
                     android:layout_marginLeft="@dimen/activity_margin_small"
                     android:layout_marginRight="@dimen/activity_margin_small"
                     android:padding="2dp"
-                    android:visibility="gone"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_launcher"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/tvDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin_extra_small"
                     android:layout_toEndOf="@id/ivHot"
                     android:layout_toRightOf="@id/ivHot"
-                    android:layout_marginLeft="@dimen/activity_margin_extra_small"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="Actiknow Business Consulting Pvt Ltd"
@@ -86,8 +86,8 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:maxLines="2"
-                    android:text="8 hour"
                     android:paddingRight="@dimen/activity_margin_small"
+                    android:text="8 hour"
                     android:textColor="@color/primary"
                     android:textSize="@dimen/text_size_small"
                     android:visibility="gone"/>

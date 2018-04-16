@@ -88,17 +88,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_margin="16dp"
                 android:gravity="center_vertical"
+                android:orientation="vertical"
                 >
 
                 <TextView
                     android:id="@+id/tvRequestLeave"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/primary_text"
                     android:gravity="center"
-                    android:background="@color/app_text_color_dark"
                     android:padding="@dimen/activity_margin"
                     android:text="Request Leave"
                     android:textColor="@color/text_color_white"
@@ -109,11 +109,11 @@
                     android:id="@+id/tvAcceptLeave"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/app_text_color_dark"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/primary_text"
                     android:gravity="center"
                     android:padding="@dimen/activity_margin"
                     android:text="Accept Leave"
-                    android:layout_marginTop="16dp"
                     android:textColor="@color/text_color_white"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"/>

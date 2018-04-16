@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/clMain"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true">
@@ -13,22 +13,20 @@
         android:animateLayoutChanges="true"
         android:background="@color/app_background_color">
 
+
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginTop="30dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/activity_margin_extra_large"
             android:src="@drawable/actiknow_logo" />
-
 
         <LinearLayout
             android:id="@+id/llFields"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
+            android:layout_marginLeft="@dimen/activity_margin_extra_large"
+            android:layout_marginRight="@dimen/activity_margin_extra_large"
             android:animateLayoutChanges="true"
             android:background="@drawable/login_card_bg"
             android:orientation="vertical"
@@ -42,16 +40,16 @@
                 android:layout_marginBottom="@dimen/activity_margin"
                 android:gravity="center"
                 android:padding="@dimen/activity_margin_small"
-                android:text="TIME SHEET"
-                android:textColor="@color/primary"
-                android:textSize="@dimen/text_size_large"
+                android:text="TIMESHEET"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_title"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email Address"
-
+                android:text="Email ID"
+                android:textColor="@color/primary_text"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold"
                 android:visibility="visible" />
@@ -62,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/et_background"
                 android:inputType="textEmailAddress"
-                android:textAllCaps="true"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/text_size_medium"
                 android:visibility="visible" />
@@ -72,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:text="Password"
+                android:textColor="@color/primary_text"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold"
                 android:visibility="visible" />
@@ -79,18 +77,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <EditText
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/et_background"
                     android:inputType="textPassword"
-                    android:textAllCaps="true"
-                    android:textColor="@color/text_color_black"
+                    android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_medium"
                     android:visibility="visible" />
-
                 <TextView
                     android:id="@+id/tvShowHide"
                     android:layout_width="wrap_content"
@@ -103,32 +98,34 @@
                     android:paddingLeft="@dimen/activity_margin_small"
                     android:paddingRight="@dimen/activity_margin_small"
                     android:text="SHOW"
-
+                    android:textColor="@color/secondary_text"
                     android:textSize="@dimen/text_size_extra_small" />
             </RelativeLayout>
-
             <TextView
                 android:id="@+id/tvForgotPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:paddingBottom="@dimen/activity_margin_small"
+                android:paddingEnd="0dp"
                 android:paddingLeft="@dimen/activity_margin_small"
+                android:paddingRight="0dp"
                 android:paddingStart="@dimen/activity_margin_small"
                 android:paddingTop="@dimen/activity_margin_small"
                 android:text="Forgot Password"
+                android:textColor="@color/primary_text"
                 android:textSize="@dimen/text_size_small"
                 android:visibility="visible" />
 
             <TextView
                 android:id="@+id/tvLogin"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:background="@drawable/circle_button"
                 android:gravity="center"
-                android:padding="@dimen/activity_margin"
+                android:padding="@dimen/activity_margin_small"
                 android:text="LOGIN"
                 android:textColor="@color/text_color_white"
                 android:textSize="@dimen/text_size_large"
