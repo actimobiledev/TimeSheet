@@ -508,8 +508,8 @@ public class MainActivity extends AppCompatActivity {
         if (NetworkConnection.isNetworkAvailable(MainActivity.this)) {
             projectList.clear();
          //   Utils.showProgressDialog(MainActivity.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
-            Utils.showLog(Log.INFO, AppConfigTags.URL, AppConfigURL.PROJECTS, true);
-            StringRequest strRequest = new StringRequest(Request.Method.GET, AppConfigURL.PROJECTS,
+            Utils.showLog(Log.INFO, AppConfigTags.URL, AppConfigURL.HOME, true);
+            StringRequest strRequest = new StringRequest(Request.Method.GET, AppConfigURL.HOME,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

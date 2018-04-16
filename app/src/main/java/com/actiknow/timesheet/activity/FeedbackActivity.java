@@ -2,6 +2,7 @@ package com.actiknow.timesheet.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -14,10 +15,15 @@ import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.utils.AppConfigTags;
@@ -37,13 +43,15 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 
 public class FeedbackActivity extends AppCompatActivity {
-    
+
     CoordinatorLayout clMain;
     ProgressDialog progressDialog;
     AppDetailsPref appDetailsPref;
@@ -51,33 +59,58 @@ public class FeedbackActivity extends AppCompatActivity {
 
     TextView tvSubmit;
     RelativeLayout rlBack;
-    RatingBar ratingBar;
-    
+
+
+    Spinner spinner;
+    ImageView ivStar1;
+    ImageView ivStar2;
+    ImageView ivStar3;
+    ImageView ivStar4;
+    ImageView ivStar5;
+    int starValue=0;
+    String spinnerItem;
+
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_feedback);
-        initView ();
-        initData ();
-        initListener ();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_feedback);
+        initView();
+        initData();
+        initListener();
     }
-    
-    private void initData () {
-        Utils.setTypefaceToAllViews (this, clMain);
+
+    private void initData() {
+        Utils.setTypefaceToAllViews(this, clMain);
         progressDialog = new ProgressDialog(FeedbackActivity.this);
-      //  Utils.setTypefaceToAllViews (this, clMain);
-        appDetailsPref = AppDetailsPref.getInstance ();
+        //  Utils.setTypefaceToAllViews (this, clMain);
+        appDetailsPref = AppDetailsPref.getInstance();
+
+
+        List<String> report = new ArrayList<String>();
+        report.add("Bug");
+        report.add("Crushed");
+        report.add("Slow");
+        report.add("Incorrect data");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, report);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
     }
-    
-    private void initView () {
-        clMain = (CoordinatorLayout) findViewById (R.id.clMain);
-        etComment = (EditText) findViewById (R.id.etComment);
-        tvSubmit = (TextView) findViewById (R.id.tvSubmit);
-        rlBack=(RelativeLayout)findViewById(R.id.rlBack);
-        ratingBar=(RatingBar)findViewById(R.id.ratingBar);
+
+    private void initView() {
+        clMain = (CoordinatorLayout) findViewById(R.id.clMain);
+        etComment = (EditText) findViewById(R.id.etComment);
+        tvSubmit = (TextView) findViewById(R.id.tvSubmit);
+        rlBack = (RelativeLayout) findViewById(R.id.rlBack);
+        ivStar1 = (ImageView) findViewById(R.id.ivStar1);
+        ivStar2 = (ImageView) findViewById(R.id.ivStar2);
+        ivStar3 = (ImageView) findViewById(R.id.ivStar3);
+        ivStar4 = (ImageView) findViewById(R.id.ivStar4);
+        ivStar5 = (ImageView) findViewById(R.id.ivStar5);
+        spinner = (Spinner) findViewById(R.id.spinner);
     }
-    
-    private void initListener () {
+
+    private void initListener() {
         rlBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +121,28 @@ public class FeedbackActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // your code here
+
+                spinnerItem= spinner.getSelectedItem().toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+    
+    
         etComment.addTextChangedListener (new TextWatcher() {
             @Override
             public void onTextChanged (CharSequence s, int start, int before, int count) {
@@ -112,27 +167,82 @@ public class FeedbackActivity extends AppCompatActivity {
 
                 if (etComment.getText ().toString ().trim ().length () == 0) {
                     etComment.setError (s1);
+                }else {
+                    sendFeedbackToServer();
                 }
 
             }
         });
 
 
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+        ivStar1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                starValue=1;
 
-
+                ivStar1.setImageResource(R.drawable.ic_filled_star);
+                ivStar2.setImageResource(R.drawable.ic_star);
+                ivStar3.setImageResource(R.drawable.ic_star);
+                ivStar4.setImageResource(R.drawable.ic_star);
+                ivStar5.setImageResource(R.drawable.ic_star);
 
             }
         });
+        ivStar2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                starValue=2;
+                ivStar1.setImageResource(R.drawable.ic_filled_star);
+                ivStar2.setImageResource(R.drawable.ic_filled_star);
+                ivStar3.setImageResource(R.drawable.ic_star);
+                ivStar4.setImageResource(R.drawable.ic_star);
+                ivStar5.setImageResource(R.drawable.ic_star);
+            }
+        });
+        ivStar3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                starValue=3;
+                ivStar1.setImageResource(R.drawable.ic_filled_star);
+                ivStar2.setImageResource(R.drawable.ic_filled_star);
+                ivStar3.setImageResource(R.drawable.ic_filled_star);
+                ivStar4.setImageResource(R.drawable.ic_star);
+                ivStar5.setImageResource(R.drawable.ic_star);
+            }
+        });
+        ivStar4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                starValue=4;
+                ivStar1.setImageResource(R.drawable.ic_filled_star);
+                ivStar2.setImageResource(R.drawable.ic_filled_star);
+                ivStar3.setImageResource(R.drawable.ic_filled_star);
+                ivStar4.setImageResource(R.drawable.ic_filled_star);
+                ivStar5.setImageResource(R.drawable.ic_star);
+            }
+        });
+        ivStar5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                starValue=5;
+                ivStar1.setImageResource(R.drawable.ic_filled_star);
+                ivStar2.setImageResource(R.drawable.ic_filled_star);
+                ivStar3.setImageResource(R.drawable.ic_filled_star);
+                ivStar4.setImageResource(R.drawable.ic_filled_star);
+                ivStar5.setImageResource(R.drawable.ic_filled_star);
+            }
+        });
+
+
+
     }
     
     
-    private void sendPasswordChangeToServer (final String oldPassword) {
+    private void sendFeedbackToServer () {
         if (NetworkConnection.isNetworkAvailable (FeedbackActivity.this)) {
             Utils.showProgressDialog(FeedbackActivity.this, progressDialog, getResources().getString(R.string.progress_dialog_text_please_wait), true);
-            Utils.showLog (Log.INFO, "" + AppConfigTags.URL, AppConfigURL.CHANGE_PASSWORD, true);
-            StringRequest strRequest1 = new StringRequest(Request.Method.POST, AppConfigURL.CHANGE_PASSWORD,
+            Utils.showLog (Log.INFO, "" + AppConfigTags.URL, AppConfigURL.URL_FEEDBACK, true);
+            StringRequest strRequest1 = new StringRequest(Request.Method.POST, AppConfigURL.URL_FEEDBACK,
                     new com.android.volley.Response.Listener<String> () {
                         @Override
                         public void onResponse (String response) {
@@ -182,7 +292,10 @@ public class FeedbackActivity extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams () throws AuthFailureError {
                     Map<String, String> params = new Hashtable<String, String>();
-                    params.put (AppConfigTags.OLD_PASSWORD, oldPassword);
+                    params.put (AppConfigTags.FEEDBACK_TYPE, spinnerItem);
+                    params.put (AppConfigTags.RATING, String.valueOf(starValue));
+                    params.put (AppConfigTags.DESCRIPTION, etComment.getText().toString().trim());
+
 
                     
                     Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);

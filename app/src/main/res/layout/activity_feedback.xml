@@ -76,6 +76,19 @@
 
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I am telling you about"
+            android:textSize="@dimen/text_size_large"/>
+
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:id="@+id/spinner"></Spinner>
+
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,13 +97,14 @@
             android:layout_margin="@dimen/activity_margin"
             android:rating="1"
             android:layout_gravity="center"
-            android:id="@+id/ratingBar"/>
+            android:id="@+id/ratingBar"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_margin"
-            android:text="Comment"
+            android:text="Description"
             android:textSize="@dimen/text_size_small"
             android:textStyle="bold"/>
 
@@ -106,6 +120,62 @@
             android:layout_marginTop="10dp"
             android:gravity="top"
             android:padding="10dp"/>
+
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Who are we doing?"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:paddingTop="@dimen/activity_margin"
+            android:textSize="@dimen/text_size_large"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            android:layout_marginTop="@dimen/activity_margin">
+
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:id="@+id/ivStar1"
+                android:src="@drawable/ic_star"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:id="@+id/ivStar2"
+                android:src="@drawable/ic_star"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:id="@+id/ivStar3"
+                android:src="@drawable/ic_star"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:id="@+id/ivStar4"
+                android:src="@drawable/ic_star"/>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:id="@+id/ivStar5"
+                android:src="@drawable/ic_star"/>
+
+
+
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvSubmit"

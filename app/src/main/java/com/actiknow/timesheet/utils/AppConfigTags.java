@@ -60,7 +60,7 @@ public class AppConfigTags {
     public static final String EMPLOYEES = "employees";
     public static final String PROJECTS= "projects";
     public static final String PROJECT_ID = "project_id";
-    public static final String PROJECT_CLIENT_ID="project_client_id";
+    public static final String PROJECT_CLIENT_ID="client_id";
     public static final String PROJECT_TITLE ="project_title";
     public static final String PROJECT_BUDGET ="project_budget";
     public static final String PROJECT_HOUR_COST = "project_hour_cost";
@@ -68,8 +68,8 @@ public class AppConfigTags {
     public static final String PROJECT_DESCRIPTION = "project_description";
     public static final String PROJECT_PLANNED_START = "project_planned_start";
     public static final String PROJECT_PLANNED_COMPLETE = "project_planned_complete";
-    public static final String PROJECT_STARTED_AT = "project_started_at";
-    public static final String PROJECT_COMPLETE_AT = "project_completed_at";
+    public static final String PROJECT_STARTED_AT = "project_planned_start";
+    public static final String PROJECT_COMPLETE_AT = "project_planned_complete";
     public static final String PROJECT_STATUS = "project_status";
     public static final String TIMESHEET = "timesheet";
     public static final String HOURS = "hours";
@@ -98,6 +98,11 @@ public class AppConfigTags {
     public static final String NEW_PASSWORD = "new_password";
     public static final String APP_VERSION = "app_version";
     public static final String DEVICE = "device";
+
+
+    public static final String FEEDBACK_TYPE = "feedback_type";
+    public static final String RATING = "rating";
+
 
 
 
