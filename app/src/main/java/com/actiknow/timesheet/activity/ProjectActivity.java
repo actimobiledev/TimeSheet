@@ -36,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -126,11 +127,17 @@ public class ProjectActivity extends AppCompatActivity {
         projectAdapter.SetOnItemClickListener (new ProjectAdapter.OnItemClickListener () {
             @Override
             public void onItemClick (View view, int position) {
-                Intent intent = new Intent (ProjectActivity.this, ProjectDetailActivity.class);
-                intent.putExtra ("allProject", allProject);
-                intent.putExtra ("position", position);
-                startActivity (intent);
-                overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONArray (allProject).getJSONObject (position);
+                    Intent intent = new Intent (ProjectActivity.this, ProjectDetailActivity.class);
+                    intent.putExtra (AppConfigTags.PROJECT, jsonObject.toString ());
+                    startActivity (intent);
+                    overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+        
+                } catch (JSONException e) {
+                    e.printStackTrace ();
+                }
             }
         });
         swipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
@@ -139,7 +146,6 @@ public class ProjectActivity extends AppCompatActivity {
                 projectList ();
             }
         });
-        
     }
     
     private void initData () {
@@ -179,24 +185,18 @@ public class ProjectActivity extends AppCompatActivity {
                                         }
         
                                         projectAdapter.notifyDataSetChanged ();
-                                        // appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray(AppConfigTags.CLIENTS).toString());
-                                        //appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray(AppConfigTags.EMPLOYEES).toString());
-                                        //appDetailsPref.putStringPref(ProjectActivity.this, AppDetailsPref.ROLES, jsonObj.getJSONArray(AppConfigTags.ROLES).toString());
         
                                         if (jsonArray.length () > 0) {
                                             rlNoResultFound.setVisibility (View.GONE);
                                         } else {
                                             rlNoResultFound.setVisibility (View.VISIBLE);
                                         }
-        
-        
                                     } else {
                                         Utils.showSnackBar (ProjectActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace ();
                                     Utils.showSnackBar (ProjectActivity.this, clMain, getResources ().getString (R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
-                                    
                                 }
                             } else {
                                 Utils.showSnackBar (ProjectActivity.this, clMain, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);

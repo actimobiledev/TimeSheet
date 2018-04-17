@@ -15,8 +15,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.utils.AppConfigTags;
@@ -33,21 +33,22 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
 
 public class ChangePasswordActivity extends AppCompatActivity {
-    
     CoordinatorLayout clMain;
     ProgressDialog progressDialog;
     AppDetailsPref appDetailsPref;
     EditText etOldPassword;
     EditText etNewPassword;
     EditText etConfirmPassword;
-    TextView tvSubmit;
+    ImageView ivSave;
     RelativeLayout rlBack;
     
     @Override
@@ -70,7 +71,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         etNewPassword = (EditText) findViewById (R.id.etNewPassword);
         etOldPassword = (EditText) findViewById (R.id.etOldPassword);
         etConfirmPassword = (EditText) findViewById (R.id.etConfirmPassword);
-        tvSubmit = (TextView) findViewById (R.id.tvSubmit);
+        ivSave = (ImageView) findViewById (R.id.ivSave);
         rlBack=(RelativeLayout)findViewById(R.id.rlBack);
     }
     
@@ -82,9 +83,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
-
-
-
+    
         etNewPassword.addTextChangedListener (new TextWatcher() {
             @Override
             public void onTextChanged (CharSequence s, int start, int before, int count) {
@@ -127,13 +126,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
             public void afterTextChanged (Editable s) {
             }
         });
-        tvSubmit.setOnClickListener (new View.OnClickListener () {
+        ivSave.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View v) {
                 Utils.hideSoftKeyboard (ChangePasswordActivity.this);
                 SpannableString s1 = new SpannableString(getResources ().getString (R.string.please_enter_password));
                 s1.setSpan (new TypefaceSpan(ChangePasswordActivity.this, Constants.font_name), 0, s1.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                SpannableString s2 = new SpannableString(getResources ().getString (R.string.Password_not_matched));
+                SpannableString s2 = new SpannableString (getResources ().getString (R.string.password_not_matched));
                 s1.setSpan (new TypefaceSpan (ChangePasswordActivity.this, Constants.font_name), 0, s1.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 if (etOldPassword.getText ().toString ().trim ().length () == 0) {
                     etOldPassword.setError (s1);
@@ -153,19 +152,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 } else {
                     etConfirmPassword.setError (s2);
                 }
-    
-                if (etOldPassword.getText ().toString ().trim ().length () == 0 && etNewPassword.getText ().toString ().length () == 0 && etOldPassword.getText ().toString ().length () == 0) {
-        
-        
-                } else if (etOldPassword.getText ().toString ().trim ().equalsIgnoreCase (etOldPassword.getText ().toString ().trim ())) {
-        
-                } else {
-        
-                }
             }
         });
     }
-    
     
     private void sendPasswordChangeToServer (final String oldPassword, final String newPassword) {
         if (NetworkConnection.isNetworkAvailable (ChangePasswordActivity.this)) {
@@ -249,5 +238,4 @@ public class ChangePasswordActivity extends AppCompatActivity {
             });
         }
     }
-    
 }

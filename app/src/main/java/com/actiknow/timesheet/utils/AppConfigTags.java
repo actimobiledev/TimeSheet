@@ -58,7 +58,8 @@ public class AppConfigTags {
 
 
     public static final String EMPLOYEES = "employees";
-    public static final String PROJECTS= "projects";
+    public static final String PROJECT = "project";
+    public static final String PROJECTS = "projects";
     public static final String PROJECT_ID = "project_id";
     public static final String PROJECT_CLIENT_ID="client_id";
     public static final String PROJECT_TITLE ="project_title";

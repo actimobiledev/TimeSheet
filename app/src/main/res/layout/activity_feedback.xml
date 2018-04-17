@@ -37,7 +37,6 @@
                     android:id="@+id/rlBack"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
-
                     <ImageView
                         android:id="@+id/ivBack"
                         android:layout_width="wrap_content"
@@ -48,7 +47,6 @@
                         android:padding="@dimen/activity_margin"
                         android:src="@drawable/ic_back"
                         android:visibility="visible"/>
-
                 </RelativeLayout>
                 <TextView
                     android:id="@+id/tvTitle"
@@ -58,13 +56,22 @@
                     android:gravity="center"
                     android:text="Feedback"
                     android:textColor="@color/text_color_white"
-                    android:textSize="@dimen/text_size_extra_large"/>
-
+                    android:textSize="@dimen/text_size_title"
+                    android:textStyle="bold"/>
+                <ImageView
+                    android:id="@+id/ivSend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/activity_margin"
+                    android:src="@drawable/ic_send"
+                    android:visibility="visible"/>
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -74,20 +81,35 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-
-
-        <TextView
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="I am telling you about"
-            android:textSize="@dimen/text_size_large"/>
-
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"></Spinner>
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="I am telling you about *"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"/>
+            <EditText
+                android:id="@+id/etAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginStart="@dimen/activity_margin"
+                android:layout_toEndOf="@+id/tv1"
+                android:layout_toRightOf="@+id/tv1"
+                android:background="@drawable/et_background"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:paddingBottom="@dimen/activity_margin_small"
+                android:paddingTop="@dimen/activity_margin_small"
+                android:textSize="@dimen/text_size_medium"/>
+        </RelativeLayout>
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -104,7 +126,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_margin"
-            android:text="Description"
+            android:text="Description *"
+            android:textColor="@color/primary_text"
             android:textSize="@dimen/text_size_small"
             android:textStyle="bold"/>
 
@@ -112,27 +135,29 @@
             android:id="@+id/etComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/login_card_bg"
-            android:gravity="top"
+            android:background="@drawable/et_background"
             android:inputType="textMultiLine"
-            android:lines="4"
-            android:padding="10dp"
+            android:paddingBottom="@dimen/activity_margin_small"
+            android:paddingTop="@dimen/activity_margin_small"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/text_size_medium"/>
-
-
-
+        <TextView
+            android:id="@+id/tvCounterDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="0/256"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/text_size_small"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_margin"
-            android:paddingTop="@dimen/activity_margin"
             android:text="How are we doing?"
-            android:textSize="@dimen/text_size_large"/>
-
-
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_small"
+            android:textStyle="bold"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -144,52 +169,33 @@
             <ImageView
                 android:id="@+id/ivStar1"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_star"/>
+                android:src="@drawable/ic_start_filled"/>
             <ImageView
                 android:id="@+id/ivStar2"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_star"/>
+                android:src="@drawable/ic_start_filled"/>
             <ImageView
                 android:id="@+id/ivStar3"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_star"/>
+                android:src="@drawable/ic_start_filled"/>
             <ImageView
                 android:id="@+id/ivStar4"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_star"/>
+                android:src="@drawable/ic_start_filled"/>
             <ImageView
                 android:id="@+id/ivStar5"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_star"/>
-
-
-
-
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:background="@drawable/circle_button"
-            android:elevation="@dimen/button_elevation"
-            android:gravity="center"
-            android:padding="@dimen/edittext_padding"
-            android:text="SUBMIT"
-            android:textColor="@color/text_color_white"
-            android:textSize="@dimen/text_size_large"/>
     </LinearLayout>
-
-
 </android.support.design.widget.CoordinatorLayout>

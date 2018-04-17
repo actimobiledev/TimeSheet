@@ -66,7 +66,16 @@
                         android:textColor="@color/text_color_white"
                         android:textSize="@dimen/text_size_title"
                         android:textStyle="bold"/>
-
+                    <ImageView
+                        android:id="@+id/ivSave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:padding="@dimen/activity_margin"
+                        android:src="@drawable/ic_save"
+                        android:visibility="visible"/>
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
@@ -81,7 +90,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible">
-
                 <LinearLayout
                     android:id="@+id/llFields"
                     android:layout_width="match_parent"
@@ -107,15 +115,15 @@
                         android:background="@drawable/et_background"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
+                        android:paddingBottom="@dimen/activity_margin_small"
+                        android:paddingTop="@dimen/activity_margin_small"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_medium"
                         android:visibility="visible"/>
-
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_margin_small"
+                        android:layout_marginTop="@dimen/activity_margin"
                         android:text="Project Name *"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_small"
@@ -127,9 +135,47 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/et_background"
+                        android:paddingBottom="@dimen/activity_margin_small"
+                        android:paddingTop="@dimen/activity_margin_small"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_medium"
                         android:visibility="visible"/>
+                    <TextView
+                        android:id="@+id/tvCounterName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="0/80"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/text_size_small"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_margin_small"
+                        android:text="Project Description"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold"
+                        android:visibility="visible"/>
+                    <EditText
+                        android:id="@+id/etProjectDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/et_background"
+                        android:inputType="textMultiLine"
+                        android:paddingBottom="@dimen/activity_margin_small"
+                        android:paddingTop="@dimen/activity_margin_small"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="visible"/>
+                    <TextView
+                        android:id="@+id/tvCounterDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="0/256"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="@dimen/text_size_small"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -139,7 +185,7 @@
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_small"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="gone"/>
 
                     <EditText
                         android:id="@+id/etStartDate"
@@ -150,8 +196,7 @@
                         android:focusableInTouchMode="false"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_medium"
-                        android:visibility="visible"/>
-
+                        android:visibility="gone"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -160,8 +205,7 @@
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_small"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
-
+                        android:visibility="gone"/>
                     <EditText
                         android:id="@+id/etEndDate"
                         android:layout_width="match_parent"
@@ -169,31 +213,27 @@
                         android:background="@drawable/et_background"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_color_black"
+                        android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_medium"
-                        android:visibility="visible"/>
-
-
+                        android:visibility="gone"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginTop="@dimen/activity_margin_small"
                         android:text="Project Budget"
+                        android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_small"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
-
+                        android:visibility="gone"/>
                     <EditText
                         android:id="@+id/etProjectBudget"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/et_background"
                         android:inputType="number"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_color_black"
+                        android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_medium"
-                        android:visibility="visible"/>
+                        android:visibility="gone"/>
 
 
                     <TextView
@@ -203,7 +243,7 @@
                         android:text="Project Hour Cost"
                         android:textSize="@dimen/text_size_small"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="gone"/>
 
                     <EditText
                         android:id="@+id/etProjectHourCost"
@@ -212,70 +252,32 @@
                         android:background="@drawable/et_background"
                         android:inputType="number"
                         android:textAllCaps="true"
-                        android:textColor="@color/text_color_black"
+                        android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_medium"
-                        android:visibility="visible"/>
+                        android:visibility="gone"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginTop="@dimen/activity_margin_small"
                         android:text="Project Allotted Hour"
+                        android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_small"
                         android:textStyle="bold"
-                        android:visibility="visible"/>
+                        android:visibility="gone"/>
 
                     <EditText
                         android:id="@+id/etProjectAllottedHour"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:background="@drawable/et_background"
                         android:inputType="number"
-                        android:textAllCaps="true"
-                        android:textColor="@color/text_color_black"
+                        android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_medium"
-                        android:visibility="visible"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_margin"
-                        android:inputType="textMultiLine"
-                        android:text="Project Description"
-                        android:textSize="@dimen/text_size_small"
-                        android:textStyle="bold"
-                        android:visibility="visible"/>
-
-                    <EditText
-                        android:id="@+id/etProjectDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginBottom="30dp"
-                        android:background="@drawable/login_card_bg"
-                        android:gravity="top"
-                        android:inputType="textMultiLine"
-                        android:lines="4"
-                        android:padding="10dp"
-                        android:textColor="@color/text_color_black"
-                        android:textSize="@dimen/text_size_medium"
-                        android:visibility="visible"/>
+                        android:visibility="gone"/>
 
                 </LinearLayout>
             </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>
-        <TextView
-            android:id="@+id/tvSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/activity_margin"
-            android:background="@drawable/circle_button"
-            android:gravity="center"
-            android:padding="@dimen/activity_margin_small"
-            android:text="SAVE"
-            android:textColor="@color/text_color_white"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold"/>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

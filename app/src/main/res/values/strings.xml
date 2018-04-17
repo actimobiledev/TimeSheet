@@ -58,7 +58,13 @@
 
 
     <string name="please_enter_password">Please enter password</string>
-    <string name="Password_not_matched">Password did not matched</string>
+    <string name="password_not_matched">Password did not matched</string>
+
+    <string name="please_select_client">Please select Client</string>
+    <string name="please_enter_project_name">Please enter Project name</string>
+
+    <string name="please_select_feedback_type">Please select type</string>
+    <string name="please_enter_description">Please enter description</string>
 
 
 </resources>

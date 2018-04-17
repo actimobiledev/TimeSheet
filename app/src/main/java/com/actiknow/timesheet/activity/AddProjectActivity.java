@@ -11,6 +11,10 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -19,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.dialog.AddClientDialogFragment;
 import com.actiknow.timesheet.utils.AppConfigTags;
@@ -27,6 +30,7 @@ import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
 import com.actiknow.timesheet.utils.Constants;
 import com.actiknow.timesheet.utils.NetworkConnection;
+import com.actiknow.timesheet.utils.TypefaceSpan;
 import com.actiknow.timesheet.utils.Utils;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -47,6 +51,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 public class AddProjectActivity extends AppCompatActivity {
+    public static String client_name = "";
     ImageView ivCancel;
     EditText etStartDate;
     EditText etEndDate;
@@ -56,166 +61,229 @@ public class AddProjectActivity extends AppCompatActivity {
     EditText etProjectHourCost;
     EditText etProjectAllottedHour;
     EditText etProjectDescription;
-    private int mYear, mMonth, mDay;
+    TextView tvCounterName;
+    TextView tvCounterDescription;
     String start_date = "";
     String end_date = "";
-    public static String client_name;
     int clientId;
-    ArrayList<String> clientList = new ArrayList<>();
-    ArrayList<Integer> clientID = new ArrayList<>();
+    ArrayList<String> clientList = new ArrayList<> ();
+    ArrayList<Integer> clientID = new ArrayList<> ();
     ProgressDialog progressDialog;
     CoordinatorLayout clMain;
     AppDetailsPref appDetailsPref;
-    TextView tvSubmit;
+    ImageView ivSave;
     RelativeLayout rlBack;
+    private int mYear, mMonth, mDay;
+    
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_project);
-        initView();
-        initData();
-        setData();
-        initListener();
+    protected void onCreate (Bundle savedInstanceState) {
+        super.onCreate (savedInstanceState);
+        setContentView (R.layout.activity_add_project);
+        initView ();
+        initData ();
+        setData ();
+        initListener ();
     }
-
-    private void initView() {
-        ivCancel = (ImageView) findViewById(R.id.ivCancel);
-        etStartDate = (EditText) findViewById(R.id.etStartDate);
-        etEndDate = (EditText) findViewById(R.id.etEndDate);
-        etClientName = (EditText) findViewById(R.id.etClientName);
-        etProjectName = (EditText) findViewById(R.id.etProjectName);
-        etProjectBudget = (EditText) findViewById(R.id.etProjectBudget);
-        etProjectHourCost = (EditText) findViewById(R.id.etProjectHourCost);
-        etProjectAllottedHour = (EditText) findViewById(R.id.etProjectAllottedHour);
-        etProjectDescription = (EditText) findViewById(R.id.etProjectDescription);
-        clMain=(CoordinatorLayout)findViewById(R.id.clMain);
-        tvSubmit=(TextView)findViewById(R.id.tvSubmit);
-        rlBack=(RelativeLayout)findViewById(R.id.rlBack);
+    
+    private void initView () {
+        ivCancel = (ImageView) findViewById (R.id.ivCancel);
+        etStartDate = (EditText) findViewById (R.id.etStartDate);
+        etEndDate = (EditText) findViewById (R.id.etEndDate);
+        etClientName = (EditText) findViewById (R.id.etClientName);
+        etProjectName = (EditText) findViewById (R.id.etProjectName);
+        etProjectBudget = (EditText) findViewById (R.id.etProjectBudget);
+        etProjectHourCost = (EditText) findViewById (R.id.etProjectHourCost);
+        etProjectAllottedHour = (EditText) findViewById (R.id.etProjectAllottedHour);
+        etProjectDescription = (EditText) findViewById (R.id.etProjectDescription);
+        
+        tvCounterName = (TextView) findViewById (R.id.tvCounterName);
+        tvCounterDescription = (TextView) findViewById (R.id.tvCounterDescription);
+        
+        clMain = (CoordinatorLayout) findViewById (R.id.clMain);
+        ivSave = (ImageView) findViewById (R.id.ivSave);
+        rlBack = (RelativeLayout) findViewById (R.id.rlBack);
     }
-
-    private void initData() {
-        progressDialog=new ProgressDialog(AddProjectActivity.this);
-        appDetailsPref=AppDetailsPref.getInstance();
+    
+    private void initData () {
+        progressDialog = new ProgressDialog (AddProjectActivity.this);
+        appDetailsPref = AppDetailsPref.getInstance ();
         Utils.setTypefaceToAllViews (this, clMain);
-
+        
     }
-
-    private void initListener() {
-
-        rlBack.setOnClickListener(new View.OnClickListener() {
+    
+    private void initListener () {
+        rlBack.setOnClickListener (new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
-                finish();
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            public void onClick (View view) {
+                finish ();
+                overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
-
-        etClientName.setOnClickListener(new View.OnClickListener() {
+        
+        etClientName.setOnClickListener (new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
-                new MaterialDialog.Builder(AddProjectActivity.this)
-                        .title("Clients")
-                        .items(clientList)
-                        .positiveText("Add Client")
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+            public void onClick (View view) {
+                new MaterialDialog.Builder (AddProjectActivity.this)
+                        .title ("Clients")
+                        .items (clientList)
+                        .positiveText ("Add Client")
+                        .onPositive (new MaterialDialog.SingleButtonCallback () {
                             @Override
-                            public void onClick(MaterialDialog dialog, DialogAction which) {
-                                android.app.FragmentManager fm = getFragmentManager();
-                                android.app.FragmentTransaction ft = fm.beginTransaction();
-                                AddClientDialogFragment fragment = new AddClientDialogFragment().newInstance();
-                                fragment.setDismissListener(new MyDialogCloseListener() {
+                            public void onClick (MaterialDialog dialog, DialogAction which) {
+                                android.app.FragmentManager fm = getFragmentManager ();
+                                android.app.FragmentTransaction ft = fm.beginTransaction ();
+                                AddClientDialogFragment fragment = new AddClientDialogFragment ().newInstance ();
+                                fragment.setDismissListener (new MyDialogCloseListener () {
                                     @Override
-                                    public void handleDialogClose(DialogInterface dialog) {
-                                        etClientName.setText(client_name);
-                                        setData();
-                                        clientId=clientID.get(clientID.size()-1);
+                                    public void handleDialogClose (DialogInterface dialog) {
+                                        etClientName.setText (client_name);
+                                        setData ();
+                                        //         clientId=clientID.get(clientID.size()-1);
                                     }
                                 });
-                                fragment.show(ft, "test");
+                                fragment.show (ft, "test");
                             }
                         })
-                        .itemsCallback(new MaterialDialog.ListCallback() {
+                        .itemsCallback (new MaterialDialog.ListCallback () {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                etClientName.setText(text);
-                                clientId=clientID.get(which);
-                                Log.e("item number", "" + clientID.get(which));
+                            public void onSelection (MaterialDialog dialog, View view, int which, CharSequence text) {
+                                etClientName.setText (text);
+                                clientId = clientID.get (which);
+                                Log.e ("item number", "" + clientID.get (which));
+                                etClientName.setError (null);
                             }
                         })
-                        .show();
+                        .show ();
             }
         });
-
-        etStartDate.setOnClickListener(new View.OnClickListener() {
+        
+        etStartDate.setOnClickListener (new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
-                selectDate(etStartDate, 1);
+            public void onClick (View view) {
+                selectDate (etStartDate, 1);
             }
         });
-
-        etEndDate.setOnClickListener(new View.OnClickListener() {
+        
+        etEndDate.setOnClickListener (new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
-                selectDate(etEndDate,2);
+            public void onClick (View view) {
+                selectDate (etEndDate, 2);
             }
         });
-
-        tvSubmit.setOnClickListener(new View.OnClickListener() {
+        
+        ivSave.setOnClickListener (new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
-                sendProjectDetailsToServer(etProjectName.getText().toString(),clientId,etProjectBudget.getText().toString(),
-                        etProjectHourCost.getText().toString(),etProjectAllottedHour.getText().toString(),etProjectDescription.getText().toString(),
-                        start_date,end_date);
-            }
-        });
-
-
-    }
-
-    private void selectDate(final EditText etPickupDate, final int i) {
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(AddProjectActivity.this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                if(i == 1){
-                    start_date = year + "-" + String.format("%02d", monthOfYear + 1) + "-" + String.format("%02d", dayOfMonth);
-                }else if(i == 2) {
-                    end_date = year + "-" + String.format("%02d", monthOfYear + 1) + "-" + String.format("%02d", dayOfMonth);
+            public void onClick (View view) {
+                SpannableString s1 = new SpannableString (getResources ().getString (R.string.please_select_client));
+                s1.setSpan (new TypefaceSpan (AddProjectActivity.this, Constants.font_name), 0, s1.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                SpannableString s2 = new SpannableString (getResources ().getString (R.string.please_enter_project_name));
+                s2.setSpan (new TypefaceSpan (AddProjectActivity.this, Constants.font_name), 0, s1.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    
+                int len = etClientName.getText ().toString ().trim ().length ();
+                int len2 = etProjectName.getText ().toString ().trim ().length ();
+                int len3 = etProjectDescription.getText ().toString ().trim ().length ();
+    
+                if (len == 0) {
+                    etClientName.setError (s1);
                 }
-                etPickupDate.setText(String.format("%02d", dayOfMonth) + "-" + String.format("%02d", monthOfYear + 1) + "-" + year);
-
+                if (len2 == 0) {
+                    etProjectName.setError (s2);
+                }
+                if (len > 0 && len2 > 0 && len2 <= 80 && len3 <= 256) {
+                    sendProjectDetailsToServer (etProjectName.getText ().toString (), clientId, etProjectDescription.getText ().toString ());
+                }
+            }
+        });
+        
+        etProjectName.addTextChangedListener (new TextWatcher () {
+            @Override
+            public void onTextChanged (CharSequence s, int start, int before, int count) {
+                int len = s.toString ().trim ().length ();
+                tvCounterName.setText (len + "/80");
+                if (len > 80) {
+                    tvCounterName.setTextColor (getResources ().getColor (R.color.md_red_900));
+                } else {
+                    tvCounterName.setTextColor (getResources ().getColor (R.color.secondary_text));
+                }
+            }
+            
+            @Override
+            public void beforeTextChanged (CharSequence s, int start, int count, int after) {
+            }
+            
+            @Override
+            public void afterTextChanged (Editable s) {
+            }
+        });
+        
+        etProjectDescription.addTextChangedListener (new TextWatcher () {
+            @Override
+            public void onTextChanged (CharSequence s, int start, int before, int count) {
+                int len = s.toString ().trim ().length ();
+                tvCounterDescription.setText (len + "/256");
+                if (len > 256) {
+                    tvCounterDescription.setTextColor (getResources ().getColor (R.color.md_red_900));
+                } else {
+                    tvCounterDescription.setTextColor (getResources ().getColor (R.color.secondary_text));
+                }
+            }
+            
+            @Override
+            public void beforeTextChanged (CharSequence s, int start, int count, int after) {
+            }
+            
+            @Override
+            public void afterTextChanged (Editable s) {
+            }
+        });
+    }
+    
+    private void selectDate (final EditText etPickupDate, final int i) {
+        final Calendar c = Calendar.getInstance ();
+        mYear = c.get (Calendar.YEAR);
+        mMonth = c.get (Calendar.MONTH);
+        mDay = c.get (Calendar.DAY_OF_MONTH);
+        
+        DatePickerDialog datePickerDialog = new DatePickerDialog (AddProjectActivity.this, new DatePickerDialog.OnDateSetListener () {
+            @Override
+            public void onDateSet (DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                if (i == 1) {
+                    start_date = year + "-" + String.format ("%02d", monthOfYear + 1) + "-" + String.format ("%02d", dayOfMonth);
+                } else if (i == 2) {
+                    end_date = year + "-" + String.format ("%02d", monthOfYear + 1) + "-" + String.format ("%02d", dayOfMonth);
+                }
+                etPickupDate.setText (String.format ("%02d", dayOfMonth) + "-" + String.format ("%02d", monthOfYear + 1) + "-" + year);
+                
             }
         }, mYear, mMonth, mDay);
-        datePickerDialog.show();
+        datePickerDialog.show ();
     }
-
-    private void setData() {
-        clientID.clear();
-        clientList.clear();
+    
+    private void setData () {
+        clientID.clear ();
+        clientList.clear ();
         try {
-            JSONArray jsonArray = new JSONArray(appDetailsPref.getStringPref(AddProjectActivity.this, AppDetailsPref.CLIENTS));
-            if (jsonArray.length() > 0) {
-                for (int j = 0; j < jsonArray.length(); j++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(j);
-                    clientList.add(jsonObject.getString(AppConfigTags.CLIENT_NAME));
-                    clientID.add(jsonObject.getInt(AppConfigTags.CLIENT_ID));
+            JSONArray jsonArray = new JSONArray (appDetailsPref.getStringPref (AddProjectActivity.this, AppDetailsPref.CLIENTS));
+            if (jsonArray.length () > 0) {
+                for (int j = 0; j < jsonArray.length (); j++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject (j);
+            
+                    if (! AddProjectActivity.client_name.equalsIgnoreCase ("")) {
+                        if (AddProjectActivity.client_name.equalsIgnoreCase (jsonObject.getString (AppConfigTags.CLIENT_NAME))) {
+                            clientId = jsonObject.getInt (AppConfigTags.CLIENT_ID);
+                        }
+                    }
+                    clientList.add (jsonObject.getString (AppConfigTags.CLIENT_NAME));
+                    clientID.add (jsonObject.getInt (AppConfigTags.CLIENT_ID));
                 }
             }
-
+    
         } catch (JSONException e) {
-            e.printStackTrace();
+            e.printStackTrace ();
         }
     }
-
-
-
-
-
-    private void sendProjectDetailsToServer(final String projectName, final int clientId, final String projectBudget, final String hourCost, final String allottedHour, final String projectDescription, final String startDate, final String endDate) {
+    
+    private void sendProjectDetailsToServer (final String projectName, final int clientId, final String projectDescription) {
         if (NetworkConnection.isNetworkAvailable (AddProjectActivity.this)) {
             Utils.showProgressDialog (AddProjectActivity.this, progressDialog, getResources ().getString (R.string.progress_dialog_text_please_wait), true);
             Utils.showLog (Log.INFO, "" + AppConfigTags.URL, AppConfigURL.ADD_PROJECT, true);
@@ -226,13 +294,13 @@ public class AddProjectActivity extends AppCompatActivity {
                             Utils.showLog (Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
                             if (response != null) {
                                 try {
-                                    JSONObject jsonObj = new JSONObject(response);
+                                    JSONObject jsonObj = new JSONObject (response);
                                     boolean error = jsonObj.getBoolean (AppConfigTags.ERROR);
                                     String message = jsonObj.getString (AppConfigTags.MESSAGE);
                                     if (! error) {
                                         finish ();
                                         overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
-
+    
                                     } else {
                                         Utils.showSnackBar (AddProjectActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
@@ -264,25 +332,20 @@ public class AddProjectActivity extends AppCompatActivity {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 protected Map<String, String> getParams () throws AuthFailureError {
-                   // String sDate = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
-                  //  String eDate = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
-                    Map<String, String> params = new Hashtable<String, String>();
-
-                    params.put (AppConfigTags.PROJECT_CLIENT_ID, String.valueOf(clientId));
+                    // String sDate = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
+                    //  String eDate = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
+                    Map<String, String> params = new Hashtable<String, String> ();
+    
+                    params.put (AppConfigTags.PROJECT_CLIENT_ID, String.valueOf (clientId));
                     params.put (AppConfigTags.PROJECT_TITLE, projectName);
-                    params.put (AppConfigTags.PROJECT_BUDGET, projectBudget);
-                    params.put (AppConfigTags.PROJECT_HOUR_COST, hourCost);
-                    params.put (AppConfigTags.PROJECT_ALLOTED_HOUR, allottedHour);
                     params.put (AppConfigTags.PROJECT_DESCRIPTION, projectDescription);
-                    params.put (AppConfigTags.PROJECT_STARTED_AT, startDate);
-                    params.put (AppConfigTags.PROJECT_COMPLETE_AT, endDate);
                     Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
                     return params;
                 }
-
+    
                 @Override
                 public Map<String, String> getHeaders () throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
+                    Map<String, String> params = new HashMap<> ();
                     params.put (AppConfigTags.HEADER_API_KEY, Constants.api_key);
                     params.put (AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref (AddProjectActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
                     Utils.showLog (Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
@@ -301,9 +364,8 @@ public class AddProjectActivity extends AppCompatActivity {
             });
         }
     }
-
+    
     public interface MyDialogCloseListener {
-        public void handleDialogClose(DialogInterface dialog);
+        public void handleDialogClose (DialogInterface dialog);
     }
-
 }
