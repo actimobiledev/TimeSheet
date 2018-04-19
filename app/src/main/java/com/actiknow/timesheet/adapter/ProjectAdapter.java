@@ -41,7 +41,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         holder.tvProjectClient.setText ("Client : " + project.getClient_name ());
         holder.tvProjectCreatedBy.setText ("Created By : " + project.getCreated_by ());
         if (project.getProject_hours ().length () > 0) {
-            holder.tvProjectHours.setText ("Hours : " + project.getProject_hours ());
+            holder.tvProjectHours.setText ("Hours Status : " + project.getProject_hours ());
             holder.tvProjectHours.setVisibility (View.VISIBLE);
         } else {
             holder.tvProjectHours.setVisibility (View.GONE);

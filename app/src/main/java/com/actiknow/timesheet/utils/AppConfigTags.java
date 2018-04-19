@@ -78,9 +78,10 @@ public class AppConfigTags {
     public static final String TIMESHEET = "timesheet";
     public static final String HOURS = "hours";
     public static final String DATE = "date";
-    public static final String hour = "hour";
-
-
+    public static final String HOUR = "hour";
+    public static final String TOTAL_HOUR = "total_hour";
+    
+    
     public static final String PREVIOUS_WEEK = "previous_week";
     public static final String START_DATE = "start_date";
     public static final String END_END = "end_date";

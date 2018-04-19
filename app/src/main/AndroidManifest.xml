@@ -25,13 +25,14 @@
 
         <activity android:name=".activity.TimeSheetActivity"
                   android:screenOrientation="portrait"
+                  android:windowSoftInputMode="adjustResize"
             />
 
         <activity android:name=".activity.PreviousWeekProjectDetailActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".activity.ProjectActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MyProjectActivity"
+                  android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.ProjectDetailActivity"
             android:screenOrientation="portrait"/>

@@ -81,11 +81,13 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvProjectList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
         </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
     <RelativeLayout
@@ -117,7 +119,6 @@
                 android:textSize="@dimen/text_size_large"/>
         </LinearLayout>
     </RelativeLayout>
-
 </android.support.design.widget.CoordinatorLayout>
 
 

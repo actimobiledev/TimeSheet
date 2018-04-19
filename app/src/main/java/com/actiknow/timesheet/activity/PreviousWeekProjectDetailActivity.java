@@ -392,29 +392,29 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
                                     if (!is_error) {
                                         JSONArray jsonArray = jsonObj.getJSONArray(AppConfigTags.HOURS);
 
-                                        // Log.e("projects",allClients);
+                                        // Log.e("projects_json",allClients);
                                         for (int i = 0; i < jsonArray.length(); i++) {
                                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                                             if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate1.getText().toString())) {
-                                                etMondayhour.setText(jsonObject.getString(AppConfigTags.hour));
+                                                etMondayhour.setText(jsonObject.getString(AppConfigTags.HOUR));
                                             }
                                             if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate2.getText().toString())) {
-                                                etTueshour.setText(jsonObject.getString(AppConfigTags.hour));
+                                                etTueshour.setText(jsonObject.getString(AppConfigTags.HOUR));
                                             }
                                             if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate3.getText().toString())) {
-                                                etWednesdayHour.setText(jsonObject.getString(AppConfigTags.hour));
+                                                etWednesdayHour.setText(jsonObject.getString(AppConfigTags.HOUR));
                                             }
                                             if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate4.getText().toString())) {
-                                                etThursdayhour.setText(jsonObject.getString(AppConfigTags.hour));
+                                                etThursdayhour.setText(jsonObject.getString(AppConfigTags.HOUR));
                                             }
                                             if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate5.getText().toString())) {
-                                                etFridayhour.setText(jsonObject.getString(AppConfigTags.hour));
+                                                etFridayhour.setText(jsonObject.getString(AppConfigTags.HOUR));
                                             }
                                             if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate6.getText().toString())) {
-                                                etSaturdayhour.setText(jsonObject.getString(AppConfigTags.hour));
+                                                etSaturdayhour.setText(jsonObject.getString(AppConfigTags.HOUR));
                                             }
                                             if (Utils.dateFormat(jsonObject.getString(AppConfigTags.DATE)).equalsIgnoreCase(tvDate7.getText().toString())) {
-                                                etSundayhour.setText(jsonObject.getString(AppConfigTags.hour));
+                                                etSundayhour.setText(jsonObject.getString(AppConfigTags.HOUR));
                                             }
                                         }
 

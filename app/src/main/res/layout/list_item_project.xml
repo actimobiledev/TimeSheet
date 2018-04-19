@@ -42,5 +42,6 @@
         android:layout_marginLeft="@dimen/activity_margin"
         android:text="Project Hours : "
         android:textColor="@color/primary_text"
-        android:textSize="@dimen/text_size_small"/>
+        android:textSize="@dimen/text_size_small"
+        android:visibility="gone"/>
     </RelativeLayout>

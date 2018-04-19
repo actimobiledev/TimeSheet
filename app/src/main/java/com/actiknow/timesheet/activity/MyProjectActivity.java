@@ -47,7 +47,7 @@ import java.util.Map;
  * Created by l on 27/07/2017.
  */
 
-public class ProjectActivity extends AppCompatActivity {
+public class MyProjectActivity extends AppCompatActivity {
     RecyclerView rvProjectList;
     CoordinatorLayout clMain;
     TextView tvTitle;
@@ -67,7 +67,7 @@ public class ProjectActivity extends AppCompatActivity {
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_project);
+        setContentView (R.layout.activity_my_projects);
     
         initView ();
         initData ();
@@ -132,7 +132,7 @@ public class ProjectActivity extends AppCompatActivity {
         fabAddProject.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View view) {
-                Intent intent = new Intent (ProjectActivity.this, AddProjectActivity.class);
+                Intent intent = new Intent (MyProjectActivity.this, AddProjectActivity.class);
                 startActivity (intent);
                 overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
             }
@@ -144,7 +144,7 @@ public class ProjectActivity extends AppCompatActivity {
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONArray (allProject).getJSONObject (position);
-                    Intent intent = new Intent (ProjectActivity.this, ProjectDetailActivity.class);
+                    Intent intent = new Intent (MyProjectActivity.this, ProjectDetailActivity.class);
                     intent.putExtra (AppConfigTags.PROJECT, jsonObject.toString ());
                     startActivity (intent);
                     overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
@@ -172,7 +172,7 @@ public class ProjectActivity extends AppCompatActivity {
     
     
     public void projectList () {
-        if (NetworkConnection.isNetworkAvailable (ProjectActivity.this)) {
+        if (NetworkConnection.isNetworkAvailable (MyProjectActivity.this)) {
             Utils.showLog (Log.INFO, AppConfigTags.URL, AppConfigURL.PROJECTS, true);
             StringRequest strRequest = new StringRequest (Request.Method.GET, AppConfigURL.PROJECTS,
                     new Response.Listener<String> () {
@@ -208,14 +208,14 @@ public class ProjectActivity extends AppCompatActivity {
                                             rlNoResultFound.setVisibility (View.VISIBLE);
                                         }
                                     } else {
-                                        Utils.showSnackBar (ProjectActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
+                                        Utils.showSnackBar (MyProjectActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace ();
-                                    Utils.showSnackBar (ProjectActivity.this, clMain, getResources ().getString (R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
+                                    Utils.showSnackBar (MyProjectActivity.this, clMain, getResources ().getString (R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
                                 }
                             } else {
-                                Utils.showSnackBar (ProjectActivity.this, clMain, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
+                                Utils.showSnackBar (MyProjectActivity.this, clMain, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
                                 Utils.showLog (Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
                             }
                             swipeRefreshLayout.setRefreshing (false);
@@ -230,7 +230,7 @@ public class ProjectActivity extends AppCompatActivity {
                             if (response != null && response.data != null) {
                                 Utils.showLog (Log.ERROR, AppConfigTags.ERROR, new String (response.data), true);
                             }
-                            Utils.showSnackBar (ProjectActivity.this, clMain, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
+                            Utils.showSnackBar (MyProjectActivity.this, clMain, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
                         }
                     }) {
                 
@@ -246,7 +246,7 @@ public class ProjectActivity extends AppCompatActivity {
                     Map<String, String> params = new HashMap<> ();
                     AppDetailsPref appDetailsPref = AppDetailsPref.getInstance ();
                     params.put (AppConfigTags.HEADER_API_KEY, Constants.api_key);
-                    params.put (AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref (ProjectActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
+                    params.put (AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref (MyProjectActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
                     Utils.showLog (Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
                     return params;
                 }
@@ -254,7 +254,7 @@ public class ProjectActivity extends AppCompatActivity {
             Utils.sendRequest (strRequest, 5);
         } else {
             swipeRefreshLayout.setRefreshing (false);
-            Utils.showSnackBar (ProjectActivity.this, clMain, getResources ().getString (R.string.snackbar_text_no_internet_connection_available), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_go_to_settings), new View.OnClickListener () {
+            Utils.showSnackBar (MyProjectActivity.this, clMain, getResources ().getString (R.string.snackbar_text_no_internet_connection_available), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_go_to_settings), new View.OnClickListener () {
                 @Override
                 public void onClick (View v) {
                     Intent dialogIntent = new Intent (Settings.ACTION_SETTINGS);

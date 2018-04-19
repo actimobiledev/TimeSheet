@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemClick (View view, int position, IDrawerItem drawerItem) {
                         switch ((int) drawerItem.getIdentifier ()) {
                             case 2:
-                                Intent intent2 = new Intent (MainActivity.this, ProjectActivity.class);
+                                Intent intent2 = new Intent (MainActivity.this, MyProjectActivity.class);
                                 startActivity (intent2);
                                 overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
                                 break;

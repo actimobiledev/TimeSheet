@@ -70,7 +70,6 @@
             android:background="@color/text_color_grey_light2"
             android:visibility="visible"/>
     </android.support.design.widget.AppBarLayout>
-
     <RelativeLayout
         android:id="@+id/rlMain"
         android:layout_width="match_parent"
@@ -80,7 +79,8 @@
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvProjectList"
                 android:layout_width="match_parent"
