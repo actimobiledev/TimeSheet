@@ -1,36 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.v7.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="@dimen/cardview_default_radius"
-    card_view:cardElevation="@dimen/cardview_elevation">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    android:layout_margin="@dimen/activity_margin"
+    android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvProjectName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_margin_small"
             android:text="Software Engineer"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_large"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"/>
         <TextView
             android:id="@+id/tvProjectClient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvProjectName"
-            android:layout_marginBottom="@dimen/activity_margin_small"
             android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_marginTop="@dimen/activity_margin_small"
             android:text="Software Engineer"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_medium"/>
+            android:textSize="@dimen/text_size_small"/>
+    <TextView
+        android:id="@+id/tvProjectCreatedBy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvProjectClient"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:text="Software Engineer"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
+
+    <TextView
+        android:id="@+id/tvProjectHours"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvProjectCreatedBy"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:text="Project Hours : "
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
     </RelativeLayout>
-</android.support.v7.widget.CardView>

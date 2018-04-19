@@ -1,6 +1,7 @@
 package com.actiknow.timesheet.activity;
 
 import android.app.DatePickerDialog;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,7 +25,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.dialog.AddClientDialogFragment;
+import com.actiknow.timesheet.dialog.ClientListDialogFragment;
+import com.actiknow.timesheet.dialog.ClientProjectDialogFragment;
 import com.actiknow.timesheet.utils.AppConfigTags;
 import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
@@ -32,8 +34,6 @@ import com.actiknow.timesheet.utils.Constants;
 import com.actiknow.timesheet.utils.NetworkConnection;
 import com.actiknow.timesheet.utils.TypefaceSpan;
 import com.actiknow.timesheet.utils.Utils;
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -57,15 +57,14 @@ public class AddProjectActivity extends AppCompatActivity {
     EditText etEndDate;
     EditText etClientName;
     EditText etProjectName;
-    EditText etProjectBudget;
-    EditText etProjectHourCost;
-    EditText etProjectAllottedHour;
+    EditText etProjectAllottedHours;
     EditText etProjectDescription;
     TextView tvCounterName;
     TextView tvCounterDescription;
+    ImageView ivProjectList;
     String start_date = "";
     String end_date = "";
-    int clientId;
+    int client_id = 0;
     ArrayList<String> clientList = new ArrayList<> ();
     ArrayList<Integer> clientID = new ArrayList<> ();
     ProgressDialog progressDialog;
@@ -91,9 +90,7 @@ public class AddProjectActivity extends AppCompatActivity {
         etEndDate = (EditText) findViewById (R.id.etEndDate);
         etClientName = (EditText) findViewById (R.id.etClientName);
         etProjectName = (EditText) findViewById (R.id.etProjectName);
-        etProjectBudget = (EditText) findViewById (R.id.etProjectBudget);
-        etProjectHourCost = (EditText) findViewById (R.id.etProjectHourCost);
-        etProjectAllottedHour = (EditText) findViewById (R.id.etProjectAllottedHour);
+        etProjectAllottedHours = (EditText) findViewById (R.id.etProjectAllottedHours);
         etProjectDescription = (EditText) findViewById (R.id.etProjectDescription);
         
         tvCounterName = (TextView) findViewById (R.id.tvCounterName);
@@ -102,6 +99,7 @@ public class AddProjectActivity extends AppCompatActivity {
         clMain = (CoordinatorLayout) findViewById (R.id.clMain);
         ivSave = (ImageView) findViewById (R.id.ivSave);
         rlBack = (RelativeLayout) findViewById (R.id.rlBack);
+        ivProjectList = (ImageView) findViewById (R.id.ivProjectList);
     }
     
     private void initData () {
@@ -123,37 +121,21 @@ public class AddProjectActivity extends AppCompatActivity {
         etClientName.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View view) {
-                new MaterialDialog.Builder (AddProjectActivity.this)
-                        .title ("Clients")
-                        .items (clientList)
-                        .positiveText ("Add Client")
-                        .onPositive (new MaterialDialog.SingleButtonCallback () {
-                            @Override
-                            public void onClick (MaterialDialog dialog, DialogAction which) {
-                                android.app.FragmentManager fm = getFragmentManager ();
-                                android.app.FragmentTransaction ft = fm.beginTransaction ();
-                                AddClientDialogFragment fragment = new AddClientDialogFragment ().newInstance ();
-                                fragment.setDismissListener (new MyDialogCloseListener () {
-                                    @Override
-                                    public void handleDialogClose (DialogInterface dialog) {
-                                        etClientName.setText (client_name);
-                                        setData ();
-                                        //         clientId=clientID.get(clientID.size()-1);
-                                    }
-                                });
-                                fragment.show (ft, "test");
-                            }
-                        })
-                        .itemsCallback (new MaterialDialog.ListCallback () {
-                            @Override
-                            public void onSelection (MaterialDialog dialog, View view, int which, CharSequence text) {
-                                etClientName.setText (text);
-                                clientId = clientID.get (which);
-                                Log.e ("item number", "" + clientID.get (which));
-                                etClientName.setError (null);
-                            }
-                        })
-                        .show ();
+                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
+                ClientListDialogFragment fragment = ClientListDialogFragment.newInstance ();
+                fragment.setOnDialogResultListener (new ClientListDialogFragment.OnDialogResultListener () {
+                    @Override
+                    public void onPositiveResult (int clnt_id, String clnt_name) {
+                        client_id = clnt_id;
+                        etClientName.setText (clnt_name);
+                        ivProjectList.setVisibility (View.VISIBLE);
+                    }
+        
+                    @Override
+                    public void onNegativeResult () {
+                    }
+                });
+                fragment.show (ft, AppConfigTags.EMPLOYEES);
             }
         });
         
@@ -190,7 +172,7 @@ public class AddProjectActivity extends AppCompatActivity {
                     etProjectName.setError (s2);
                 }
                 if (len > 0 && len2 > 0 && len2 <= 80 && len3 <= 256) {
-                    sendProjectDetailsToServer (etProjectName.getText ().toString (), clientId, etProjectDescription.getText ().toString ());
+                    sendProjectDetailsToServer (etProjectName.getText ().toString (), client_id, etProjectDescription.getText ().toString (), etProjectAllottedHours.getText ().toString ().trim ());
                 }
             }
         });
@@ -236,6 +218,24 @@ public class AddProjectActivity extends AppCompatActivity {
             public void afterTextChanged (Editable s) {
             }
         });
+    
+        ivProjectList.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
+                ClientProjectDialogFragment fragment = ClientProjectDialogFragment.newInstance (client_id);
+                fragment.setOnDialogResultListener (new ClientProjectDialogFragment.OnDialogResultListener () {
+                    @Override
+                    public void onPositiveResult () {
+                    }
+                
+                    @Override
+                    public void onNegativeResult () {
+                    }
+                });
+                fragment.show (ft, AppConfigTags.PROJECTS);
+            }
+        });
     }
     
     private void selectDate (final EditText etPickupDate, final int i) {
@@ -270,7 +270,7 @@ public class AddProjectActivity extends AppCompatActivity {
             
                     if (! AddProjectActivity.client_name.equalsIgnoreCase ("")) {
                         if (AddProjectActivity.client_name.equalsIgnoreCase (jsonObject.getString (AppConfigTags.CLIENT_NAME))) {
-                            clientId = jsonObject.getInt (AppConfigTags.CLIENT_ID);
+                            client_id = jsonObject.getInt (AppConfigTags.CLIENT_ID);
                         }
                     }
                     clientList.add (jsonObject.getString (AppConfigTags.CLIENT_NAME));
@@ -283,7 +283,7 @@ public class AddProjectActivity extends AppCompatActivity {
         }
     }
     
-    private void sendProjectDetailsToServer (final String projectName, final int clientId, final String projectDescription) {
+    private void sendProjectDetailsToServer (final String projectName, final int clientId, final String projectDescription, final String projectHours) {
         if (NetworkConnection.isNetworkAvailable (AddProjectActivity.this)) {
             Utils.showProgressDialog (AddProjectActivity.this, progressDialog, getResources ().getString (R.string.progress_dialog_text_please_wait), true);
             Utils.showLog (Log.INFO, "" + AppConfigTags.URL, AppConfigURL.ADD_PROJECT, true);
@@ -332,13 +332,12 @@ public class AddProjectActivity extends AppCompatActivity {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 protected Map<String, String> getParams () throws AuthFailureError {
-                    // String sDate = new SimpleDateFormat("yyyy-MM-dd").format(startDate);
-                    //  String eDate = new SimpleDateFormat("yyyy-MM-dd").format(endDate);
                     Map<String, String> params = new Hashtable<String, String> ();
     
                     params.put (AppConfigTags.PROJECT_CLIENT_ID, String.valueOf (clientId));
                     params.put (AppConfigTags.PROJECT_TITLE, projectName);
                     params.put (AppConfigTags.PROJECT_DESCRIPTION, projectDescription);
+                    params.put (AppConfigTags.PROJECT_ALLOTTED_HOUR, projectHours);
                     Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
                     return params;
                 }

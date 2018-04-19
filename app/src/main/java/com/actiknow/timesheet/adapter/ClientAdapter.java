@@ -8,40 +8,40 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.model.Employee;
+import com.actiknow.timesheet.model.Client;
 import com.actiknow.timesheet.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHolder> {
+public class ClientAdapter extends RecyclerView.Adapter<ClientAdapter.ViewHolder> {
     private OnItemClickListener mItemClickListener;
     private Activity activity;
-    private List<Employee> employeeList = new ArrayList<> ();
+    private List<Client> clientList = new ArrayList<> ();
     
-    public EmployeeAdapter (Activity activity, List<Employee> employeeList) {
+    public ClientAdapter (Activity activity, List<Client> clientList) {
         this.activity = activity;
-        this.employeeList = employeeList;
+        this.clientList = clientList;
     }
     
     @Override
     public ViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
         final LayoutInflater mInflater = LayoutInflater.from (parent.getContext ());
-        final View sView = mInflater.inflate (R.layout.list_item_employee, parent, false);
+        final View sView = mInflater.inflate (R.layout.list_item_client, parent, false);
         return new ViewHolder (sView);
     }
     
     @Override
     public void onBindViewHolder (final ViewHolder holder, int position) {//        runEnterAnimation (holder.itemView);
-        final Employee employee = employeeList.get (position);
+        final Client client = clientList.get (position);
         Utils.setTypefaceToAllViews (activity, holder.tvName);
-        holder.tvName.setText (employee.getName ());
+        holder.tvName.setText (client.getName ());
     }
     
     @Override
     public int getItemCount () {
-        return employeeList.size ();
+        return clientList.size ();
     }
     
     public void SetOnItemClickListener (final OnItemClickListener mItemClickListener) {

@@ -1,44 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="@dimen/activity_margin_small"
-                                    card_view:cardCornerRadius="@dimen/cardview_default_radius"
-                                    card_view:cardElevation="@dimen/cardview_elevation">
-
-
-    <RelativeLayout
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingBottom="@dimen/activity_margin_extra_small"
+        android:paddingTop="@dimen/activity_margin_extra_small"
+        android:text="Karman Singh"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
+    <TextView
+        android:id="@+id/tvRole"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvName"
+        android:layout_marginLeft="@dimen/activity_margin_small"
+        android:layout_marginStart="@dimen/activity_margin_small"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="Developer"
+        android:textColor="@color/secondary_text"
+        android:textSize="@dimen/text_size_extra_small"/>
 
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_margin_extra_small"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:padding="@dimen/edittext_padding"
-            android:text="Software Engineer"
-            android:textColor="@color/text_color_black"
-            android:textSize="@dimen/text_size_medium"/>
-
-        <TextView
-            android:id="@+id/tvRole"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvName"
-            android:layout_marginLeft="@dimen/activity_margin_extra_small"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="@dimen/edittext_padding"
-            android:text="Actiknow Business Consulting Pvt Ltd"
-            android:textColor="@color/text_color_grey_dark"
-            android:textSize="@dimen/text_size_small"/>
-
-    </RelativeLayout>
-
-
-</android.support.v7.widget.CardView>
+</RelativeLayout>

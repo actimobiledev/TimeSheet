@@ -2,10 +2,10 @@ package com.actiknow.timesheet.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,9 +32,7 @@ import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
 import com.actiknow.timesheet.utils.Constants;
 import com.actiknow.timesheet.utils.NetworkConnection;
-import com.actiknow.timesheet.utils.RecyclerViewMargin;
 import com.actiknow.timesheet.utils.SetTypeFace;
-import com.actiknow.timesheet.utils.SimpleDividerItemDecoration;
 import com.actiknow.timesheet.utils.Utils;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -68,7 +67,6 @@ import java.util.Hashtable;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    ImageView ivNavigation;
     Bundle savedInstanceState;
     AppDetailsPref appDetailsPref;
     RelativeLayout rlNoResultFound;
@@ -79,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvProjectList;
     CoordinatorLayout clMain;
     TextView tvTitle;
+    RelativeLayout rlBack;
     SwipeRefreshLayout swipeRefreshLayout;
     private AccountHeader headerResult = null;
     private Drawer result = null;
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private void initListener () {
-        ivNavigation.setOnClickListener (new View.OnClickListener () {
+        rlBack.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View view) {
                 result.openDrawer ();
@@ -133,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
     
     private void initView () {
-        ivNavigation = (ImageView) findViewById (R.id.ivNavigation);
+        rlBack = (RelativeLayout) findViewById (R.id.rlBack);
         clMain = (CoordinatorLayout) findViewById (R.id.clMain);
         rvProjectList = (RecyclerView) findViewById (R.id.rvProjectList);
         tvTitle = (TextView) findViewById (R.id.tvTitle);
@@ -160,14 +159,29 @@ public class MainActivity extends AppCompatActivity {
     private void initAdapter () {
         rvProjectList.setAdapter (projectAdapter);
         rvProjectList.setHasFixedSize (true);
-        rvProjectList.addItemDecoration (new SimpleDividerItemDecoration (this));
-        rvProjectList.setLayoutManager (new LinearLayoutManager (this, LinearLayoutManager.VERTICAL, false));
-        rvProjectList.addItemDecoration (new RecyclerViewMargin (
-                (int) Utils.pxFromDp (this, 16),
-                (int) Utils.pxFromDp (this, 16),
-                (int) Utils.pxFromDp (this, 16),
-                (int) Utils.pxFromDp (this, 16),
-                1, 0, RecyclerViewMargin.LAYOUT_MANAGER_LINEAR, RecyclerViewMargin.ORIENTATION_VERTICAL));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager (this, LinearLayoutManager.VERTICAL, false);
+        rvProjectList.setLayoutManager (linearLayoutManager);
+//        rvProjectList.addItemDecoration (new RecyclerViewMargin (
+//                (int) Utils.pxFromDp (this, 16),
+//                (int) Utils.pxFromDp (this, 16),
+//                (int) Utils.pxFromDp (this, 16),
+//                (int) Utils.pxFromDp (this, 16),
+//                1, 0, RecyclerViewMargin.LAYOUT_MANAGER_LINEAR, RecyclerViewMargin.ORIENTATION_VERTICAL));
+        rvProjectList.addItemDecoration (
+                new DividerItemDecoration (this, linearLayoutManager.getOrientation ()) {
+                    @Override
+                    public void getItemOffsets (Rect outRect, View view, RecyclerView
+                            parent, RecyclerView.State state) {
+                        int position = parent.getChildAdapterPosition (view);
+                        // hide the divider for the last child
+                        if (position == parent.getAdapter ().getItemCount () - 1) {
+                            outRect.setEmpty ();
+                        } else {
+                            super.getItemOffsets (outRect, view, parent, state);
+                        }
+                    }
+                }
+        );
     }
     
     private void initDrawer () {
@@ -213,9 +227,11 @@ public class MainActivity extends AppCompatActivity {
                 .withSelectionListEnabled (false)
                 .withSelectionListEnabledForSingleProfile (false)
                 .withProfileImagesVisible (true)
+                .withDividerBelowHeader (true)
+                .withTextColor (getResources ().getColor (R.color.primary_text))
                 .withOnlyMainProfileImageVisible (false)
                 .withDividerBelowHeader (true)
-                .withHeaderBackground (R.color.primary)
+                .withHeaderBackground (R.color.text_color_grey_light2)
                 .withSavedInstance (savedInstanceState)
                 .withOnAccountHeaderListener (new AccountHeader.OnAccountHeaderListener () {
                     @Override
@@ -272,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
         switch (appDetailsPref.getIntPref (MainActivity.this, AppDetailsPref.EMPLOYEE_TYPE)) {
             case 1:
                 drawerBuilder.addDrawerItems (
-                        new PrimaryDrawerItem ().withName ("Home").withIcon (FontAwesome.Icon.faw_home).withIdentifier (1).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
+                        new PrimaryDrawerItem ().withName ("Home").withIcon (FontAwesome.Icon.faw_home).withIdentifier (1).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Feedback").withIcon (FontAwesome.Icon.faw_star).withIdentifier (5).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Change Password").withIcon (FontAwesome.Icon.faw_asterisk).withIdentifier (6).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Sign Out").withIcon (FontAwesome.Icon.faw_sign_out).withIdentifier (7).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this))
@@ -280,8 +296,8 @@ public class MainActivity extends AppCompatActivity {
                 result = drawerBuilder.build ();
             case 2:
                 drawerBuilder.addDrawerItems (
-                        new PrimaryDrawerItem ().withName ("Home").withIcon (FontAwesome.Icon.faw_home).withIdentifier (1).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
-                        new PrimaryDrawerItem ().withName ("Projects").withIcon (FontAwesome.Icon.faw_wordpress).withIdentifier (2).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
+                        new PrimaryDrawerItem ().withName ("Home").withIcon (FontAwesome.Icon.faw_home).withIdentifier (1).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
+                        new PrimaryDrawerItem ().withName ("My Projects").withIcon (FontAwesome.Icon.faw_wordpress).withIdentifier (2).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Feedback").withIcon (FontAwesome.Icon.faw_star).withIdentifier (5).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Change Password").withIcon (FontAwesome.Icon.faw_asterisk).withIdentifier (6).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Sign Out").withIcon (FontAwesome.Icon.faw_sign_out).withIdentifier (7).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this))
@@ -290,8 +306,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 3:
                 drawerBuilder.addDrawerItems (
-                        new PrimaryDrawerItem ().withName ("Home").withIcon (FontAwesome.Icon.faw_home).withIdentifier (1).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
-                        new PrimaryDrawerItem ().withName ("Projects").withIcon (FontAwesome.Icon.faw_wordpress).withIdentifier (2).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
+                        new PrimaryDrawerItem ().withName ("Home").withIcon (FontAwesome.Icon.faw_home).withIdentifier (1).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
+                        new PrimaryDrawerItem ().withName ("My Projects").withIcon (FontAwesome.Icon.faw_wordpress).withIdentifier (2).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Feedback").withIcon (FontAwesome.Icon.faw_star).withIdentifier (5).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Change Password").withIcon (FontAwesome.Icon.faw_asterisk).withIdentifier (6).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this)),
                         new PrimaryDrawerItem ().withName ("Sign Out").withIcon (FontAwesome.Icon.faw_sign_out).withIdentifier (7).withSelectable (false).withTypeface (SetTypeFace.getTypeface (MainActivity.this))
@@ -330,7 +346,6 @@ public class MainActivity extends AppCompatActivity {
     
     public void getProjectList () {
         if (NetworkConnection.isNetworkAvailable (MainActivity.this)) {
-            projectList.clear ();
             Utils.showLog (Log.INFO, AppConfigTags.URL, AppConfigURL.HOME, true);
             StringRequest strRequest = new StringRequest (Request.Method.GET, AppConfigURL.HOME,
                     new Response.Listener<String> () {
@@ -339,6 +354,7 @@ public class MainActivity extends AppCompatActivity {
                             Utils.showLog (Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
                             if (response != null) {
                                 try {
+                                    projectList.clear ();
                                     JSONObject jsonObj = new JSONObject (response);
                                     boolean is_error = jsonObj.getBoolean (AppConfigTags.ERROR);
                                     String message = jsonObj.getString (AppConfigTags.MESSAGE);
@@ -350,7 +366,9 @@ public class MainActivity extends AppCompatActivity {
                                             Project project = new Project (
                                                     jsonObject.getInt (AppConfigTags.PROJECT_ID),
                                                     jsonObject.getString (AppConfigTags.PROJECT_TITLE),
-                                                    jsonObject.getString (AppConfigTags.CLIENT_NAME)
+                                                    jsonObject.getString (AppConfigTags.CLIENT_NAME),
+                                                    jsonObject.getString (AppConfigTags.PROJECT_CREATED_BY),
+                                                    jsonObject.getString (AppConfigTags.PROJECT_HOURS)
                                             );
                                             projectList.add (i, project);
                                         }
@@ -421,7 +439,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     
-    
     private void initApplication () {
         PackageInfo pInfo = null;
         try {
@@ -490,10 +507,4 @@ public class MainActivity extends AppCompatActivity {
         } else {
         }
     }
-    
-    public interface MyDialogCloseListener2 {
-        public void handleDialogClose (DialogInterface dialog);
-    }
-    
-    
 }

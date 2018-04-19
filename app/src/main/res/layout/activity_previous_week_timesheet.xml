@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/clMain"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout android:id="@+id/clMain"
+                                                 xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -106,12 +106,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
+                    android:drawableRight="@drawable/ic_arrow_down"
                     android:gravity="center"
                     android:padding="8dp"
                     android:text="Project name"
                     android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_medium"
-                    android:drawableRight="@drawable/ic_arrow_down" />
+                    android:textSize="@dimen/text_size_medium"/>
 
                 <ImageView
                     android:id="@+id/ivNextProject"
@@ -173,12 +173,12 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:background="@null"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:enabled="false"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -232,12 +232,12 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:background="@null"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:enabled="false"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -290,12 +290,12 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:background="@null"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:enabled="false"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -324,7 +324,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Thrusday"
+                        android:text="Thursday"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_small" />
 
@@ -348,12 +348,12 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:background="@null"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:enabled="false"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -406,12 +406,12 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:background="@null"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:enabled="false"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -440,7 +440,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Sturday"
+                        android:text="Saturday"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_small" />
 
@@ -464,12 +464,12 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:background="@null"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:enabled="false"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
@@ -522,12 +522,12 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:background="@null"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="number"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:enabled="false"/>
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 

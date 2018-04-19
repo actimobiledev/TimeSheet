@@ -32,6 +32,7 @@ public class AppConfigTags {
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String EMPLOYEE_NAME = "employee_name";
+    public static final String EMPLOYEE_ROLE = "employee_role";
     public static final String EMPLOYEE_DOB = "employee_dob";
     public static final String EMPLOYEE_MOBILE = "employee_mobile";
     public static final String EMPLOYEE_EMAIL = "employee_email";
@@ -65,12 +66,14 @@ public class AppConfigTags {
     public static final String PROJECT_TITLE ="project_title";
     public static final String PROJECT_BUDGET ="project_budget";
     public static final String PROJECT_HOUR_COST = "project_hour_cost";
-    public static final String PROJECT_ALLOTED_HOUR = "project_alloted_hours";
+    public static final String PROJECT_ALLOTTED_HOUR = "project_allotted_hours";
     public static final String PROJECT_DESCRIPTION = "project_description";
     public static final String PROJECT_PLANNED_START = "project_planned_start";
     public static final String PROJECT_PLANNED_COMPLETE = "project_planned_complete";
     public static final String PROJECT_STARTED_AT = "project_planned_start";
     public static final String PROJECT_COMPLETE_AT = "project_planned_complete";
+    public static final String PROJECT_CREATED_BY = "project_created_by";
+    public static final String PROJECT_HOURS = "project_hours";
     public static final String PROJECT_STATUS = "project_status";
     public static final String TIMESHEET = "timesheet";
     public static final String HOURS = "hours";

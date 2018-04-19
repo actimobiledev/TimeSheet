@@ -40,7 +40,7 @@
 
     <color name="ripple_color">#44ffffff</color>
 
-    <color name="app_background_color">#ECEFF1</color>
+    <color name="app_background_color">#ffffff</color>
 
     <color name="toolbar_background_transparent">#a7ffffff</color>
 

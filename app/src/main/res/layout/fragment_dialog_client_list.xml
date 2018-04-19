@@ -19,7 +19,7 @@
         android:layout_alignTop="@+id/ivCancel"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="EMPLOYEES"
+        android:text="CLIENTS"
         android:textColor="@color/primary_text"
         android:textSize="@dimen/text_size_large"
         android:textStyle="bold"/>
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="Search Employee"
+            android:hint="Search Client"
             android:inputType="textNoSuggestions"
             android:padding="@dimen/activity_margin"
             android:textSize="@dimen/text_size_medium"
@@ -55,7 +55,7 @@
         android:layout_below="@+id/rlSearch"
         android:background="@color/text_color_grey_light2"/>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvEmployees"
+        android:id="@+id/rvClients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/v1"
@@ -73,6 +73,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="No Employee Found"/>
+            android:text="No Client Found"/>
     </RelativeLayout>
 </RelativeLayout>

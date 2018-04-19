@@ -26,8 +26,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.adapter.EmployeeAdapter;
-import com.actiknow.timesheet.model.Employee;
+import com.actiknow.timesheet.adapter.ClientAdapter;
+import com.actiknow.timesheet.model.Client;
 import com.actiknow.timesheet.utils.AppConfigTags;
 import com.actiknow.timesheet.utils.AppDetailsPref;
 import com.actiknow.timesheet.utils.Utils;
@@ -39,16 +39,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeListDialogFragment extends DialogFragment {
+public class ClientListDialogFragment extends DialogFragment {
     OnDialogResultListener onDialogResultListener;
     
-    RecyclerView rvEmployees;
-    List<Employee> employeeList = new ArrayList<> ();
-    List<Employee> employeeListTemp = new ArrayList<> ();
-    
+    RecyclerView rvClients;
+    List<Client> clientList = new ArrayList<> ();
+    List<Client> clientListTemp = new ArrayList<> ();
     
     LinearLayoutManager linearLayoutManager;
-    EmployeeAdapter employeeAdapter;
+    ClientAdapter clientAdapter;
     
     ImageView ivCancel;
     ImageView ivSearch;
@@ -57,16 +56,13 @@ public class EmployeeListDialogFragment extends DialogFragment {
     EditText etSearch;
     
     RelativeLayout rlNoResultFound;
-    
-    String employees;
     ProgressDialog progressDialog;
     
     AppDetailsPref appDetailsPref;
     
-    public static EmployeeListDialogFragment newInstance () {
-        EmployeeListDialogFragment fragment = new EmployeeListDialogFragment ();
+    public static ClientListDialogFragment newInstance () {
+        ClientListDialogFragment fragment = new ClientListDialogFragment ();
         Bundle args = new Bundle ();
-//        args.putInt (AppConfigTags.PROJECT_ID, project_id);
         fragment.setArguments (args);
         return fragment;
     }
@@ -94,8 +90,8 @@ public class EmployeeListDialogFragment extends DialogFragment {
         super.onResume ();
         getDialog ().setOnKeyListener (new DialogInterface.OnKeyListener () {
             @Override
-            public boolean onKey (android.content.DialogInterface dialog, int keyCode, android.view.KeyEvent event) {
-                if ((keyCode == android.view.KeyEvent.KEYCODE_BACK)) {
+            public boolean onKey (DialogInterface dialog, int keyCode, KeyEvent event) {
+                if ((keyCode == KeyEvent.KEYCODE_BACK)) {
                     //This is the filter
                     if (event.getAction () != KeyEvent.ACTION_UP)
                         return true;
@@ -143,7 +139,7 @@ public class EmployeeListDialogFragment extends DialogFragment {
     
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate (R.layout.fragment_dialog_employee_list, container, false);
+        View root = inflater.inflate (R.layout.fragment_dialog_client_list, container, false);
         initView (root);
         initBundle ();
         initData ();
@@ -154,7 +150,7 @@ public class EmployeeListDialogFragment extends DialogFragment {
     
     private void initView (View root) {
         tvTitle = (TextView) root.findViewById (R.id.tvTitle);
-        rvEmployees = (RecyclerView) root.findViewById (R.id.rvEmployees);
+        rvClients = (RecyclerView) root.findViewById (R.id.rvClients);
         ivCancel = (ImageView) root.findViewById (R.id.ivCancel);
         ivSearch = (ImageView) root.findViewById (R.id.ivSearch);
         etSearch = (EditText) root.findViewById (R.id.etSearch);
@@ -174,23 +170,22 @@ public class EmployeeListDialogFragment extends DialogFragment {
         
         linearLayoutManager = new LinearLayoutManager (getActivity (), LinearLayoutManager.VERTICAL, false);
         
-        employeeAdapter = new EmployeeAdapter (getActivity (), employeeList);
-        employeeAdapter.SetOnItemClickListener (new EmployeeAdapter.OnItemClickListener () {
+        clientAdapter = new ClientAdapter (getActivity (), clientList);
+        clientAdapter.SetOnItemClickListener (new ClientAdapter.OnItemClickListener () {
             @Override
             public void onItemClick (View view, int position) {
                 Utils.hideSoftKeyboard (getActivity ());
-                onDialogResultListener.onPositiveResult (employeeList.get (position).getId (), employeeList.get (position).getName ());
+                onDialogResultListener.onPositiveResult (clientList.get (position).getId (), clientList.get (position).getName ());
                 getDialog ().dismiss ();
             }
         });
         
-        rvEmployees.setAdapter (employeeAdapter);
-        rvEmployees.setHasFixedSize (true);
-        rvEmployees.setLayoutManager (linearLayoutManager);
-        rvEmployees.setItemAnimator (new DefaultItemAnimator ());
-//        rvEmployees.addItemDecoration (new RecyclerViewMargin ((int) Utils.pxFromDp (getActivity (), 16), (int) Utils.pxFromDp (getActivity (), 16), (int) Utils.pxFromDp (getActivity (), 16), (int) Utils.pxFromDp (getActivity (), 16), 1, 0, RecyclerViewMargin.LAYOUT_MANAGER_LINEAR, RecyclerViewMargin.ORIENTATION_VERTICAL));
-    
-        rvEmployees.addItemDecoration (
+        rvClients.setAdapter (clientAdapter);
+        rvClients.setHasFixedSize (true);
+        rvClients.setLayoutManager (linearLayoutManager);
+        rvClients.setItemAnimator (new DefaultItemAnimator ());
+//        rvClients.addItemDecoration (new RecyclerViewMargin ((int) Utils.pxFromDp (getActivity (), 16), (int) Utils.pxFromDp (getActivity (), 16), (int) Utils.pxFromDp (getActivity (), 16), (int) Utils.pxFromDp (getActivity (), 16), 1, 0, RecyclerViewMargin.LAYOUT_MANAGER_LINEAR, RecyclerViewMargin.ORIENTATION_VERTICAL));
+        rvClients.addItemDecoration (
                 new DividerItemDecoration (getActivity (), linearLayoutManager.getOrientation ()) {
                     @Override
                     public void getItemOffsets (Rect outRect, View view, RecyclerView
@@ -256,59 +251,59 @@ public class EmployeeListDialogFragment extends DialogFragment {
                 rlSearch.setVisibility (View.VISIBLE);
             }
         });
-    
-    
+        
+        
         etSearch.addTextChangedListener (new TextWatcher () {
             @Override
             public void onTextChanged (CharSequence s, int start, int before, int count) {
             }
-        
+            
             @Override
             public void beforeTextChanged (CharSequence s, int start, int count, int after) {
             }
-        
+            
             @Override
             public void afterTextChanged (Editable s) {
                 if (s.toString ().length () == 0) {
-                    EmployeeAdapter employeeAdapter = new EmployeeAdapter (getActivity (), employeeList);
-                    rvEmployees.setAdapter (employeeAdapter);
-                
-                    employeeAdapter.SetOnItemClickListener (new EmployeeAdapter.OnItemClickListener () {
+                    ClientAdapter clientAdapter = new ClientAdapter (getActivity (), clientList);
+                    rvClients.setAdapter (clientAdapter);
+                    
+                    clientAdapter.SetOnItemClickListener (new ClientAdapter.OnItemClickListener () {
                         @Override
                         public void onItemClick (View view, int position) {
                             Utils.hideSoftKeyboard (getActivity ());
-                            onDialogResultListener.onPositiveResult (employeeList.get (position).getId (), employeeList.get (position).getName ());
+                            onDialogResultListener.onPositiveResult (clientList.get (position).getId (), clientList.get (position).getName ());
                             getDialog ().dismiss ();
                         }
                     });
-                
+                    
                     rlNoResultFound.setVisibility (View.GONE);
-                    rvEmployees.setVisibility (View.VISIBLE);
+                    rvClients.setVisibility (View.VISIBLE);
                 }
                 if (s.toString ().length () > 0) {
-                    employeeListTemp.clear ();
-                    for (Employee employee : employeeList) {
-                        if (employee.getName ().toUpperCase ().contains (s.toString ().toUpperCase ()) ||
-                                employee.getName ().toLowerCase ().contains (s.toString ().toLowerCase ())) {
-                            employeeListTemp.add (employee);
+                    clientListTemp.clear ();
+                    for (Client client : clientList) {
+                        if (client.getName ().toUpperCase ().contains (s.toString ().toUpperCase ()) ||
+                                client.getName ().toLowerCase ().contains (s.toString ().toLowerCase ())) {
+                            clientListTemp.add (client);
                         }
                     }
-                    employeeAdapter = new EmployeeAdapter (getActivity (), employeeListTemp);
-                    rvEmployees.setAdapter (employeeAdapter);
-                    employeeAdapter.SetOnItemClickListener (new EmployeeAdapter.OnItemClickListener () {
+                    clientAdapter = new ClientAdapter (getActivity (), clientListTemp);
+                    rvClients.setAdapter (clientAdapter);
+                    clientAdapter.SetOnItemClickListener (new ClientAdapter.OnItemClickListener () {
                         @Override
                         public void onItemClick (View view, int position) {
                             Utils.hideSoftKeyboard (getActivity ());
-                            onDialogResultListener.onPositiveResult (employeeListTemp.get (position).getId (), employeeListTemp.get (position).getName ());
+                            onDialogResultListener.onPositiveResult (clientListTemp.get (position).getId (), clientListTemp.get (position).getName ());
                             getDialog ().dismiss ();
                         }
                     });
-                
-                    if (employeeListTemp.size () == 0) {
+                    
+                    if (clientListTemp.size () == 0) {
                         rlNoResultFound.setVisibility (View.VISIBLE);
-                        rvEmployees.setVisibility (View.GONE);
+                        rvClients.setVisibility (View.GONE);
                     } else {
-                        rvEmployees.setVisibility (View.VISIBLE);
+                        rvClients.setVisibility (View.VISIBLE);
                         rlNoResultFound.setVisibility (View.GONE);
                     }
                 }
@@ -318,15 +313,14 @@ public class EmployeeListDialogFragment extends DialogFragment {
     
     private void setData () {
         try {
-            JSONArray jsonArray = new JSONArray (appDetailsPref.getStringPref (getActivity (), AppDetailsPref.EMPLOYEES));
+            JSONArray jsonArray = new JSONArray (appDetailsPref.getStringPref (getActivity (), AppDetailsPref.CLIENTS));
             for (int j = 0; j < jsonArray.length (); j++) {
                 JSONObject jsonObject = jsonArray.getJSONObject (j);
-                employeeList.add (j, new Employee (
-                        jsonObject.getInt (AppConfigTags.EMPLOYEE_ID),
-                        jsonObject.getString (AppConfigTags.EMPLOYEE_NAME),
-                        jsonObject.getString (AppConfigTags.EMPLOYEE_WORK_EMAIL)));
+                clientList.add (j, new Client (
+                        jsonObject.getInt (AppConfigTags.CLIENT_ID),
+                        jsonObject.getString (AppConfigTags.CLIENT_NAME)));
             }
-            employeeAdapter.notifyDataSetChanged ();
+            clientAdapter.notifyDataSetChanged ();
         } catch (JSONException e) {
             e.printStackTrace ();
         }
@@ -347,9 +341,8 @@ public class EmployeeListDialogFragment extends DialogFragment {
     }
     
     public interface OnDialogResultListener {
-        public abstract void onPositiveResult (int employee_id, String employee_name);
+        public abstract void onPositiveResult (int client_id, String client_name);
         
         public abstract void onNegativeResult ();
     }
-    
 }

@@ -39,6 +39,13 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
         Utils.setTypefaceToAllViews (activity, holder.tvProjectName);
         holder.tvProjectName.setText (project.getProject_title ());
         holder.tvProjectClient.setText ("Client : " + project.getClient_name ());
+        holder.tvProjectCreatedBy.setText ("Created By : " + project.getCreated_by ());
+        if (project.getProject_hours ().length () > 0) {
+            holder.tvProjectHours.setText ("Hours : " + project.getProject_hours ());
+            holder.tvProjectHours.setVisibility (View.VISIBLE);
+        } else {
+            holder.tvProjectHours.setVisibility (View.GONE);
+        }
     }
 
     @Override
@@ -58,11 +65,15 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvProjectName;
         TextView tvProjectClient;
+        TextView tvProjectCreatedBy;
+        TextView tvProjectHours;
     
         public ViewHolder(View view) {
             super(view);
             tvProjectName = (TextView) view.findViewById (R.id.tvProjectName);
             tvProjectClient = (TextView) view.findViewById (R.id.tvProjectClient);
+            tvProjectCreatedBy = (TextView) view.findViewById (R.id.tvProjectCreatedBy);
+            tvProjectHours = (TextView) view.findViewById (R.id.tvProjectHours);
             view.setOnClickListener (this);
         }
 

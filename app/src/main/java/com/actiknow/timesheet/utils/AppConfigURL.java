@@ -25,8 +25,9 @@ public class AppConfigURL {
     public static String FORGOT_PASSWORD = BASE_URL + "employee/forgot-password";
     public static String URL_INIT = BASE_URL + "init/application";
     public static String URL_FEEDBACK = BASE_URL + "feedback";
-
-
+    
+    public static String URL_CLIENT_PROJECT = BASE_URL + "projects/client";
+    
     // public static String PREVIOUS_WEEK =" https://project-timesheet-cammy92.c9users.io/api/v1.0/previous_week_task";
 
 

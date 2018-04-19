@@ -8,40 +8,43 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.model.Employee;
+import com.actiknow.timesheet.model.Project;
 import com.actiknow.timesheet.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHolder> {
-    private OnItemClickListener mItemClickListener;
-    private Activity activity;
-    private List<Employee> employeeList = new ArrayList<> ();
+public class ClientProjectAdapter extends RecyclerView.Adapter<ClientProjectAdapter.ViewHolder> {
+    OnItemClickListener mItemClickListener;
     
-    public EmployeeAdapter (Activity activity, List<Employee> employeeList) {
+    private Activity activity;
+    private List<Project> projectList = new ArrayList<> ();
+    
+    public ClientProjectAdapter (Activity activity, List<Project> projectList) {
         this.activity = activity;
-        this.employeeList = employeeList;
+        this.projectList = projectList;
     }
     
     @Override
     public ViewHolder onCreateViewHolder (ViewGroup parent, int viewType) {
         final LayoutInflater mInflater = LayoutInflater.from (parent.getContext ());
-        final View sView = mInflater.inflate (R.layout.list_item_employee, parent, false);
+        final View sView = mInflater.inflate (R.layout.list_item_project, parent, false);
         return new ViewHolder (sView);
     }
     
     @Override
-    public void onBindViewHolder (final ViewHolder holder, int position) {//        runEnterAnimation (holder.itemView);
-        final Employee employee = employeeList.get (position);
-        Utils.setTypefaceToAllViews (activity, holder.tvName);
-        holder.tvName.setText (employee.getName ());
+    public void onBindViewHolder (final ViewHolder holder, int position) {
+        final Project project = projectList.get (position);
+        Utils.setTypefaceToAllViews (activity, holder.tvProjectName);
+        holder.tvProjectName.setText (project.getProject_title ());
+        holder.tvProjectClient.setVisibility (View.GONE);
+        holder.tvProjectCreatedBy.setText ("Created By : " + project.getCreated_by ());
     }
     
     @Override
     public int getItemCount () {
-        return employeeList.size ();
+        return projectList.size ();
     }
     
     public void SetOnItemClickListener (final OnItemClickListener mItemClickListener) {
@@ -54,11 +57,15 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
     }
     
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tvName;
+        TextView tvProjectName;
+        TextView tvProjectClient;
+        TextView tvProjectCreatedBy;
         
         public ViewHolder (View view) {
             super (view);
-            tvName = (TextView) view.findViewById (R.id.tvName);
+            tvProjectName = (TextView) view.findViewById (R.id.tvProjectName);
+            tvProjectClient = (TextView) view.findViewById (R.id.tvProjectClient);
+            tvProjectCreatedBy = (TextView) view.findViewById (R.id.tvProjectCreatedBy);
             view.setOnClickListener (this);
         }
         
@@ -68,3 +75,5 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.ViewHo
         }
     }
 }
+
+

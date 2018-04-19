@@ -1,8 +1,8 @@
 package com.actiknow.timesheet.activity;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,8 +26,6 @@ import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
 import com.actiknow.timesheet.utils.Constants;
 import com.actiknow.timesheet.utils.NetworkConnection;
-import com.actiknow.timesheet.utils.RecyclerViewMargin;
-import com.actiknow.timesheet.utils.SimpleDividerItemDecoration;
 import com.actiknow.timesheet.utils.Utils;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -96,14 +95,29 @@ public class ProjectActivity extends AppCompatActivity {
     private void initAdapter () {
         rvProjectList.setAdapter (projectAdapter);
         rvProjectList.setHasFixedSize (true);
-        rvProjectList.addItemDecoration (new SimpleDividerItemDecoration (this));
-        rvProjectList.setLayoutManager (new LinearLayoutManager (this, LinearLayoutManager.VERTICAL, false));
-        rvProjectList.addItemDecoration (new RecyclerViewMargin (
-                (int) Utils.pxFromDp (this, 16),
-                (int) Utils.pxFromDp (this, 16),
-                (int) Utils.pxFromDp (this, 16),
-                (int) Utils.pxFromDp (this, 16),
-                1, 0, RecyclerViewMargin.LAYOUT_MANAGER_LINEAR, RecyclerViewMargin.ORIENTATION_VERTICAL));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager (this, LinearLayoutManager.VERTICAL, false);
+        rvProjectList.setLayoutManager (linearLayoutManager);
+//        rvProjectList.addItemDecoration (new RecyclerViewMargin (
+//                (int) Utils.pxFromDp (this, 16),
+//                (int) Utils.pxFromDp (this, 16),
+//                (int) Utils.pxFromDp (this, 16),
+//                (int) Utils.pxFromDp (this, 16),
+//                1, 0, RecyclerViewMargin.LAYOUT_MANAGER_LINEAR, RecyclerViewMargin.ORIENTATION_VERTICAL));
+        rvProjectList.addItemDecoration (
+                new DividerItemDecoration (this, linearLayoutManager.getOrientation ()) {
+                    @Override
+                    public void getItemOffsets (Rect outRect, View view, RecyclerView
+                            parent, RecyclerView.State state) {
+                        int position = parent.getChildAdapterPosition (view);
+                        // hide the divider for the last child
+                        if (position == parent.getAdapter ().getItemCount () - 1) {
+                            outRect.setEmpty ();
+                        } else {
+                            super.getItemOffsets (outRect, view, parent, state);
+                        }
+                    }
+                }
+        );
     }
     
     private void initListener () {
@@ -134,7 +148,7 @@ public class ProjectActivity extends AppCompatActivity {
                     intent.putExtra (AppConfigTags.PROJECT, jsonObject.toString ());
                     startActivity (intent);
                     overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
-        
+    
                 } catch (JSONException e) {
                     e.printStackTrace ();
                 }
@@ -159,7 +173,6 @@ public class ProjectActivity extends AppCompatActivity {
     
     public void projectList () {
         if (NetworkConnection.isNetworkAvailable (ProjectActivity.this)) {
-            projectList.clear ();
             Utils.showLog (Log.INFO, AppConfigTags.URL, AppConfigURL.PROJECTS, true);
             StringRequest strRequest = new StringRequest (Request.Method.GET, AppConfigURL.PROJECTS,
                     new Response.Listener<String> () {
@@ -168,6 +181,7 @@ public class ProjectActivity extends AppCompatActivity {
                             Utils.showLog (Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
                             if (response != null) {
                                 try {
+                                    projectList.clear ();
                                     JSONObject jsonObj = new JSONObject (response);
                                     boolean is_error = jsonObj.getBoolean (AppConfigTags.ERROR);
                                     String message = jsonObj.getString (AppConfigTags.MESSAGE);
@@ -179,13 +193,15 @@ public class ProjectActivity extends AppCompatActivity {
                                             Project project = new Project (
                                                     jsonObject.getInt (AppConfigTags.PROJECT_ID),
                                                     jsonObject.getString (AppConfigTags.PROJECT_TITLE),
-                                                    jsonObject.getString (AppConfigTags.CLIENT_NAME)
+                                                    jsonObject.getString (AppConfigTags.CLIENT_NAME),
+                                                    jsonObject.getString (AppConfigTags.PROJECT_CREATED_BY),
+                                                    ""
                                             );
                                             projectList.add (i, project);
                                         }
-        
+    
                                         projectAdapter.notifyDataSetChanged ();
-        
+    
                                         if (jsonArray.length () > 0) {
                                             rlNoResultFound.setVisibility (View.GONE);
                                         } else {
@@ -249,7 +265,9 @@ public class ProjectActivity extends AppCompatActivity {
         }
     }
     
-    public interface MyDialogCloseListener2 {
-        public void handleDialogClose (DialogInterface dialog);
+    @Override
+    public void onBackPressed () {
+        finish ();
+        overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

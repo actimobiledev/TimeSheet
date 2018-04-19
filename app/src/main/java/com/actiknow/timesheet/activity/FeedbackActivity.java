@@ -81,6 +81,7 @@ public class FeedbackActivity extends AppCompatActivity {
         type_list.add ("App Crash");
         type_list.add ("Incorrect Data");
         type_list.add ("Feature Request");
+        type_list.add ("Suggestion");
     }
     
     private void initView () {
@@ -137,6 +138,7 @@ public class FeedbackActivity extends AppCompatActivity {
             public void onClick (View v) {
                 new MaterialDialog.Builder (FeedbackActivity.this)
                         .items (type_list)
+                        .typeface (SetTypeFace.getTypeface (FeedbackActivity.this), SetTypeFace.getTypeface (FeedbackActivity.this))
                         .itemsCallback (new MaterialDialog.ListCallback () {
                             @Override
                             public void onSelection (MaterialDialog dialog, View view, int which, CharSequence text) {

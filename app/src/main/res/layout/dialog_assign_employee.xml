@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:text="Employee *"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"
+        android:textStyle="bold"
+        android:visibility="visible"/>
+    <TextView
+        android:id="@+id/tvEmployeeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_margin_extra_small"
+        android:paddingTop="@dimen/activity_margin_extra_small"
+        android:text="Employee Name"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_medium"
+        android:visibility="visible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:text="Role *"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"
+        android:textStyle="bold"
+        android:visibility="visible"/>
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:ms_background_color="@color/app_background_color"
+        app:ms_text_color="@color/primary_text"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:text="Description"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"
+        android:textStyle="bold"
+        android:visibility="visible"/>
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/et_background"
+        android:inputType="textMultiLine"
+        android:paddingBottom="@dimen/activity_margin_small"
+        android:paddingTop="@dimen/activity_margin_small"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_medium"
+        android:visibility="visible"/>
+    <TextView
+        android:id="@+id/tvCounterDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="0/80"
+        android:textColor="@color/secondary_text"
+        android:textSize="@dimen/text_size_small"/>
+
+</LinearLayout>

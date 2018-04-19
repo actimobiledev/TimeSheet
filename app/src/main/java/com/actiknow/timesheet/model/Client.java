@@ -1,17 +1,16 @@
 package com.actiknow.timesheet.model;
 
 /**
- * Created by l on 17/04/2018.
+ * Created by sud on 4/4/18.
  */
 
-public class Employee {
+public class Client {
     int id;
-    String name, work_email;
+    String name;
     
-    public Employee (int id, String name, String work_email) {
+    public Client (int id, String name) {
         this.id = id;
         this.name = name;
-        this.work_email = work_email;
     }
     
     public int getId () {
@@ -29,13 +28,4 @@ public class Employee {
     public void setName (String name) {
         this.name = name;
     }
-    
-    public String getWork_email () {
-        return work_email;
-    }
-    
-    public void setWork_email (String work_email) {
-        this.work_email = work_email;
-    }
 }
-

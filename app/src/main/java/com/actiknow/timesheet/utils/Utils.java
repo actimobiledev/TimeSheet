@@ -20,7 +20,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -146,9 +145,9 @@ public class Utils {
         long timeDiff = endDate.getTime () - startDate.getTime ();
         return unit.convert (timeDiff, TimeUnit.MILLISECONDS);
     }
-
-    public static void showSnackBar (Activity activity, CoordinatorLayout coordinatorLayout, String message, int duration, String button_text, View.OnClickListener onClickListener) {
-        final Snackbar snackbar = Snackbar.make (coordinatorLayout, message, duration);
+    
+    public static void showSnackBar (Activity activity, View view, String message, int duration, String button_text, View.OnClickListener onClickListener) {
+        final Snackbar snackbar = Snackbar.make (view, message, duration);
         snackbar.setAction (button_text, onClickListener);
 
         View sbView = snackbar.getView ();
