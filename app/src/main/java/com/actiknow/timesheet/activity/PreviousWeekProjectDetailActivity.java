@@ -159,8 +159,6 @@ public class PreviousWeekProjectDetailActivity extends AppCompatActivity {
 
 
     private void initListener() {
-
-
         rlBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

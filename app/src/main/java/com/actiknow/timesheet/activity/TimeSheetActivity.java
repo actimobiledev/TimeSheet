@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -59,7 +58,16 @@ public class TimeSheetActivity extends AppCompatActivity {
     String day6 = "0";
     String day7 = "0";
     
-    LinearLayout llPrevious;
+    float day1_total = 0;
+    float day2_total = 0;
+    float day3_total = 0;
+    float day4_total = 0;
+    float day5_total = 0;
+    float day6_total = 0;
+    float day7_total = 0;
+    
+    
+    RelativeLayout rlPrevious;
     AppDetailsPref appDetailsPref = AppDetailsPref.getInstance ();
     private RelativeLayout rlBack;
     private TextView tvTitle;
@@ -126,7 +134,7 @@ public class TimeSheetActivity extends AppCompatActivity {
         ivSave = (ImageView) findViewById (R.id.ivSave);
         tvProjectName = (TextView) findViewById (R.id.tvProjectName);
         clMain = (CoordinatorLayout) findViewById (R.id.clMain);
-        llPrevious = (LinearLayout) findViewById (R.id.llPrevious);
+        rlPrevious = (RelativeLayout) findViewById (R.id.llPrevious);
     }
     
     private void initListener () {
@@ -165,22 +173,43 @@ public class TimeSheetActivity extends AppCompatActivity {
                 sendProjectDetailsToServer (true);
             }
         });
-/*
-        llPrevious.setOnClickListener(new View.OnClickListener() {
+    
+        rlPrevious.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent (TimeSheetActivity.this, PreviousWeekProjectDetailActivity.class);
-                if(projectdialogid == 0){
-                    intent.putExtra("id",project_id);
-                }else {
-                    intent.putExtra("id",projectId);
-                }
-                intent.putExtra("project_name",tvProjectName.getText().toString());
+                Intent intent = new Intent (TimeSheetActivity.this, PreviousWeekActivity.class);
+                intent.putExtra (AppConfigTags.PROJECT_ID, project_id);
+                intent.putExtra (AppConfigTags.PROJECT_TITLE, tvProjectName.getText ().toString ());
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
+
+        
+/*
+        etMondayhour.addTextChangedListener (new TextWatcher () {
+            @Override
+            public void onTextChanged (CharSequence s, int start, int before, int count) {
+                if (s.toString ().trim ().length () > 0) {
+                    float tmp = Float.parseFloat (s.toString ().trim ());
+                    tvDate1Total.setText (String.valueOf (day1_total + tmp));
+                } else{
+                    tvDate1Total.setText (String.valueOf (day1_total));
+                }
+            }
+            
+            @Override
+            public void beforeTextChanged (CharSequence s, int start, int count, int after) {
+                
+                // TODO Auto-generated method stub
+            }
+            
+            @Override
+            public void afterTextChanged (Editable s) {
+            }
+        });
 */
+    
     }
     
     private void initData () {
@@ -236,26 +265,33 @@ public class TimeSheetActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArrayTotal.length (); i++) {
                                 JSONObject jsonObject1 = jsonArrayTotal.getJSONObject (i);
                                 String Date = Utils.dateFormat (jsonObject1.getString (AppConfigTags.DATE));
-                
+    
                                 if (Date.equalsIgnoreCase (tvDate1.getText ().toString ())) {
+                                    day1_total = (float) jsonObject1.getDouble (AppConfigTags.HOUR);
                                     tvDate1Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate2.getText ().toString ())) {
+                                    day2_total = (float) jsonObject1.getDouble (AppConfigTags.HOUR);
                                     tvDate2Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate3.getText ().toString ())) {
+                                    day3_total = (float) jsonObject1.getDouble (AppConfigTags.HOUR);
                                     tvDate3Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate4.getText ().toString ())) {
+                                    day4_total = (float) jsonObject1.getDouble (AppConfigTags.HOUR);
                                     tvDate4Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate5.getText ().toString ())) {
+                                    day5_total = (float) jsonObject1.getDouble (AppConfigTags.HOUR);
                                     tvDate5Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate6.getText ().toString ())) {
+                                    day6_total = (float) jsonObject1.getDouble (AppConfigTags.HOUR);
                                     tvDate6Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate7.getText ().toString ())) {
+                                    day7_total = (float) jsonObject1.getDouble (AppConfigTags.HOUR);
                                     tvDate7Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
                                 }
                             }
@@ -309,12 +345,16 @@ public class TimeSheetActivity extends AppCompatActivity {
                     }
                 }
             }
-    
         } catch (JSONException e) {
             e.printStackTrace ();
         }
     }
     
+    @Override
+    public void onBackPressed () {
+        finish ();
+        overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
+    }
     
     private void sendProjectDetailsToServer (final boolean finish) {
         JSONObject jsonObject = new JSONObject ();

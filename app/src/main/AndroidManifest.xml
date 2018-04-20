@@ -28,8 +28,8 @@
                   android:windowSoftInputMode="adjustResize"
             />
 
-        <activity android:name=".activity.PreviousWeekProjectDetailActivity"
-            android:screenOrientation="portrait"
+        <activity android:name=".activity.PreviousWeekActivity"
+                  android:screenOrientation="portrait"
             />
         <activity android:name=".activity.MyProjectActivity"
                   android:screenOrientation="portrait"/>

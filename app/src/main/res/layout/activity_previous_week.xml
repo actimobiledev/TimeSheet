@@ -62,16 +62,6 @@
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"/>
 
-                <ImageView
-                    android:id="@+id/ivSave"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/activity_margin"
-                    android:src="@drawable/ic_save"
-                    android:visibility="visible"/>
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
         <View
@@ -96,6 +86,8 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/appBar"
             android:visibility="visible">
+
+
             <RelativeLayout
                 android:id="@+id/llProjectName"
                 android:layout_width="match_parent"
@@ -127,6 +119,8 @@
                     android:padding="@dimen/activity_margin_small"
                     android:src="@drawable/ic_arrow_down"/>
             </RelativeLayout>
+
+
             <LinearLayout
                 android:id="@+id/llTitle"
                 android:layout_width="match_parent"
@@ -200,6 +194,7 @@
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/llDay1"
                 android:layout_width="match_parent"
@@ -245,6 +240,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/bg_question"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:text=""
@@ -265,6 +261,7 @@
                     android:textStyle="bold"
                 />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/llDay2"
                 android:layout_width="match_parent"
@@ -314,6 +311,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/bg_question"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:textColor="@color/primary_text"
@@ -334,6 +332,8 @@
                 />
 
             </LinearLayout>
+
+
             <LinearLayout
                 android:id="@+id/llDay3"
                 android:layout_width="match_parent"
@@ -382,6 +382,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/bg_question"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:textColor="@color/primary_text"
@@ -403,6 +404,8 @@
                 />
 
             </LinearLayout>
+
+
             <LinearLayout
                 android:id="@+id/llDay4"
                 android:layout_width="match_parent"
@@ -451,6 +454,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/bg_question"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:textColor="@color/primary_text"
@@ -473,6 +477,8 @@
 
 
             </LinearLayout>
+
+
             <LinearLayout
                 android:id="@+id/llDay5"
                 android:layout_width="match_parent"
@@ -518,6 +524,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/bg_question"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:textColor="@color/primary_text"
@@ -585,6 +592,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/bg_question"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:textColor="@color/primary_text"
@@ -606,6 +614,8 @@
                 />
 
             </LinearLayout>
+
+
             <LinearLayout
                 android:id="@+id/llDay7"
                 android:layout_width="match_parent"
@@ -654,6 +664,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/bg_question"
+                    android:enabled="false"
                     android:gravity="center"
                     android:inputType="numberDecimal"
                     android:textColor="@color/primary_text"
@@ -675,34 +686,8 @@
                 />
 
             </LinearLayout>
-            <RelativeLayout
-                android:id="@+id/llPrevious"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/llDay7"
-                android:layout_marginBottom="@dimen/activity_margin_extra_large"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin_extra_large"
-                android:background="@drawable/bg_question"
-            >
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/activity_margin"
-                    android:src="@drawable/ic_double_left"
-                />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:padding="8dp"
-                    android:text="VIEW PREVIOUS WEEK DATA"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="@dimen/text_size_medium"
-                    android:visibility="visible"/>
-            </RelativeLayout>
+
+
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 
