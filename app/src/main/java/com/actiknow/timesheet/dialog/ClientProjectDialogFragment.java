@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,7 +71,6 @@ public class ClientProjectDialogFragment extends DialogFragment {
     RelativeLayout rlSearch;
     EditText etSearch;
     
-    SwipeRefreshLayout swipeRefreshLayout;
     
     RelativeLayout rlNoResultFound;
     ProgressDialog progressDialog;
@@ -176,7 +174,6 @@ public class ClientProjectDialogFragment extends DialogFragment {
         etSearch = (EditText) root.findViewById (R.id.etSearch);
         rlSearch = (RelativeLayout) root.findViewById (R.id.rlSearch);
         rlNoResultFound = (RelativeLayout) root.findViewById (R.id.rlNoResultFound);
-        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById (R.id.swipe_refresh_layout);
     }
     
     private void initBundle () {
@@ -187,7 +184,6 @@ public class ClientProjectDialogFragment extends DialogFragment {
     private void initData () {
         Utils.setTypefaceToAllViews (getActivity (), tvTitle);
         progressDialog = new ProgressDialog (getActivity ());
-        swipeRefreshLayout.setRefreshing (true);
         appDetailsPref = AppDetailsPref.getInstance ();
         
         linearLayoutManager = new LinearLayoutManager (getActivity (), LinearLayoutManager.VERTICAL, false);
@@ -334,12 +330,6 @@ public class ClientProjectDialogFragment extends DialogFragment {
                 }
             }
         });
-        swipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
-            @Override
-            public void onRefresh () {
-                setData ();
-            }
-        });
     }
     
     private void setData () {
@@ -388,13 +378,11 @@ public class ClientProjectDialogFragment extends DialogFragment {
                                 Utils.showSnackBar (getActivity (), rlNoResultFound, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
                                 Utils.showLog (Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
                             }
-                            swipeRefreshLayout.setRefreshing (false);
                         }
                     },
                     new Response.ErrorListener () {
                         @Override
                         public void onErrorResponse (VolleyError error) {
-                            swipeRefreshLayout.setRefreshing (false);
                             Utils.showLog (Log.ERROR, AppConfigTags.VOLLEY_ERROR, error.toString (), true);
                             NetworkResponse response = error.networkResponse;
                             if (response != null && response.data != null) {
@@ -423,7 +411,6 @@ public class ClientProjectDialogFragment extends DialogFragment {
             };
             Utils.sendRequest (strRequest, 5);
         } else {
-            swipeRefreshLayout.setRefreshing (false);
             Utils.showSnackBar (getActivity (), rlNoResultFound, getResources ().getString (R.string.snackbar_text_no_internet_connection_available), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_go_to_settings), new View.OnClickListener () {
                 @Override
                 public void onClick (View v) {
