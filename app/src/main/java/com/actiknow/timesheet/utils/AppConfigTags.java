@@ -80,6 +80,7 @@ public class AppConfigTags {
     public static final String DATE = "date";
     public static final String HOUR = "hour";
     public static final String TOTAL_HOUR = "total_hour";
+    public static final String TOTAL = "total";
     
     
     public static final String PREVIOUS_WEEK = "previous_week";

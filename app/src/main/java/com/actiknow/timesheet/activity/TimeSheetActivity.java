@@ -150,7 +150,7 @@ public class TimeSheetActivity extends AppCompatActivity {
                         sendProjectDetailsToServer (false);
                         project_id = prjct_id;
                     }
-        
+    
                     @Override
                     public void onNegativeResult () {
                     }
@@ -227,43 +227,74 @@ public class TimeSheetActivity extends AppCompatActivity {
             if (jsonArray.length () > 0) {
                 for (int j = 0; j < jsonArray.length (); j++) {
                     JSONObject jsonObject = jsonArray.getJSONObject (j);
-            
+    
                     if (jsonObject.getInt (AppConfigTags.PROJECT_ID) == project_id) {
                         tvProjectName.setText (jsonObject.getString (AppConfigTags.PROJECT_TITLE));
+        
+                        JSONArray jsonArrayTotal = jsonObject.getJSONArray (AppConfigTags.TOTAL);
+                        if (jsonArrayTotal.length () > 0) {
+                            for (int i = 0; i < jsonArrayTotal.length (); i++) {
+                                JSONObject jsonObject1 = jsonArrayTotal.getJSONObject (i);
+                                String Date = Utils.dateFormat (jsonObject1.getString (AppConfigTags.DATE));
                 
+                                if (Date.equalsIgnoreCase (tvDate1.getText ().toString ())) {
+                                    tvDate1Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
+                                }
+                                if (Date.equalsIgnoreCase (tvDate2.getText ().toString ())) {
+                                    tvDate2Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
+                                }
+                                if (Date.equalsIgnoreCase (tvDate3.getText ().toString ())) {
+                                    tvDate3Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
+                                }
+                                if (Date.equalsIgnoreCase (tvDate4.getText ().toString ())) {
+                                    tvDate4Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
+                                }
+                                if (Date.equalsIgnoreCase (tvDate5.getText ().toString ())) {
+                                    tvDate5Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
+                                }
+                                if (Date.equalsIgnoreCase (tvDate6.getText ().toString ())) {
+                                    tvDate6Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
+                                }
+                                if (Date.equalsIgnoreCase (tvDate7.getText ().toString ())) {
+                                    tvDate7Total.setText (jsonObject1.getString (AppConfigTags.HOUR));
+                                }
+                            }
+                        } else {
+                            tvDate1Total.setText ("0");
+                            tvDate2Total.setText ("0");
+                            tvDate3Total.setText ("0");
+                            tvDate4Total.setText ("0");
+                            tvDate5Total.setText ("0");
+                            tvDate6Total.setText ("0");
+                            tvDate7Total.setText ("0");
+                        }
+                        
                         JSONArray jsonArrayHour = jsonObject.getJSONArray (AppConfigTags.HOURS);
                         if (jsonArrayHour.length () > 0) {
                             for (int i = 0; i < jsonArrayHour.length (); i++) {
                                 JSONObject jsonObject2 = jsonArrayHour.getJSONObject (i);
                                 String Date = Utils.dateFormat (jsonObject2.getString (AppConfigTags.DATE));
-                        
+    
                                 if (Date.equalsIgnoreCase (tvDate1.getText ().toString ())) {
                                     etMondayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
-                                    tvDate1Total.setText (jsonObject2.getString (AppConfigTags.TOTAL_HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate2.getText ().toString ())) {
                                     etTueshour.setText (jsonObject2.getString (AppConfigTags.HOUR));
-                                    tvDate2Total.setText (jsonObject2.getString (AppConfigTags.TOTAL_HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate3.getText ().toString ())) {
                                     etWednesdayHour.setText (jsonObject2.getString (AppConfigTags.HOUR));
-                                    tvDate3Total.setText (jsonObject2.getString (AppConfigTags.TOTAL_HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate4.getText ().toString ())) {
                                     etThursdayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
-                                    tvDate4Total.setText (jsonObject2.getString (AppConfigTags.TOTAL_HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate5.getText ().toString ())) {
                                     etFridayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
-                                    tvDate5Total.setText (jsonObject2.getString (AppConfigTags.TOTAL_HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate6.getText ().toString ())) {
                                     etSaturdayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
-                                    tvDate6Total.setText (jsonObject2.getString (AppConfigTags.TOTAL_HOUR));
                                 }
                                 if (Date.equalsIgnoreCase (tvDate7.getText ().toString ())) {
                                     etSundayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
-                                    tvDate7Total.setText (jsonObject2.getString (AppConfigTags.TOTAL_HOUR));
                                 }
                             }
                         } else {
@@ -274,13 +305,6 @@ public class TimeSheetActivity extends AppCompatActivity {
                             etFridayhour.setText ("0");
                             etSaturdayhour.setText ("0");
                             etSundayhour.setText ("0");
-                            tvDate1Total.setText ("0");
-                            tvDate2Total.setText ("0");
-                            tvDate3Total.setText ("0");
-                            tvDate4Total.setText ("0");
-                            tvDate5Total.setText ("0");
-                            tvDate6Total.setText ("0");
-                            tvDate7Total.setText ("0");
                         }
                     }
                 }
@@ -329,7 +353,7 @@ public class TimeSheetActivity extends AppCompatActivity {
             jsonObject.put ("day_7", day7.equalsIgnoreCase ("") ? "0" : etSundayhour.getText ().toString ());
     
             timeSheet = jsonObject.toString ();
-
+    
         } catch (Exception e) {
             e.printStackTrace ();
         }
@@ -352,7 +376,7 @@ public class TimeSheetActivity extends AppCompatActivity {
                                     if (! error) {
                                         projects_json = jsonObj.getJSONArray (AppConfigTags.PROJECTS).toString ();
                                         setData (project_id);
-        
+    
                                         if (finish) {
                                             finish ();
                                         }
