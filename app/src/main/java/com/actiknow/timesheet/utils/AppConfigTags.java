@@ -108,12 +108,11 @@ public class AppConfigTags {
 
     public static final String FEEDBACK_TYPE = "feedback_type";
     public static final String RATING = "rating";
-
-
-
-
-
-
-
-
+    
+    
+    public static final String VERSION_UPDATE = "version_update";
+    public static final String UPDATE_MESSAGE = "update_message";
+    public static final String VERSION_CRITICAL = "version_critical";
+    
+    
 }

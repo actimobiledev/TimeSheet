@@ -53,6 +53,7 @@
     <string name="dialog_action_proceed">PROCEED</string>
     <string name="dialog_action_ignore">IGNORE</string>
     <string name="dialog_action_update">UPDATE</string>
+    <string name="dialog_action_exit">EXIT</string>
     <string name="dialog_action_close">CLOSE</string>
     <string name="dialog_action_show_all">SHOW ALL</string>
 

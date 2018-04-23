@@ -1,5 +1,6 @@
 package com.actiknow.timesheet.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -383,14 +384,14 @@ public class MainActivity extends AppCompatActivity {
                                             );
                                             projectList.add (i, project);
                                         }
-        
+    
                                         if (jsonArray.length () > 0) {
                                             rlNoResultFound.setVisibility (View.GONE);
                                         } else {
                                             rlNoResultFound.setVisibility (View.VISIBLE);
                                         }
-        
-        
+    
+    
                                         projectAdapter.notifyDataSetChanged ();
                                     } else {
                                         Utils.showSnackBar (MainActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
@@ -470,9 +471,9 @@ public class MainActivity extends AppCompatActivity {
                                     JSONObject jsonObj = new JSONObject (response);
                                     boolean error = jsonObj.getBoolean (AppConfigTags.ERROR);
                                     String message = jsonObj.getString (AppConfigTags.MESSAGE);
-
-                                    if (! error) {
     
+                                    if (! error) {
+        
                                         boolean flag = false;
                                         for (String ext : new String[] {".png", ".jpg", ".jpeg"}) {
                                             if (jsonObj.getString (AppConfigTags.EMPLOYEE_IMAGE).endsWith (ext)) {
@@ -480,18 +481,83 @@ public class MainActivity extends AppCompatActivity {
                                                 break;
                                             }
                                         }
-    
+        
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_NAME, jsonObj.getString (AppConfigTags.EMPLOYEE_NAME));
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_MOBILE, jsonObj.getString (AppConfigTags.EMPLOYEE_MOBILE));
                                         appDetailsPref.putIntPref (MainActivity.this, AppDetailsPref.EMPLOYEE_TYPE, jsonObj.getInt (AppConfigTags.EMPLOYEE_TYPE));
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL, jsonObj.getString (AppConfigTags.EMPLOYEE_WORK_EMAIL));
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_GENDER, jsonObj.getString (AppConfigTags.EMPLOYEE_GENDER));
-    
+        
                                         if (flag) {
                                             appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_IMAGE, jsonObj.getString (AppConfigTags.EMPLOYEE_IMAGE));
                                         } else {
                                             appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_IMAGE, "");
                                         }
+        
+                                        if (jsonObj.getInt (AppConfigTags.VERSION_UPDATE) > 0) {
+                                            if (jsonObj.getInt (AppConfigTags.VERSION_CRITICAL) == 1) {
+                                                MaterialDialog dialog = new MaterialDialog.Builder (MainActivity.this)
+                                                        .title ("New Update Available")
+                                                        .content (jsonObj.getString (AppConfigTags.UPDATE_MESSAGE))
+                                                        .titleColor (getResources ().getColor (R.color.primary_text))
+                                                        .positiveColor (getResources ().getColor (R.color.primary_text))
+                                                        .contentColor (getResources ().getColor (R.color.primary_text))
+                                                        .negativeColor (getResources ().getColor (R.color.primary_text))
+                                                        .typeface (SetTypeFace.getTypeface (MainActivity.this), SetTypeFace.getTypeface (MainActivity.this))
+                                                        .canceledOnTouchOutside (false)
+                                                        .cancelable (false)
+                                                        .positiveText (R.string.dialog_action_update)
+                                                        .negativeText (R.string.dialog_action_exit)
+                                                        .onPositive (new MaterialDialog.SingleButtonCallback () {
+                                                            @Override
+                                                            public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                                final String appPackageName = getPackageName ();
+                                                                try {
+                                                                    startActivity (new Intent (Intent.ACTION_VIEW, Uri.parse ("market://details?id=" + appPackageName)));
+                                                                } catch (android.content.ActivityNotFoundException anfe) {
+                                                                    startActivity (new Intent (Intent.ACTION_VIEW, Uri.parse ("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                                                }
+                                                            }
+                                                        })
+                                                        .onNegative (new MaterialDialog.SingleButtonCallback () {
+                                                            @Override
+                                                            public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                                finish ();
+                                                                overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
+                                                            }
+                                                        }).build ();
+                
+                                                dialog.getActionButton (DialogAction.POSITIVE).setOnClickListener (new CustomListener (MainActivity.this, dialog, DialogAction.POSITIVE));
+                                                dialog.getActionButton (DialogAction.NEGATIVE).setOnClickListener (new CustomListener (MainActivity.this, dialog, DialogAction.NEGATIVE));
+                                                dialog.show ();
+                                            } else {
+                                                MaterialDialog dialog = new MaterialDialog.Builder (MainActivity.this)
+                                                        .title ("New Update Available")
+                                                        .content (jsonObj.getString (AppConfigTags.UPDATE_MESSAGE))
+                                                        .titleColor (getResources ().getColor (R.color.primary_text))
+                                                        .positiveColor (getResources ().getColor (R.color.primary_text))
+                                                        .contentColor (getResources ().getColor (R.color.primary_text))
+                                                        .negativeColor (getResources ().getColor (R.color.primary_text))
+                                                        .typeface (SetTypeFace.getTypeface (MainActivity.this), SetTypeFace.getTypeface (MainActivity.this))
+                                                        .canceledOnTouchOutside (true)
+                                                        .cancelable (true)
+                                                        .positiveText (R.string.dialog_action_update)
+                                                        .negativeText (R.string.dialog_action_ignore)
+                                                        .onPositive (new MaterialDialog.SingleButtonCallback () {
+                                                            @Override
+                                                            public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                                final String appPackageName = getPackageName ();
+                                                                try {
+                                                                    startActivity (new Intent (Intent.ACTION_VIEW, Uri.parse ("market://details?id=" + appPackageName)));
+                                                                } catch (android.content.ActivityNotFoundException anfe) {
+                                                                    startActivity (new Intent (Intent.ACTION_VIEW, Uri.parse ("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                                                }
+                                                            }
+                                                        }).build ();
+                                                dialog.show ();
+                                            }
+                                        }
+                                        
                                         
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray (AppConfigTags.CLIENTS).toString ());
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray (AppConfigTags.EMPLOYEES).toString ());
@@ -535,6 +601,36 @@ public class MainActivity extends AppCompatActivity {
             strRequest.setRetryPolicy (new DefaultRetryPolicy (DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Utils.sendRequest (strRequest, 30);
         } else {
+        }
+    }
+    
+    
+    class CustomListener implements View.OnClickListener {
+        private final MaterialDialog dialog;
+        Activity activity;
+        DialogAction dialogAction;
+        
+        public CustomListener (Activity activity, MaterialDialog dialog, DialogAction dialogAction) {
+            this.dialog = dialog;
+            this.activity = activity;
+            this.dialogAction = dialogAction;
+        }
+        
+        @Override
+        public void onClick (View v) {
+            if (dialogAction == DialogAction.POSITIVE) {
+                final String appPackageName = getPackageName ();
+                try {
+                    startActivity (new Intent (Intent.ACTION_VIEW, Uri.parse ("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity (new Intent (Intent.ACTION_VIEW, Uri.parse ("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+            }
+            if (dialogAction == DialogAction.NEGATIVE) {
+                finish ();
+                overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
+                
+            }
         }
     }
 }
