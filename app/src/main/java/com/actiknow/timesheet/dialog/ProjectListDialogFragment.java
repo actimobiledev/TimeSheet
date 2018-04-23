@@ -143,7 +143,7 @@ public class ProjectListDialogFragment extends DialogFragment {
     
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate (R.layout.fragment_dialog_client_project_list, container, false);
+        View root = inflater.inflate (R.layout.fragment_dialog_project_list, container, false);
         initView (root);
         initBundle ();
         initData ();

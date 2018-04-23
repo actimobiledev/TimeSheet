@@ -222,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity (this)
                 .withCompactStyle (false)
                 .withTypeface (SetTypeFace.getTypeface (MainActivity.this))
-                .withTypeface (SetTypeFace.getTypeface (this))
                 .withPaddingBelowHeader (false)
                 .withSelectionListEnabled (false)
                 .withSelectionListEnabledForSingleProfile (false)
@@ -240,11 +239,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .build ();
-        headerResult.addProfiles (new ProfileDrawerItem ()
-                .withIcon (R.drawable.user_image)
-                .withName (appDetailsPref.getStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_NAME))
-                .withEmail (appDetailsPref.getStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL)));
-        
+    
+        ProfileDrawerItem profileDrawerItem = new ProfileDrawerItem ();
+        profileDrawerItem.withName (appDetailsPref.getStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_NAME));
+        profileDrawerItem.withEmail (appDetailsPref.getStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL));
+    
+    
+        if (appDetailsPref.getStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_IMAGE).length () > 0) {
+            profileDrawerItem.withIcon (appDetailsPref.getStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_IMAGE));
+        } else {
+            if (appDetailsPref.getStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_GENDER).equalsIgnoreCase ("F")) {
+                profileDrawerItem.withIcon (R.drawable.ic_profile_female);
+            } else {
+                profileDrawerItem.withIcon (R.drawable.ic_profile_male);
+            }
+        }
+        headerResult.addProfiles (profileDrawerItem);
+    
         //case 1: employee
         //case 2: admin
         //case 3: project manager
@@ -459,13 +470,32 @@ public class MainActivity extends AppCompatActivity {
                                     JSONObject jsonObj = new JSONObject (response);
                                     boolean error = jsonObj.getBoolean (AppConfigTags.ERROR);
                                     String message = jsonObj.getString (AppConfigTags.MESSAGE);
-    
+
                                     if (! error) {
-                                        //  swipeRefreshLayout.setRefreshing (false);
+    
+                                        boolean flag = false;
+                                        for (String ext : new String[] {".png", ".jpg", ".jpeg"}) {
+                                            if (jsonObj.getString (AppConfigTags.EMPLOYEE_IMAGE).endsWith (ext)) {
+                                                flag = true;
+                                                break;
+                                            }
+                                        }
+    
+                                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_NAME, jsonObj.getString (AppConfigTags.EMPLOYEE_NAME));
+                                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_MOBILE, jsonObj.getString (AppConfigTags.EMPLOYEE_MOBILE));
+                                        appDetailsPref.putIntPref (MainActivity.this, AppDetailsPref.EMPLOYEE_TYPE, jsonObj.getInt (AppConfigTags.EMPLOYEE_TYPE));
+                                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL, jsonObj.getString (AppConfigTags.EMPLOYEE_WORK_EMAIL));
+                                        appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_GENDER, jsonObj.getString (AppConfigTags.EMPLOYEE_GENDER));
+    
+                                        if (flag) {
+                                            appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_IMAGE, jsonObj.getString (AppConfigTags.EMPLOYEE_IMAGE));
+                                        } else {
+                                            appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_IMAGE, "");
+                                        }
+                                        
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray (AppConfigTags.CLIENTS).toString ());
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray (AppConfigTags.EMPLOYEES).toString ());
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.ROLES, jsonObj.getJSONArray (AppConfigTags.ROLES).toString ());
-                                        
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace ();

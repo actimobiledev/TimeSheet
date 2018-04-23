@@ -113,7 +113,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:src="@drawable/no_project"/>
+                android:src="@drawable/ic_no_projects"/>
             <TextView
                 android:id="@+id/tvNoResultFound"
                 android:layout_width="wrap_content"

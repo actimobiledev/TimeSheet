@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -70,6 +71,7 @@ public class ClientProjectDialogFragment extends DialogFragment {
     TextView tvTitle;
     RelativeLayout rlSearch;
     EditText etSearch;
+    SwipeRefreshLayout swipeRefreshLayout;
     
     
     RelativeLayout rlNoResultFound;
@@ -174,6 +176,7 @@ public class ClientProjectDialogFragment extends DialogFragment {
         etSearch = (EditText) root.findViewById (R.id.etSearch);
         rlSearch = (RelativeLayout) root.findViewById (R.id.rlSearch);
         rlNoResultFound = (RelativeLayout) root.findViewById (R.id.rlNoResultFound);
+        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById (R.id.swipe_refresh_layout);
     }
     
     private void initBundle () {
@@ -185,6 +188,7 @@ public class ClientProjectDialogFragment extends DialogFragment {
         Utils.setTypefaceToAllViews (getActivity (), tvTitle);
         progressDialog = new ProgressDialog (getActivity ());
         appDetailsPref = AppDetailsPref.getInstance ();
+        swipeRefreshLayout.setRefreshing (true);
         
         linearLayoutManager = new LinearLayoutManager (getActivity (), LinearLayoutManager.VERTICAL, false);
         
@@ -330,6 +334,12 @@ public class ClientProjectDialogFragment extends DialogFragment {
                 }
             }
         });
+        swipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
+            @Override
+            public void onRefresh () {
+                setData ();
+            }
+        });
     }
     
     private void setData () {
@@ -378,6 +388,7 @@ public class ClientProjectDialogFragment extends DialogFragment {
                                 Utils.showSnackBar (getActivity (), rlNoResultFound, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
                                 Utils.showLog (Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
                             }
+                            swipeRefreshLayout.setRefreshing (false);
                         }
                     },
                     new Response.ErrorListener () {
@@ -389,6 +400,7 @@ public class ClientProjectDialogFragment extends DialogFragment {
                                 Utils.showLog (Log.ERROR, AppConfigTags.ERROR, new String (response.data), true);
                             }
                             Utils.showSnackBar (getActivity (), rlNoResultFound, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
+                            swipeRefreshLayout.setRefreshing (false);
                         }
                     }) {
                 

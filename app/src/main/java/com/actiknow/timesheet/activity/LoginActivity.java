@@ -281,6 +281,7 @@ public class LoginActivity extends AppCompatActivity {
                                         appDetailsPref.putIntPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_TYPE, jsonObj.getInt (AppConfigTags.EMPLOYEE_TYPE));
                                         appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_WORK_EMAIL, jsonObj.getString (AppConfigTags.EMPLOYEE_WORK_EMAIL));
                                         appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_IMAGE, jsonObj.getString (AppConfigTags.EMPLOYEE_IMAGE));
+                                        appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_GENDER, jsonObj.getString (AppConfigTags.EMPLOYEE_GENDER));
                                         appDetailsPref.putStringPref (LoginActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY, jsonObj.getString (AppConfigTags.EMPLOYEE_LOGIN_KEY));
                                         Intent intent = new Intent (LoginActivity.this, MainActivity.class);
                                         startActivity (intent);

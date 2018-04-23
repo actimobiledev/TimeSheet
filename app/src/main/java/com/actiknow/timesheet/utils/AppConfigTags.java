@@ -43,9 +43,9 @@ public class AppConfigTags {
     public static final String EMPLOYEE_LOGIN_KEY = "employee_login_key";
     public static final String EMPLOYEE_TYPE = "employee_type";
     public static final String EMPLOYEE_ID = "employee_id";
-
-
-
+    public static final String EMPLOYEE_GENDER = "employee_gender";
+    
+    
     public static final String CLIENTS = "clients";
     public static final String CLIENT_ID = "client_id";
     public static final String CLIENT_EMP_ID = "client_emp_id";

@@ -9,6 +9,7 @@ public class AppDetailsPref {
     public static String EMPLOYEE_MOBILE = "employee_mobile";
     public static String EMPLOYEE_WORK_EMAIL = "employee_work_email";
     public static String EMPLOYEE_IMAGE = "employee_image";
+    public static String EMPLOYEE_GENDER = "employee_gender";
     public static String EMPLOYEE_LOGIN_KEY = "employee_login_key";
     public static String EMPLOYEE_TYPE = "employee_type";
     

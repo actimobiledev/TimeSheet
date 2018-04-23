@@ -310,7 +310,7 @@ public class TimeSheetActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArrayHour.length (); i++) {
                                 JSONObject jsonObject2 = jsonArrayHour.getJSONObject (i);
                                 String Date = Utils.dateFormat (jsonObject2.getString (AppConfigTags.DATE));
-    
+                                Log.e ("karman", "date : " + Date);
                                 if (Date.equalsIgnoreCase (tvDate1.getText ().toString ())) {
                                     etMondayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
                                 }
