@@ -121,18 +121,6 @@
                 android:paddingTop="@dimen/activity_margin_small"
                 android:textSize="@dimen/text_size_medium"/>
         </RelativeLayout>
-
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/activity_margin"
-            android:numStars="5"
-            android:rating="1"
-            android:stepSize="0.5"
-            android:visibility="gone"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -141,7 +129,6 @@
             android:textColor="@color/primary_text"
             android:textSize="@dimen/text_size_small"
             android:textStyle="bold"/>
-
         <EditText
             android:id="@+id/etComment"
             android:layout_width="match_parent"
@@ -160,7 +147,6 @@
             android:text="0/256"
             android:textColor="@color/secondary_text"
             android:textSize="@dimen/text_size_small"/>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -208,5 +194,14 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_star"/>
         </LinearLayout>
+        <TextView
+            android:id="@+id/tvStarFeedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:text="Liked it"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_medium"/>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

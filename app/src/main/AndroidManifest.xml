@@ -37,6 +37,8 @@
         <activity android:name=".activity.ProjectDetailActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.MyProfileActivity"
+                  android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.LeaveActivity"
                   android:screenOrientation="portrait"/>

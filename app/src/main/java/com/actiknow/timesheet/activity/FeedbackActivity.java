@@ -58,6 +58,7 @@ public class FeedbackActivity extends AppCompatActivity {
     ImageView ivStar3;
     ImageView ivStar4;
     ImageView ivStar5;
+    TextView tvStarFeedback;
     int rating = 4;
     String feedback_type = "";
     List<String> type_list = new ArrayList<String> ();
@@ -96,6 +97,7 @@ public class FeedbackActivity extends AppCompatActivity {
         ivStar5 = (ImageView) findViewById (R.id.ivStar5);
         etAbout = (EditText) findViewById (R.id.etAbout);
         tvCounterDescription = (TextView) findViewById (R.id.tvCounterDescription);
+        tvStarFeedback = (TextView) findViewById (R.id.tvStarFeedback);
     }
     
     private void initListener () {
@@ -199,6 +201,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 ivStar3.setImageResource (R.drawable.ic_star);
                 ivStar4.setImageResource (R.drawable.ic_star);
                 ivStar5.setImageResource (R.drawable.ic_star);
+                tvStarFeedback.setText ("Hated it");
             }
         });
         ivStar2.setOnClickListener (new View.OnClickListener () {
@@ -210,6 +213,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 ivStar3.setImageResource (R.drawable.ic_star);
                 ivStar4.setImageResource (R.drawable.ic_star);
                 ivStar5.setImageResource (R.drawable.ic_star);
+                tvStarFeedback.setText ("Disliked it");
             }
         });
         ivStar3.setOnClickListener (new View.OnClickListener () {
@@ -221,6 +225,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 ivStar3.setImageResource (R.drawable.ic_start_filled);
                 ivStar4.setImageResource (R.drawable.ic_star);
                 ivStar5.setImageResource (R.drawable.ic_star);
+                tvStarFeedback.setText ("It's OK");
             }
         });
         ivStar4.setOnClickListener (new View.OnClickListener () {
@@ -232,6 +237,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 ivStar3.setImageResource (R.drawable.ic_start_filled);
                 ivStar4.setImageResource (R.drawable.ic_start_filled);
                 ivStar5.setImageResource (R.drawable.ic_star);
+                tvStarFeedback.setText ("Liked it");
             }
         });
         ivStar5.setOnClickListener (new View.OnClickListener () {
@@ -243,6 +249,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 ivStar3.setImageResource (R.drawable.ic_start_filled);
                 ivStar4.setImageResource (R.drawable.ic_start_filled);
                 ivStar5.setImageResource (R.drawable.ic_start_filled);
+                tvStarFeedback.setText ("Loved it");
             }
         });
     }
