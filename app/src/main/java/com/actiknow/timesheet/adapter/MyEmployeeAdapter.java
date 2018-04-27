@@ -280,6 +280,7 @@ public class MyEmployeeAdapter extends RecyclerView.Adapter<MyEmployeeAdapter.Vi
         
         @Override
         public void onClick (View v) {
+            mItemClickListener.onItemClick (v, getLayoutPosition ());
         }
     }
 }

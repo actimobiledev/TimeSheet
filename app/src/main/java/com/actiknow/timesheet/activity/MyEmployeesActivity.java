@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.adapter.MyEmployeeAdapter;
 import com.actiknow.timesheet.dialog.EmployeeListDialogFragment;
+import com.actiknow.timesheet.dialog.MyEmployeeProjectDialogFragment;
 import com.actiknow.timesheet.model.MyEmployee;
 import com.actiknow.timesheet.utils.AppConfigTags;
 import com.actiknow.timesheet.utils.AppConfigURL;
@@ -170,6 +171,20 @@ public class MyEmployeesActivity extends AppCompatActivity {
         myEmployeeAdapter.SetOnItemClickListener (new MyEmployeeAdapter.OnItemClickListener () {
             @Override
             public void onItemClick (View view, int position) {
+                MyEmployee myEmployee = myEmployeesList.get (position);
+    
+                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
+                MyEmployeeProjectDialogFragment fragment = MyEmployeeProjectDialogFragment.newInstance (myEmployee.getProjects_json ());
+                fragment.setOnDialogResultListener (new MyEmployeeProjectDialogFragment.OnDialogResultListener () {
+                    @Override
+                    public void onPositiveResult () {
+                    }
+        
+                    @Override
+                    public void onNegativeResult () {
+                    }
+                });
+                fragment.show (ft, AppConfigTags.PROJECTS);
             }
         });
         swipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {

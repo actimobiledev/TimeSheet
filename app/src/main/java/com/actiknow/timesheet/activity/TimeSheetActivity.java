@@ -141,7 +141,9 @@ public class TimeSheetActivity extends AppCompatActivity {
         rlBack.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View v) {
-                sendProjectDetailsToServer (true);
+                finish ();
+                overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
+//                sendProjectDetailsToServer (true);
             }
         });
         
@@ -351,7 +353,9 @@ public class TimeSheetActivity extends AppCompatActivity {
     
     @Override
     public void onBackPressed () {
-        sendProjectDetailsToServer (true);
+        finish ();
+        overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
+//        sendProjectDetailsToServer (true);
     }
     
     private void sendProjectDetailsToServer (final boolean finish) {
