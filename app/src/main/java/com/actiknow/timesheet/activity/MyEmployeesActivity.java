@@ -1,10 +1,12 @@
 package com.actiknow.timesheet.activity;
 
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,14 +22,19 @@ import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.adapter.MyEmployeeAdapter;
+import com.actiknow.timesheet.dialog.EmployeeListDialogFragment;
 import com.actiknow.timesheet.model.MyEmployee;
 import com.actiknow.timesheet.utils.AppConfigTags;
 import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
 import com.actiknow.timesheet.utils.Constants;
 import com.actiknow.timesheet.utils.NetworkConnection;
+import com.actiknow.timesheet.utils.SetTypeFace;
 import com.actiknow.timesheet.utils.Utils;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -69,7 +76,7 @@ public class MyEmployeesActivity extends AppCompatActivity {
         initData ();
         initAdapter ();
         initListener ();
-        getEmployeeList ();
+        getMyEmployeeList ();
     }
     
     @Override
@@ -127,9 +134,36 @@ public class MyEmployeesActivity extends AppCompatActivity {
         fabAddEmployee.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View view) {
-                Intent intent = new Intent (MyEmployeesActivity.this, AddProjectActivity.class);
-                startActivity (intent);
-                overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
+                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
+                EmployeeListDialogFragment fragment = EmployeeListDialogFragment.newInstance ();
+                fragment.setOnDialogResultListener (new EmployeeListDialogFragment.OnDialogResultListener () {
+                    @Override
+                    public void onPositiveResult (final int emp_id, String employee_name) {
+                        Utils.hideSoftKeyboard (MyEmployeesActivity.this);
+                        MaterialDialog dialog = new MaterialDialog.Builder (MyEmployeesActivity.this)
+                                .content ("Do you wish to add " + employee_name + " to your list?")
+                                .positiveColor (getResources ().getColor (R.color.primary_text))
+                                .contentColor (getResources ().getColor (R.color.primary_text))
+                                .negativeColor (getResources ().getColor (R.color.primary_text))
+                                .typeface (SetTypeFace.getTypeface (MyEmployeesActivity.this), SetTypeFace.getTypeface (MyEmployeesActivity.this))
+                                .canceledOnTouchOutside (true)
+                                .cancelable (true)
+                                .positiveText (R.string.dialog_action_yes)
+                                .negativeText (R.string.dialog_action_no)
+                                .onPositive (new MaterialDialog.SingleButtonCallback () {
+                                    @Override
+                                    public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        addMyEmployee (emp_id);
+                                    }
+                                }).build ();
+                        dialog.show ();
+                    }
+        
+                    @Override
+                    public void onNegativeResult () {
+                    }
+                });
+                fragment.show (ft, AppConfigTags.EMPLOYEES);
             }
         });
         
@@ -141,7 +175,7 @@ public class MyEmployeesActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
             @Override
             public void onRefresh () {
-                getEmployeeList ();
+                getMyEmployeeList ();
             }
         });
     }
@@ -149,11 +183,12 @@ public class MyEmployeesActivity extends AppCompatActivity {
     private void initData () {
         Utils.setTypefaceToAllViews (this, clMain);
         appDetailsPref = AppDetailsPref.getInstance ();
+        progressDialog = new ProgressDialog (this);
         swipeRefreshLayout.setRefreshing (true);
         myEmployeeAdapter = new MyEmployeeAdapter (this, myEmployeesList);
     }
     
-    public void getEmployeeList () {
+    public void getMyEmployeeList () {
         if (NetworkConnection.isNetworkAvailable (MyEmployeesActivity.this)) {
             Utils.showLog (Log.INFO, AppConfigTags.URL, AppConfigURL.MY_EMPLOYEES, true);
             StringRequest strRequest = new StringRequest (Request.Method.GET, AppConfigURL.MY_EMPLOYEES,
@@ -173,9 +208,9 @@ public class MyEmployeesActivity extends AppCompatActivity {
                                             JSONObject jsonObject = jsonArray.getJSONObject (i);
                                             myEmployeesList.add (i, new MyEmployee (
                                                     jsonObject.getInt (AppConfigTags.EMPLOYEE_ID),
-                                                    jsonObj.getString (AppConfigTags.EMPLOYEE_NAME),
-                                                    jsonObj.getJSONArray (AppConfigTags.TOTAL).toString (),
-                                                    jsonObj.getJSONArray (AppConfigTags.PROJECTS).toString ()
+                                                    jsonObject.getString (AppConfigTags.EMPLOYEE_NAME),
+                                                    jsonObject.getJSONArray (AppConfigTags.TOTAL).toString (),
+                                                    jsonObject.getJSONArray (AppConfigTags.PROJECTS).toString ()
                                             ));
                                         }
                                         
@@ -243,6 +278,68 @@ public class MyEmployeesActivity extends AppCompatActivity {
             });
         }
     }
+    
+    private void addMyEmployee (final int employee_id) {
+        if (NetworkConnection.isNetworkAvailable (MyEmployeesActivity.this)) {
+            Utils.showProgressDialog (MyEmployeesActivity.this, progressDialog, getResources ().getString (R.string.progress_dialog_text_please_wait), true);
+            Utils.showLog (Log.INFO, AppConfigTags.URL, AppConfigURL.ADD_MY_EMPLOYEES, true);
+            StringRequest strRequest = new StringRequest (Request.Method.POST, AppConfigURL.ADD_MY_EMPLOYEES,
+                    new Response.Listener<String> () {
+                        @Override
+                        public void onResponse (String response) {
+                            Utils.showLog (Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
+                            if (response != null) {
+                                try {
+                                    JSONObject jsonObj = new JSONObject (response);
+                                    boolean error = jsonObj.getBoolean (AppConfigTags.ERROR);
+                                    String message = jsonObj.getString (AppConfigTags.MESSAGE);
+                                    if (! error) {
+                                        swipeRefreshLayout.setRefreshing (true);
+                                        getMyEmployeeList ();
+                                    } else {
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace ();
+                                }
+                            } else {
+                                Utils.showLog (Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
+                            }
+                            progressDialog.dismiss ();
+                        }
+                    },
+                    new Response.ErrorListener () {
+                        @Override
+                        public void onErrorResponse (VolleyError error) {
+                            progressDialog.dismiss ();
+                            Utils.showLog (Log.ERROR, AppConfigTags.VOLLEY_ERROR, error.toString (), true);
+                        }
+                    })
+            
+            {
+                @Override
+                protected Map<String, String> getParams () throws AuthFailureError {
+                    Map<String, String> params = new Hashtable<> ();
+                    params.put (AppConfigTags.EMPLOYEE_ID, String.valueOf (employee_id));
+                    Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
+                    return params;
+                }
+                
+                @Override
+                public Map<String, String> getHeaders () throws AuthFailureError {
+                    Map<String, String> params = new HashMap<> ();
+                    params.put (AppConfigTags.HEADER_API_KEY, Constants.api_key);
+                    params.put (AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref (MyEmployeesActivity.this, AppDetailsPref.EMPLOYEE_LOGIN_KEY));
+                    Utils.showLog (Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
+                    return params;
+                }
+            };
+            strRequest.setRetryPolicy (new
+                    DefaultRetryPolicy (DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Utils.sendRequest (strRequest, 30);
+        } else {
+        }
+    }
+    
     
     @Override
     public void onBackPressed () {

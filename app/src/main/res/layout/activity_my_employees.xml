@@ -113,7 +113,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_no_projects"/>
+                android:src="@drawable/ic_no_employee"/>
             <TextView
                 android:id="@+id/tvNoResultFound"
                 android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                 android:layout_below="@+id/ivNoResult"
                 android:gravity="center"
                 android:padding="@dimen/activity_margin_small"
-                android:text="No Employee Currenty Added"
+                android:text="No Employee Currently Added"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/text_size_large"/>
         </LinearLayout>

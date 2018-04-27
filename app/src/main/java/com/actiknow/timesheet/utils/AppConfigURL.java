@@ -1,7 +1,7 @@
 package com.actiknow.timesheet.utils;
 
 public class AppConfigURL {
-    public static String version = "v1.2";
+    public static String version = "v1.3";
     
     private static String BASE_URL = "http://34.215.95.251/timesheet/api/" + version + "/";
 //    private static String BASE_URL = " https://project-timesheet-cammy92.c9users.io/api/" + version + "/";
@@ -30,6 +30,8 @@ public class AppConfigURL {
     // public static String PREVIOUS_WEEK =" https://project-timesheet-cammy92.c9users.io/api/v1.0/previous_week_task";
     
     public static String MY_EMPLOYEES = BASE_URL + "manager/employees";
+    public static String DELETE_MY_EMPLOYEES = BASE_URL + "manager/employee";
+    public static String ADD_MY_EMPLOYEES = BASE_URL + "manager/employee";
     
 }
 

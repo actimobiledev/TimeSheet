@@ -141,8 +141,7 @@ public class TimeSheetActivity extends AppCompatActivity {
         rlBack.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View v) {
-                finish ();
-                overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
+                sendProjectDetailsToServer (true);
             }
         });
         
@@ -352,8 +351,7 @@ public class TimeSheetActivity extends AppCompatActivity {
     
     @Override
     public void onBackPressed () {
-        finish ();
-        overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
+        sendProjectDetailsToServer (true);
     }
     
     private void sendProjectDetailsToServer (final boolean finish) {
@@ -416,9 +414,9 @@ public class TimeSheetActivity extends AppCompatActivity {
                                     if (! error) {
                                         projects_json = jsonObj.getJSONArray (AppConfigTags.PROJECTS).toString ();
                                         setData (project_id);
-    
                                         if (finish) {
                                             finish ();
+                                            overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
                                         }
                                     } else {
                                         Utils.showSnackBar (TimeSheetActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);

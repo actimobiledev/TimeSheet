@@ -3,15 +3,25 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/activity_margin">
+    <ImageView
+        android:id="@+id/ivDelete"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="@dimen/activity_margin"
+        android:paddingLeft="@dimen/activity_margin"
+        android:src="@drawable/ic_delete"
+    />
     <TextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:lines="1"
-        android:paddingBottom="@dimen/activity_margin_extra_small"
-        android:paddingTop="@dimen/activity_margin_extra_small"
         android:text="Karman Singh"
         android:textColor="@color/primary_text"
         android:textSize="@dimen/text_size_small"/>
@@ -20,15 +30,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvName"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="Timesheet Status"
+        android:layout_marginTop="@dimen/activity_margin_small"
+        android:text="Current Week"
         android:textColor="@color/secondary_text"
         android:textSize="@dimen/text_size_extra_small"/>
+    <TextView
+        android:id="@+id/tvDateRange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv1"
+        android:layout_marginLeft="@dimen/activity_margin_small"
+        android:layout_toEndOf="@+id/tv1"
+        android:layout_toRightOf="@+id/tv1"
+        android:text="(23/4/18 - 30/4/18)"
+        android:textColor="@color/primary_dark"
+        android:textSize="@dimen/text_size_extra_small"
+
+    />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv1"
+        android:layout_marginTop="@dimen/activity_margin_small"
         android:orientation="horizontal"
         android:weightSum="7.0">
 
@@ -36,15 +59,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:orientation="vertical"
-            android:weightSum="2.0">
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvMonDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="(23/4)"
+                android:textColor="@color/primary_dark"
+                android:textSize="@dimen/text_size_extra_small"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="MON"
+                android:text="(MON)"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_size_extra_small"/>
+                android:textSize="@dimen/text_size_extreme_small"/>
             <TextView
                 android:id="@+id/tvMonTotal"
                 android:layout_width="wrap_content"
@@ -58,17 +88,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:orientation="vertical"
-            android:weightSum="2.0">
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvTueDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="(23/4)"
+                android:textColor="@color/primary_dark"
+                android:textSize="@dimen/text_size_extra_small"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:ellipsize="end"
                 android:lines="1"
-                android:text="TUE"
+                android:text="(TUE)"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_size_extra_small"/>
+                android:textSize="@dimen/text_size_extreme_small"/>
             <TextView
                 android:id="@+id/tvTueTotal"
                 android:layout_width="wrap_content"
@@ -84,15 +121,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:orientation="vertical"
-            android:weightSum="2.0">
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvWedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="(23/4)"
+                android:textColor="@color/primary_dark"
+                android:textSize="@dimen/text_size_extra_small"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="WED"
+                android:text="(WED)"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_size_extra_small"/>
+                android:textSize="@dimen/text_size_extreme_small"/>
             <TextView
                 android:id="@+id/tvWedTotal"
                 android:layout_width="wrap_content"
@@ -106,15 +150,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:orientation="vertical"
-            android:weightSum="2.0">
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvThurDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="(23/4)"
+                android:textColor="@color/primary_dark"
+                android:textSize="@dimen/text_size_extra_small"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="THUR"
+                android:text="(THUR)"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_size_extra_small"/>
+                android:textSize="@dimen/text_size_extreme_small"/>
             <TextView
                 android:id="@+id/tvThurTotal"
                 android:layout_width="wrap_content"
@@ -128,15 +179,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:orientation="vertical"
-            android:weightSum="2.0">
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvFriDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="(23/4)"
+                android:textColor="@color/primary_dark"
+                android:textSize="@dimen/text_size_extra_small"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="FRI"
+                android:text="(FRI)"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_size_extra_small"/>
+                android:textSize="@dimen/text_size_extreme_small"/>
             <TextView
                 android:id="@+id/tvFriTotal"
                 android:layout_width="wrap_content"
@@ -150,15 +208,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:orientation="vertical"
-            android:weightSum="2.0">
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvSatDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="(23/4)"
+                android:textColor="@color/primary_dark"
+                android:textSize="@dimen/text_size_extra_small"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="SAT"
+                android:text="(SAT)"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_size_extra_small"/>
+                android:textSize="@dimen/text_size_extreme_small"/>
             <TextView
                 android:id="@+id/tvSatTotal"
                 android:layout_width="wrap_content"
@@ -172,15 +237,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:orientation="vertical"
-            android:weightSum="2.0">
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvSunDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="(23/4)"
+                android:textColor="@color/primary_dark"
+                android:textSize="@dimen/text_size_extra_small"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="SUN"
+                android:text="(SUN)"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_size_extra_small"/>
+                android:textSize="@dimen/text_size_extreme_small"/>
             <TextView
                 android:id="@+id/tvSunTotal"
                 android:layout_width="wrap_content"
