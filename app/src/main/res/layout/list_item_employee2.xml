@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/activity_margin_small"
+    android:layout_marginTop="@dimen/activity_margin_small">
     <TextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"
@@ -27,5 +28,17 @@
         android:text="Developer"
         android:textColor="@color/secondary_text"
         android:textSize="@dimen/text_size_extra_small"/>
+    <ImageView
+        android:id="@+id/ivDelete"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="@dimen/activity_margin_small"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingTop="@dimen/activity_margin_small"
+        android:src="@drawable/ic_delete"
+    />
 
 </RelativeLayout>

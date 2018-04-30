@@ -146,6 +146,7 @@ public class MyProjectActivity extends AppCompatActivity {
                     jsonObject = new JSONArray (allProject).getJSONObject (position);
                     Intent intent = new Intent (MyProjectActivity.this, ProjectDetailActivity.class);
                     intent.putExtra (AppConfigTags.PROJECT, jsonObject.toString ());
+                    intent.putExtra (AppConfigTags.PROJECT_ID, projectList.get (position).getId ());
                     startActivity (intent);
                     overridePendingTransition (R.anim.slide_in_right, R.anim.slide_out_left);
     
@@ -167,7 +168,6 @@ public class MyProjectActivity extends AppCompatActivity {
         appDetailsPref = AppDetailsPref.getInstance ();
         swipeRefreshLayout.setRefreshing (true);
         projectAdapter = new ProjectAdapter (this, projectList);
-        
     }
     
     

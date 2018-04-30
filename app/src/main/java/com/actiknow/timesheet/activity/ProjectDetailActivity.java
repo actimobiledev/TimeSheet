@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,7 +31,6 @@ import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
 import com.actiknow.timesheet.utils.Constants;
 import com.actiknow.timesheet.utils.NetworkConnection;
-import com.actiknow.timesheet.utils.RecyclerViewMargin;
 import com.actiknow.timesheet.utils.SetTypeFace;
 import com.actiknow.timesheet.utils.Utils;
 import com.afollestad.materialdialogs.DialogAction;
@@ -66,12 +66,12 @@ public class ProjectDetailActivity extends AppCompatActivity {
     List<Role> roleList = new ArrayList<Role> ();
     int role_id;
     int employee_id = 0;
+    FloatingActionButton fabAddEmployee;
     private RelativeLayout rlBack;
     private TextView tvClientName;
     private TextView tvProjectName;
     private TextView tvProjectDescription;
     private RecyclerView rvEmployees;
-    private TextView tvAddEmployee;
     private TextView tvNoEmployeeAssigned;
     private TextView tvProjectAllottedHours;
     
@@ -79,15 +79,16 @@ public class ProjectDetailActivity extends AppCompatActivity {
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_project_detail);
+        initBundle ();
         initView ();
         initData ();
-        initAdapter ();
         initListener ();
+        initAdapter ();
         setData ();
     }
     
     private void initListener () {
-        tvAddEmployee.setOnClickListener (new View.OnClickListener () {
+        fabAddEmployee.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View view) {
                 FragmentTransaction ft = getFragmentManager ().beginTransaction ();
@@ -196,10 +197,10 @@ public class ProjectDetailActivity extends AppCompatActivity {
         tvClientName = (TextView) findViewById (R.id.tvClientName);
         tvProjectDescription = (TextView) findViewById (R.id.tvProjectDescription);
         tvProjectAllottedHours = (TextView) findViewById (R.id.tvProjectAllottedHours);
-        tvAddEmployee = (TextView) findViewById (R.id.tvAddEmployee);
         rvEmployees = (RecyclerView) findViewById (R.id.rvEmployees);
         clMain = (CoordinatorLayout) findViewById (R.id.clMain);
         tvNoEmployeeAssigned = (TextView) findViewById (R.id.tvNoEmployeeAssigned);
+        fabAddEmployee = (FloatingActionButton) findViewById (R.id.fabAddEmployee);
     }
     
     private void initData () {
@@ -208,22 +209,30 @@ public class ProjectDetailActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog (this);
     }
     
+    private void initBundle () {
+        project_id = getIntent ().getExtras ().getInt (AppConfigTags.PROJECT_ID);
+        projects = getIntent ().getExtras ().getString (AppConfigTags.PROJECT);
+    }
+    
     private void initAdapter () {
-        employee2Adapter = new Employee2Adapter (ProjectDetailActivity.this, employee2List);
+        employee2Adapter = new Employee2Adapter (ProjectDetailActivity.this, employee2List, project_id);
         rvEmployees.setAdapter (employee2Adapter);
         rvEmployees.setHasFixedSize (true);
-        rvEmployees.setLayoutManager (new LinearLayoutManager (this, LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager (this, LinearLayoutManager.VERTICAL, false);
+        rvEmployees.setLayoutManager (linearLayoutManager);
+/*
         rvEmployees.addItemDecoration (new RecyclerViewMargin (
                 (int) Utils.pxFromDp (this, 4),
                 (int) Utils.pxFromDp (this, 4),
                 (int) Utils.pxFromDp (this, 0),
                 (int) Utils.pxFromDp (this, 0),
                 1, 0, RecyclerViewMargin.LAYOUT_MANAGER_LINEAR, RecyclerViewMargin.ORIENTATION_VERTICAL));
+*/
+        
         rvEmployees.setItemAnimator (new DefaultItemAnimator ());
     }
     
     private void setData () {
-        projects = getIntent ().getExtras ().getString (AppConfigTags.PROJECT);
         try {
             JSONObject jsonObject = new JSONObject (projects);
             project_id = jsonObject.getInt (AppConfigTags.PROJECT_ID);
