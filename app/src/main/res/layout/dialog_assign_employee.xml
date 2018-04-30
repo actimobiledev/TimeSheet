@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -34,12 +33,19 @@
         android:textSize="@dimen/text_size_small"
         android:textStyle="bold"
         android:visibility="visible"/>
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/spinner"
+
+    <EditText
+        android:id="@+id/etRole"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:ms_background_color="@color/app_background_color"
-        app:ms_text_color="@color/primary_text"/>
+        android:background="@drawable/et_background"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingBottom="@dimen/activity_margin_small"
+        android:paddingTop="@dimen/activity_margin_small"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_medium"
+        android:visibility="visible"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

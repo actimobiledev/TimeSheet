@@ -114,5 +114,5 @@ public class AppConfigTags {
     public static final String UPDATE_MESSAGE = "update_message";
     public static final String VERSION_CRITICAL = "version_critical";
     
-    
+    public static final String SERVER_DATE = "server_date";
 }

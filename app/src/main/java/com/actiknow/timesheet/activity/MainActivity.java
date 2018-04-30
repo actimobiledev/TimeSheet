@@ -62,12 +62,16 @@ import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    String server_date = "";
     Bundle savedInstanceState;
     AppDetailsPref appDetailsPref;
     RelativeLayout rlNoResultFound;
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvTitle;
     RelativeLayout rlBack;
     SwipeRefreshLayout swipeRefreshLayout;
+    private int DATE_REQUEST_CODE = 0;
     private AccountHeader headerResult = null;
     private Drawer result = null;
     
@@ -119,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         projectAdapter.SetOnItemClickListener (new ProjectAdapter.OnItemClickListener () {
-            
             @Override
             public void onItemClick (View view, int position) {
                 Project project = projectList.get (position);
@@ -507,7 +511,40 @@ public class MainActivity extends AppCompatActivity {
                                         } else {
                                             appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEE_IMAGE, "");
                                         }
-        
+    
+                                        server_date = jsonObj.getString (AppConfigTags.SERVER_DATE);
+                                        SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd");
+                                        String date1 = sdf.format (sdf.parse (server_date));
+                                        String date2 = sdf.format (Calendar.getInstance ().getTime ());
+                                        if (! date1.equalsIgnoreCase (date2)) {
+                                            MaterialDialog dialog = new MaterialDialog.Builder (MainActivity.this)
+                                                    .title ("Incorrect Date Found")
+                                                    .content ("Please update the date/time of the device to current date in order to proceed")
+                                                    .titleColor (getResources ().getColor (R.color.primary_text))
+                                                    .positiveColor (getResources ().getColor (R.color.primary_text))
+                                                    .contentColor (getResources ().getColor (R.color.primary_text))
+                                                    .negativeColor (getResources ().getColor (R.color.primary_text))
+                                                    .typeface (SetTypeFace.getTypeface (MainActivity.this), SetTypeFace.getTypeface (MainActivity.this))
+                                                    .canceledOnTouchOutside (false)
+                                                    .cancelable (false)
+                                                    .positiveText (R.string.dialog_action_settings)
+                                                    .negativeText (R.string.dialog_action_exit)
+                                                    .onPositive (new MaterialDialog.SingleButtonCallback () {
+                                                        @Override
+                                                        public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                            startActivityForResult (new Intent (android.provider.Settings.ACTION_DATE_SETTINGS), DATE_REQUEST_CODE);
+                                                        }
+                                                    })
+                                                    .onNegative (new MaterialDialog.SingleButtonCallback () {
+                                                        @Override
+                                                        public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                            finish ();
+                                                            overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
+                                                        }
+                                                    }).build ();
+                                            dialog.show ();
+                                        }
+                                        
                                         if (jsonObj.getInt (AppConfigTags.VERSION_UPDATE) > 0) {
                                             if (jsonObj.getInt (AppConfigTags.VERSION_CRITICAL) == 1) {
                                                 MaterialDialog dialog = new MaterialDialog.Builder (MainActivity.this)
@@ -572,7 +609,6 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                         
-                                        
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.CLIENTS, jsonObj.getJSONArray (AppConfigTags.CLIENTS).toString ());
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.EMPLOYEES, jsonObj.getJSONArray (AppConfigTags.EMPLOYEES).toString ());
                                         appDetailsPref.putStringPref (MainActivity.this, AppDetailsPref.ROLES, jsonObj.getJSONArray (AppConfigTags.ROLES).toString ());
@@ -615,6 +651,50 @@ public class MainActivity extends AppCompatActivity {
             strRequest.setRetryPolicy (new DefaultRetryPolicy (DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             Utils.sendRequest (strRequest, 30);
         } else {
+        }
+    }
+    
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult (requestCode, resultCode, data);
+            if (requestCode == DATE_REQUEST_CODE) {
+                SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd", Locale.US);
+                String date1 = sdf.format (sdf.parse (server_date));
+                String date2 = sdf.format (Calendar.getInstance ().getTime ());
+                if (! date1.equalsIgnoreCase (date2)) {
+                    MaterialDialog dialog = new MaterialDialog.Builder (MainActivity.this)
+                            .title ("Incorrect Date Found")
+                            .content ("Please update the date/time of the device to current date in order to proceed")
+                            .titleColor (getResources ().getColor (R.color.primary_text))
+                            .positiveColor (getResources ().getColor (R.color.primary_text))
+                            .contentColor (getResources ().getColor (R.color.primary_text))
+                            .negativeColor (getResources ().getColor (R.color.primary_text))
+                            .typeface (SetTypeFace.getTypeface (MainActivity.this), SetTypeFace.getTypeface (MainActivity.this))
+                            .canceledOnTouchOutside (false)
+                            .cancelable (false)
+                            .positiveText (R.string.dialog_action_settings)
+                            .negativeText (R.string.dialog_action_exit)
+                            .onPositive (new MaterialDialog.SingleButtonCallback () {
+                                @Override
+                                public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    startActivityForResult (new Intent (android.provider.Settings.ACTION_DATE_SETTINGS), DATE_REQUEST_CODE);
+                                }
+                            })
+                            .onNegative (new MaterialDialog.SingleButtonCallback () {
+                                @Override
+                                public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    finish ();
+                                    overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
+                                }
+                            }).build ();
+//                                            dialog.getActionButton (DialogAction.POSITIVE).setOnClickListener (new CustomListener2 (MainActivity.this, dialog, DialogAction.POSITIVE));
+//                                            dialog.getActionButton (DialogAction.NEGATIVE).setOnClickListener (new CustomListener2 (MainActivity.this, dialog, DialogAction.NEGATIVE));
+                    dialog.show ();
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace ();
         }
     }
     

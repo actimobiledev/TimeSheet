@@ -40,7 +40,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -103,16 +102,16 @@ public class ProjectDetailActivity extends AppCompatActivity {
                                 .positiveText (R.string.dialog_action_save)
                                 .negativeText (R.string.dialog_action_cancel);
                         final MaterialDialog dialog = builder.build ();
-            
+    
                         final TextView tvEmployeeName = dialog.getCustomView ().findViewById (R.id.tvEmployeeName);
                         final TextView tvCounterDescription = dialog.getCustomView ().findViewById (R.id.tvCounterDescription);
                         final EditText etDescription = dialog.getCustomView ().findViewById (R.id.etDescription);
-                        MaterialSpinner spinner = dialog.getCustomView ().findViewById (R.id.spinner);
-            
+                        final EditText etRole = dialog.getCustomView ().findViewById (R.id.etRole);
+                        
                         Utils.setTypefaceToAllViews (ProjectDetailActivity.this, tvEmployeeName);
-            
+    
                         tvEmployeeName.setText (employee_name);
-            
+    
                         etDescription.addTextChangedListener (new TextWatcher () {
                             @Override
                             public void onTextChanged (CharSequence s, int start, int before, int count) {
@@ -126,31 +125,43 @@ public class ProjectDetailActivity extends AppCompatActivity {
                                     tvCounterDescription.setTextColor (getResources ().getColor (R.color.secondary_text));
                                 }
                             }
-                
+        
                             @Override
                             public void beforeTextChanged (CharSequence s, int start, int count, int after) {
                             }
-                
+        
                             @Override
                             public void afterTextChanged (Editable s) {
                             }
                         });
-            
-                        spinner.setItems (roleTitleList);
-                        spinner.setTypeface (SetTypeFace.getTypeface (ProjectDetailActivity.this));
-                        role_id = roleList.get (spinner.getSelectedIndex ()).getRole_id ();
-                        spinner.setOnItemSelectedListener (new MaterialSpinner.OnItemSelectedListener<String> () {
+    
+    
+                        etRole.setText (roleList.get (0).getRole_title ());
+                        role_id = roleList.get (0).getRole_id ();
+    
+                        etRole.setOnClickListener (new View.OnClickListener () {
                             @Override
-                            public void onItemSelected (MaterialSpinner view, int position, long id, String item) {
-                                for (int i = 0; i < roleList.size (); i++) {
-                                    Role role = roleList.get (i);
-                                    if (role.getRole_title ().equalsIgnoreCase (item)) {
-                                        role_id = role.getRole_id ();
-                                    }
-                                }
+                            public void onClick (View v) {
+                                new MaterialDialog.Builder (ProjectDetailActivity.this)
+                                        .items (roleTitleList)
+                                        .typeface (SetTypeFace.getTypeface (ProjectDetailActivity.this), SetTypeFace.getTypeface (ProjectDetailActivity.this))
+                                        .itemsCallback (new MaterialDialog.ListCallback () {
+                                            @Override
+                                            public void onSelection (MaterialDialog dialog, View view, int which, CharSequence text) {
+                                                etRole.setText (text.toString ());
+                                                for (int i = 0; i < roleList.size (); i++) {
+                                                    Role role = roleList.get (i);
+                                                    if (role.getRole_title ().equalsIgnoreCase (text.toString ())) {
+                                                        role_id = role.getRole_id ();
+                                                    }
+                                                }
+                                                etRole.setError (null);
+                                            }
+                                        })
+                                        .show ();
                             }
                         });
-            
+    
                         builder.onPositive (new MaterialDialog.SingleButtonCallback () {
                             @Override
                             public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -158,10 +169,10 @@ public class ProjectDetailActivity extends AppCompatActivity {
                                 assignProject (project_id, employee_id, role_id, etDescription.getText ().toString ().trim ());
                             }
                         });
-            
+    
                         dialog.show ();
                     }
-        
+    
                     @Override
                     public void onNegativeResult () {
                     }
@@ -232,7 +243,7 @@ public class ProjectDetailActivity extends AppCompatActivity {
             } else {
                 tvNoEmployeeAssigned.setVisibility (View.GONE);
                 rvEmployees.setVisibility (View.VISIBLE);
-        
+    
                 for (int i = 0; i < employees.length (); i++) {
                     JSONObject employee = employees.getJSONObject (i);
                     employee2List.add (i, new Employee2 (
