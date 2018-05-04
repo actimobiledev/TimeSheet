@@ -115,4 +115,13 @@ public class AppConfigTags {
     public static final String VERSION_CRITICAL = "version_critical";
     
     public static final String SERVER_DATE = "server_date";
+    
+    
+    public static final String TYPES = "types";
+    public static final String TYPE_ID = "type_id";
+    public static final String TYPE_NAME = "type_name";
+    public static final String TYPE_STATUS = "type_status";
+    public static final String AVAILED = "availed";
+    public static final String REMAINING = "remaining";
+    
 }

@@ -29,5 +29,7 @@ public class AppConfigURL {
     
     public static String DELETE_PROJECT_OWNER = BASE_URL + "";
     
+    public static String URL_LEAVE_PORTAL = BASE_URL + "leave-portal";
+    
 }
 
