@@ -1,81 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/activity_margin_small"
-    android:background="@drawable/bg_question"
-    android:orientation="vertical"
-    android:padding="@dimen/edittext_padding">
-
+    android:layout_margin="@dimen/activity_margin"
+    android:orientation="vertical">
     <TextView
         android:id="@+id/tvType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Casual"
+        android:text="Casual Leave"
         android:textColor="@color/primary_text"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_small"
         android:textStyle="bold"/>
-
-    <TableLayout
-        android:id="@+id/tlLeaveStatus"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tvAvailed"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvType">
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:text="Available"
-                android:textColor="@color/secondary_text"
-                android:textSize="@dimen/text_size_small"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:paddingLeft="@dimen/edittext_padding"
-                android:paddingRight="@dimen/edittext_padding"
-                android:text=":"/>
-
-            <TextView
-                android:id="@+id/tvAvailable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3"
-                android:text="1"/>
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:text="Availed"
-                android:textColor="@color/secondary_text"
-                android:textSize="@dimen/text_size_small"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="2"
-                android:paddingLeft="@dimen/edittext_padding"
-                android:paddingRight="@dimen/edittext_padding"
-                android:text=":"/>
-
-
-            <TextView
-                android:id="@+id/tvAvailed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="3"
-                android:text="1"/>
-
-
-        </TableRow>
-
-
-    </TableLayout>
-
-</RelativeLayout>
+        android:text="Leaves Availed : "
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
+    <TextView
+        android:id="@+id/tvFrom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Leave From : "
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
+    <TextView
+        android:id="@+id/tvTill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Leave Till : "
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description : "
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
+    <TextView
+        android:id="@+id/tvAppliedAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Applied At : "
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Status : "
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
+    <TextView
+        android:id="@+id/tvUpdatedBy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Updated By : "
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
+    <TextView
+        android:id="@+id/tvUpdatedAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Updated At : "
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"/>
+</LinearLayout>

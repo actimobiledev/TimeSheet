@@ -104,8 +104,9 @@ public class AppConfigTags {
     public static final String NEW_PASSWORD = "new_password";
     public static final String APP_VERSION = "app_version";
     public static final String DEVICE = "device";
-
-
+    public static final String FIREBASE_ID = "firebase_id";
+    
+    
     public static final String FEEDBACK_TYPE = "feedback_type";
     public static final String RATING = "rating";
     
@@ -124,4 +125,16 @@ public class AppConfigTags {
     public static final String AVAILED = "availed";
     public static final String REMAINING = "remaining";
     
+    public static final String LEAVES = "leaves";
+    public static final String LEAVE_STATUS = "leave_status";
+    public static final String LEAVE_TYPE = "leave_type";
+    public static final String LEAVE_AVAILED = "leave_availed";
+    public static final String LEAVE_FROM = "leave_from";
+    public static final String LEAVE_TILL = "leave_till";
+    public static final String LEAVE_DESCRIPTION = "leave_description";
+    public static final String LEAVE_REMARK = "leave_remark";
+    public static final String LEAVE_UPDATED_AT = "leave_updated_at";
+    public static final String LEAVE_UPDATED_BY = "leave_updated_by";
+    public static final String LEAVE_CREATED_AT = "leave_created_at";
+    public static final String REQUEST_ID = "request_id";
 }

@@ -219,8 +219,8 @@ public class TimeSheetActivity extends AppCompatActivity {
         
         project_id = getIntent ().getExtras ().getInt (AppConfigTags.PROJECT_ID, 0);
         projects_json = getIntent ().getExtras ().getString (AppConfigTags.PROJECTS, "");
-        
-        Calendar c = Calendar.getInstance ();
+    
+        Calendar c = Calendar.getInstance (Locale.GERMAN);
         c.set (Calendar.DAY_OF_WEEK, c.MONDAY);
         DateFormat df = new SimpleDateFormat ("dd/MM/yyyy", Locale.US);
         for (int i = 1; i < 8; i++) {

@@ -1,12 +1,12 @@
 package com.actiknow.timesheet.activity;
 
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -16,8 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
-import com.actiknow.timesheet.adapter.LeaveAdapter;
-import com.actiknow.timesheet.model.Leave;
+import com.actiknow.timesheet.adapter.LeaveTypeAdapter;
+import com.actiknow.timesheet.dialog.LeavesListDialogFragment;
+import com.actiknow.timesheet.model.LeaveType;
 import com.actiknow.timesheet.utils.AppConfigTags;
 import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
@@ -48,13 +49,14 @@ public class LeavePortalActivity extends AppCompatActivity {
     CoordinatorLayout clMain;
     TextView tvTitle;
     RelativeLayout rlBack;
-    LeaveAdapter leaveAdapter;
-    ArrayList<Leave> leaveList = new ArrayList<> ();
+    RelativeLayout rlMyLeaves;
+    LeaveTypeAdapter leaveTypeAdapter;
+    ArrayList<LeaveType> leaveTypeList = new ArrayList<> ();
     ProgressDialog progressDialog;
     AppDetailsPref appDetailsPref;
     
-    SwipeRefreshLayout swipeRefreshLayout;
     JSONArray jsonArrayLeaves;
+    String leaves_json = "";
     
     
     @Override
@@ -79,12 +81,11 @@ public class LeavePortalActivity extends AppCompatActivity {
         rvLeave = (RecyclerView) findViewById (R.id.rvLeave);
         tvTitle = (TextView) findViewById (R.id.tvTitle);
         rlBack = (RelativeLayout) findViewById (R.id.rlBack);
-        
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById (R.id.swipe_refresh_layout);
+        rlMyLeaves = (RelativeLayout) findViewById (R.id.rlMyLeaves);
     }
     
     private void initAdapter () {
-        rvLeave.setAdapter (leaveAdapter);
+        rvLeave.setAdapter (leaveTypeAdapter);
         rvLeave.setHasFixedSize (true);
         rvLeave.setHasFixedSize (true);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager (2, StaggeredGridLayoutManager.VERTICAL);
@@ -106,20 +107,41 @@ public class LeavePortalActivity extends AppCompatActivity {
                 overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
-        
-        leaveAdapter.SetOnItemClickListener (new LeaveAdapter.OnItemClickListener () {
+    
+        leaveTypeAdapter.SetOnItemClickListener (new LeaveTypeAdapter.OnItemClickListener () {
             @Override
             public void onItemClick (View view, int position) {
-//                Leave myLeave = leavePortalList.get (position);
-//                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
-//                LeaveDetailDialogFragment fragment = LeaveDetailDialogFragment.newInstance (jsonArrayLeaves.toString(),myLeave.getType_id());
-//                fragment.show (ft, AppConfigTags.PROJECTS);
+                LeaveType leaveType = leaveTypeList.get (position);
+                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
+                LeavesListDialogFragment fragment = LeavesListDialogFragment.newInstance (leaves_json, leaveType.getType_id ());
+                fragment.setOnDialogResultListener (new LeavesListDialogFragment.OnDialogResultListener () {
+                    @Override
+                    public void onPositiveResult () {
+                    }
+        
+                    @Override
+                    public void onNegativeResult () {
+                    }
+                });
+                fragment.show (ft, AppConfigTags.LEAVES);
             }
         });
-        swipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
+    
+        rlMyLeaves.setOnClickListener (new View.OnClickListener () {
             @Override
-            public void onRefresh () {
-                getLeavePortal ();
+            public void onClick (View v) {
+                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
+                LeavesListDialogFragment fragment = LeavesListDialogFragment.newInstance (leaves_json, 0);
+                fragment.setOnDialogResultListener (new LeavesListDialogFragment.OnDialogResultListener () {
+                    @Override
+                    public void onPositiveResult () {
+                    }
+        
+                    @Override
+                    public void onNegativeResult () {
+                    }
+                });
+                fragment.show (ft, AppConfigTags.LEAVES);
             }
         });
     }
@@ -128,8 +150,7 @@ public class LeavePortalActivity extends AppCompatActivity {
         Utils.setTypefaceToAllViews (this, clMain);
         appDetailsPref = AppDetailsPref.getInstance ();
         progressDialog = new ProgressDialog (this);
-        swipeRefreshLayout.setRefreshing (true);
-        leaveAdapter = new LeaveAdapter (this, leaveList);
+        leaveTypeAdapter = new LeaveTypeAdapter (this, leaveTypeList);
     }
     
     public void getLeavePortal () {
@@ -142,25 +163,28 @@ public class LeavePortalActivity extends AppCompatActivity {
                             Utils.showLog (Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
                             if (response != null) {
                                 try {
-                                    leaveList.clear ();
+                                    leaveTypeList.clear ();
                                     JSONObject jsonObj = new JSONObject (response);
                                     boolean is_error = jsonObj.getBoolean (AppConfigTags.ERROR);
                                     String message = jsonObj.getString (AppConfigTags.MESSAGE);
                                     if (! is_error) {
+                                        leaves_json = jsonObj.getJSONArray (AppConfigTags.LEAVES).toString ();
                                         JSONArray jsonArray = jsonObj.getJSONArray (AppConfigTags.TYPES);
-//                                        jsonArrayLeaves = jsonObj.getJSONArray (AppConfigTags.LEAVES);
+                                        appDetailsPref.putStringPref (LeavePortalActivity.this, AppDetailsPref.LEAVE_TYPES, jsonArray.toString ());
                                         for (int i = 0; i < jsonArray.length (); i++) {
                                             JSONObject jsonObject = jsonArray.getJSONObject (i);
-                                            leaveList.add (i, new Leave (
-                                                    jsonObject.getInt (AppConfigTags.TYPE_ID),
-                                                    jsonObject.getString (AppConfigTags.TYPE_NAME),
-                                                    jsonObject.getString (AppConfigTags.TYPE_STATUS),
-                                                    jsonObject.getString (AppConfigTags.TOTAL),
-                                                    jsonObject.getString (AppConfigTags.AVAILED),
-                                                    jsonObject.getString (AppConfigTags.REMAINING)
-                                            ));
+                                            if (jsonObject.getDouble (AppConfigTags.AVAILED) != 0 || jsonObject.getDouble (AppConfigTags.REMAINING) != 0) {
+                                                leaveTypeList.add (new LeaveType (
+                                                        jsonObject.getInt (AppConfigTags.TYPE_ID),
+                                                        jsonObject.getString (AppConfigTags.TYPE_NAME),
+                                                        jsonObject.getString (AppConfigTags.TYPE_STATUS),
+                                                        jsonObject.getString (AppConfigTags.TOTAL),
+                                                        jsonObject.getString (AppConfigTags.AVAILED),
+                                                        jsonObject.getString (AppConfigTags.REMAINING)
+                                                ));
+                                            }
                                         }
-                                        leaveAdapter.notifyDataSetChanged ();
+                                        leaveTypeAdapter.notifyDataSetChanged ();
                                     } else {
                                         Utils.showSnackBar (LeavePortalActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
@@ -172,13 +196,11 @@ public class LeavePortalActivity extends AppCompatActivity {
                                 Utils.showSnackBar (LeavePortalActivity.this, clMain, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
                                 Utils.showLog (Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
                             }
-                            swipeRefreshLayout.setRefreshing (false);
                         }
                     },
                     new Response.ErrorListener () {
                         @Override
                         public void onErrorResponse (VolleyError error) {
-                            swipeRefreshLayout.setRefreshing (false);
                             Utils.showLog (Log.ERROR, AppConfigTags.VOLLEY_ERROR, error.toString (), true);
                             NetworkResponse response = error.networkResponse;
                             if (response != null && response.data != null) {
@@ -207,7 +229,6 @@ public class LeavePortalActivity extends AppCompatActivity {
             };
             Utils.sendRequest (strRequest, 5);
         } else {
-            swipeRefreshLayout.setRefreshing (false);
             Utils.showSnackBar (LeavePortalActivity.this, clMain, getResources ().getString (R.string.snackbar_text_no_internet_connection_available), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_go_to_settings), new View.OnClickListener () {
                 @Override
                 public void onClick (View v) {

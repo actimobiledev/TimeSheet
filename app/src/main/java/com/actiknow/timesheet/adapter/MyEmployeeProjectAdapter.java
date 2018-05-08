@@ -53,7 +53,7 @@ public class MyEmployeeProjectAdapter extends RecyclerView.Adapter<MyEmployeePro
             JSONArray jsonArray = new JSONArray (project.getHours_json ());
             for (int i = 0; i < jsonArray.length (); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject (i);
-                Calendar c = Calendar.getInstance ();
+                Calendar c = Calendar.getInstance (Locale.GERMAN);
                 c.set (Calendar.DAY_OF_WEEK, c.MONDAY);
                 DateFormat df = new SimpleDateFormat ("yyyy-MM-dd", Locale.US);
                 DateFormat df3 = new SimpleDateFormat ("dd/MM", Locale.US);

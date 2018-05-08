@@ -12,17 +12,14 @@ public class AppDetailsPref {
     public static String EMPLOYEE_GENDER = "employee_gender";
     public static String EMPLOYEE_LOGIN_KEY = "employee_login_key";
     public static String EMPLOYEE_TYPE = "employee_type";
+    public static String FIREBASE_ID = "firebase_id";
     
     public static String CLIENTS = "clients";
     public static String EMPLOYEES = "employees";
     public static String ROLES = "roles";
-
-
-
-
-
-
-
+    
+    public static String LEAVE_TYPES = "leave_types";
+    
     
     private static AppDetailsPref appDetailsPref;
     private String APP_DETAILS = "APP_DETAILS";

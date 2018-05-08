@@ -16,7 +16,8 @@ import java.util.List;
 
 
 public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.ViewHolder> {
-    private OnItemClickListener mItemClickListener;
+    OnItemClickListener mItemClickListener;
+    
     private Activity activity;
     private List<Leave> leaveList = new ArrayList<> ();
     
@@ -33,12 +34,32 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.ViewHolder> 
     }
     
     @Override
-    public void onBindViewHolder (final ViewHolder holder, int position) {//        runEnterAnimation (holder.itemView);
+    public void onBindViewHolder (final ViewHolder holder, int position) {
         final Leave leave = leaveList.get (position);
         Utils.setTypefaceToAllViews (activity, holder.tvType);
-        holder.tvType.setText (leave.getType_name ());
-        holder.tvAvailable.setText (leave.getRemaining ());
-        holder.tvAvailed.setText (leave.getAvailed ());
+        holder.tvType.setText ("Leave Type : " + leave.getType_name ());
+        holder.tvAvailed.setText ("Leaves Availed : " + leave.getLeaves_availed ());
+        holder.tvFrom.setText ("Leave From : " + leave.getLeave_from ());
+        holder.tvTill.setText ("Leave Till : " + leave.getLeave_till ());
+        holder.tvDescription.setText ("Description : " + leave.getDescription ());
+        holder.tvAppliedAt.setText ("Applied At : " + leave.getApplied_at ());
+        switch (leave.getStatus ()) {
+            case 0:
+                holder.tvStatus.setText ("Status : " + leave.getStatus ());
+                break;
+            case 1:
+                holder.tvStatus.setText ("Status : " + leave.getStatus ());
+                break;
+            case 2:
+                holder.tvStatus.setText ("Status : " + leave.getStatus ());
+                break;
+            case 3:
+                holder.tvStatus.setText ("Status : " + leave.getStatus ());
+                break;
+        }
+    
+        holder.tvUpdatedBy.setText ("Updated By : " + leave.getUpdated_by ());
+        holder.tvUpdatedAt.setText ("Updated At : " + leave.getUpdated_at ());
     }
     
     @Override
@@ -50,21 +71,32 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.ViewHolder> 
         this.mItemClickListener = mItemClickListener;
     }
     
-    
     public interface OnItemClickListener {
         public void onItemClick (View view, int position);
     }
     
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvType;
-        TextView tvAvailable;
         TextView tvAvailed;
+        TextView tvFrom;
+        TextView tvTill;
+        TextView tvDescription;
+        TextView tvAppliedAt;
+        TextView tvStatus;
+        TextView tvUpdatedBy;
+        TextView tvUpdatedAt;
         
         public ViewHolder (View view) {
             super (view);
             tvType = (TextView) view.findViewById (R.id.tvType);
-            tvAvailable = (TextView) view.findViewById (R.id.tvAvailable);
             tvAvailed = (TextView) view.findViewById (R.id.tvAvailed);
+            tvFrom = (TextView) view.findViewById (R.id.tvFrom);
+            tvTill = (TextView) view.findViewById (R.id.tvTill);
+            tvAppliedAt = (TextView) view.findViewById (R.id.tvAppliedAt);
+            tvDescription = (TextView) view.findViewById (R.id.tvDescription);
+            tvStatus = (TextView) view.findViewById (R.id.tvStatus);
+            tvUpdatedBy = (TextView) view.findViewById (R.id.tvUpdatedBy);
+            tvUpdatedAt = (TextView) view.findViewById (R.id.tvUpdatedAt);
             view.setOnClickListener (this);
         }
         
@@ -74,3 +106,5 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.ViewHolder> 
         }
     }
 }
+
+

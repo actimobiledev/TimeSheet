@@ -168,8 +168,8 @@ public class PreviousWeekActivity extends AppCompatActivity {
         projects_name = getIntent ().getExtras ().getString (AppConfigTags.PROJECT_TITLE, "");
         
         tvProjectName.setText (projects_name);
-        
-        Calendar c = Calendar.getInstance ();
+    
+        Calendar c = Calendar.getInstance (Locale.GERMAN);
         c.set (Calendar.DAY_OF_WEEK, c.MONDAY);
         c.add (Calendar.DATE, - 7);
         DateFormat df = new SimpleDateFormat ("dd/MM/yyyy", Locale.US);

@@ -74,7 +74,7 @@ public class MyEmployeeAdapter extends RecyclerView.Adapter<MyEmployeeAdapter.Vi
             JSONArray jsonArray = new JSONArray (myEmployee.getTotal_json ());
             for (int i = 0; i < jsonArray.length (); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject (i);
-                Calendar c = Calendar.getInstance ();
+                Calendar c = Calendar.getInstance (Locale.GERMAN);
                 c.set (Calendar.DAY_OF_WEEK, c.MONDAY);
                 DateFormat df = new SimpleDateFormat ("yyyy-MM-dd", Locale.US);
                 DateFormat df2 = new SimpleDateFormat ("dd/MM/yy", Locale.US);
