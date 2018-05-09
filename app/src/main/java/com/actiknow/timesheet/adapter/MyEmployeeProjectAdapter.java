@@ -51,6 +51,36 @@ public class MyEmployeeProjectAdapter extends RecyclerView.Adapter<MyEmployeePro
         
         try {
             JSONArray jsonArray = new JSONArray (project.getHours_json ());
+            Calendar c2 = Calendar.getInstance (Locale.GERMAN);
+            c2.set (Calendar.DAY_OF_WEEK, c2.MONDAY);
+            DateFormat df33 = new SimpleDateFormat ("dd/MM", Locale.US);
+            for (int j = 1; j < 8; j++) {
+                switch (j) {
+                    case 1:
+                        holder.tvMonDate.setText (df33.format (c2.getTime ()));
+                        break;
+                    case 2:
+                        holder.tvTueDate.setText (df33.format (c2.getTime ()));
+                        break;
+                    case 3:
+                        holder.tvWedDate.setText (df33.format (c2.getTime ()));
+                        break;
+                    case 4:
+                        holder.tvThurDate.setText (df33.format (c2.getTime ()));
+                        break;
+                    case 5:
+                        holder.tvFriDate.setText (df33.format (c2.getTime ()));
+                        break;
+                    case 6:
+                        holder.tvSatDate.setText (df33.format (c2.getTime ()));
+                        break;
+                    case 7:
+                        holder.tvSunDate.setText (df33.format (c2.getTime ()));
+                        break;
+                }
+                c2.add (Calendar.DATE, 1);
+            }
+            
             for (int i = 0; i < jsonArray.length (); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject (i);
                 Calendar c = Calendar.getInstance (Locale.GERMAN);

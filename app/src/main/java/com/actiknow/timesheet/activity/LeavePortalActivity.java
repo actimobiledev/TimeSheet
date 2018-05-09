@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.adapter.LeaveTypeAdapter;
+import com.actiknow.timesheet.dialog.ApplyLeaveDialogFragment;
 import com.actiknow.timesheet.dialog.LeavesListDialogFragment;
 import com.actiknow.timesheet.model.LeaveType;
 import com.actiknow.timesheet.utils.AppConfigTags;
@@ -50,12 +51,12 @@ public class LeavePortalActivity extends AppCompatActivity {
     TextView tvTitle;
     RelativeLayout rlBack;
     RelativeLayout rlMyLeaves;
+    RelativeLayout rlApplyLeave;
     LeaveTypeAdapter leaveTypeAdapter;
     ArrayList<LeaveType> leaveTypeList = new ArrayList<> ();
     ProgressDialog progressDialog;
     AppDetailsPref appDetailsPref;
     
-    JSONArray jsonArrayLeaves;
     String leaves_json = "";
     
     
@@ -81,6 +82,7 @@ public class LeavePortalActivity extends AppCompatActivity {
         rvLeave = (RecyclerView) findViewById (R.id.rvLeave);
         tvTitle = (TextView) findViewById (R.id.tvTitle);
         rlBack = (RelativeLayout) findViewById (R.id.rlBack);
+        rlApplyLeave = (RelativeLayout) findViewById (R.id.rlApplyLeave);
         rlMyLeaves = (RelativeLayout) findViewById (R.id.rlMyLeaves);
     }
     
@@ -118,7 +120,7 @@ public class LeavePortalActivity extends AppCompatActivity {
                     @Override
                     public void onPositiveResult () {
                     }
-        
+    
                     @Override
                     public void onNegativeResult () {
                     }
@@ -136,7 +138,25 @@ public class LeavePortalActivity extends AppCompatActivity {
                     @Override
                     public void onPositiveResult () {
                     }
-        
+                
+                    @Override
+                    public void onNegativeResult () {
+                    }
+                });
+                fragment.show (ft, AppConfigTags.LEAVES);
+            }
+        });
+    
+        rlApplyLeave.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
+                ApplyLeaveDialogFragment fragment = ApplyLeaveDialogFragment.newInstance ();
+                fragment.setOnDialogResultListener (new ApplyLeaveDialogFragment.OnDialogResultListener () {
+                    @Override
+                    public void onPositiveResult () {
+                    }
+                
                     @Override
                     public void onNegativeResult () {
                     }
