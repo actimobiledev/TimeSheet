@@ -70,5 +70,9 @@
 
     <string name="please_select_role">Please select Role</string>
 
+    <string name="please_select_leave_type">Please select leave type</string>
+    <string name="please_select_dates">Please select date</string>
+    <string name="please_specify_reason">Please specify reason</string>
+
 
 </resources>

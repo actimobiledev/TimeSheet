@@ -53,10 +53,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:text="LEAVE PORTAL"
+                    android:gravity="end"
+                    android:text="LEAVE PORTAL\nbeta"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold"/>

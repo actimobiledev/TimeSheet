@@ -37,8 +37,8 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.View
         final LeaveType leaveType = leaveTypeList.get (position);
         Utils.setTypefaceToAllViews (activity, holder.tvType);
         holder.tvType.setText (leaveType.getType_name ());
-        holder.tvAvailable.setText (leaveType.getRemaining ());
-        holder.tvAvailed.setText (leaveType.getAvailed ());
+        holder.tvAvailable.setText ("" + leaveType.getRemaining ());
+        holder.tvAvailed.setText ("" + leaveType.getAvailed ());
     }
     
     @Override

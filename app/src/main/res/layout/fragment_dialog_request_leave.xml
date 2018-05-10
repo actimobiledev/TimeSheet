@@ -19,23 +19,23 @@
         android:layout_alignTop="@+id/ivCancel"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="APPLY A LEAVE"
+        android:text="APPLY FOR LEAVE"
         android:textColor="@color/primary_text"
         android:textSize="@dimen/text_size_medium"
         android:textStyle="bold"/>
     <ImageView
-        android:id="@+id/ivSave"
+        android:id="@+id/ivSend"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:padding="@dimen/activity_margin"
-        android:src="@drawable/ic_save"/>
+        android:src="@drawable/ic_send"/>
     <View
         android:id="@+id/v1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/ivSave"
+        android:layout_below="@+id/ivSend"
         android:background="@color/text_color_grey_light2"/>
 
 
@@ -162,7 +162,7 @@
                         android:layout_centerInParent="true"
                         android:gravity="center"
                         android:padding="@dimen/activity_margin_small"
-                        android:text="2"
+                        android:text="2.0"
                         android:textColor="@color/text_color_white"
                         android:textSize="@dimen/text_size_small"
                         android:textStyle="bold"
@@ -246,6 +246,34 @@
                 </LinearLayout>
 
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:text="Please grant me leave because*"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                android:visibility="visible"/>
+            <EditText
+                android:id="@+id/etLeaveDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_background"
+                android:inputType="textMultiLine|textCapSentences"
+                android:paddingBottom="@dimen/activity_margin_small"
+                android:paddingTop="@dimen/activity_margin_small"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="visible"/>
+            <TextView
+                android:id="@+id/tvCounterDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="0/256"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/text_size_small"/>
 
         </LinearLayout>
     </ScrollView>

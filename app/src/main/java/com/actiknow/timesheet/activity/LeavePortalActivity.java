@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +27,10 @@ import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
 import com.actiknow.timesheet.utils.Constants;
 import com.actiknow.timesheet.utils.NetworkConnection;
+import com.actiknow.timesheet.utils.SetTypeFace;
 import com.actiknow.timesheet.utils.Utils;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -183,6 +187,24 @@ public class LeavePortalActivity extends AppCompatActivity {
         appDetailsPref = AppDetailsPref.getInstance ();
         progressDialog = new ProgressDialog (this);
         leaveTypeAdapter = new LeaveTypeAdapter (this, leaveTypeList);
+    
+    
+        MaterialDialog dialog = new MaterialDialog.Builder (LeavePortalActivity.this)
+                .content ("Leave Portal is still in beta process, kindly do not apply for leave through this portal right now.\nSuggestions are welcome, kindly provide feedback if case any feature/issue is reported.")
+                .titleColor (getResources ().getColor (R.color.primary_text))
+                .positiveColor (getResources ().getColor (R.color.primary_text))
+                .contentColor (getResources ().getColor (R.color.primary_text))
+                .negativeColor (getResources ().getColor (R.color.primary_text))
+                .typeface (SetTypeFace.getTypeface (LeavePortalActivity.this), SetTypeFace.getTypeface (LeavePortalActivity.this))
+                .canceledOnTouchOutside (true)
+                .cancelable (true)
+                .positiveText (R.string.dialog_action_ok)
+                .onPositive (new MaterialDialog.SingleButtonCallback () {
+                    @Override
+                    public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    }
+                }).build ();
+//        dialog.show ();
     }
     
     public void getLeavePortal () {
@@ -209,10 +231,10 @@ public class LeavePortalActivity extends AppCompatActivity {
                                                 leaveTypeList.add (new LeaveType (
                                                         jsonObject.getInt (AppConfigTags.TYPE_ID),
                                                         jsonObject.getString (AppConfigTags.TYPE_NAME),
-                                                        jsonObject.getString (AppConfigTags.TYPE_STATUS),
-                                                        jsonObject.getString (AppConfigTags.TOTAL),
-                                                        jsonObject.getString (AppConfigTags.AVAILED),
-                                                        jsonObject.getString (AppConfigTags.REMAINING)
+                                                        jsonObject.getInt (AppConfigTags.TYPE_STATUS),
+                                                        jsonObject.getDouble (AppConfigTags.TOTAL),
+                                                        jsonObject.getDouble (AppConfigTags.AVAILED),
+                                                        jsonObject.getDouble (AppConfigTags.REMAINING)
                                                 ));
                                             }
                                         }

@@ -225,10 +225,10 @@ public class Utils {
 
     public static void hideSoftKeyboard (Activity activity) {
         View view = activity.getCurrentFocus ();
-//        if (view != null) {
+        if (view != null) {
             InputMethodManager imm = (InputMethodManager) activity.getSystemService (Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow (view.getWindowToken (), 0);
-//        }
+        }
     }
 
     public static boolean isPackageExists (Activity activity, String targetPackage) {

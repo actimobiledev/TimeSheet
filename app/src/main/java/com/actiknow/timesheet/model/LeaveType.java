@@ -5,10 +5,11 @@ package com.actiknow.timesheet.model;
  */
 
 public class LeaveType {
-    int type_id;
-    String type_name, type_status, total, availed, remaining;
+    int type_id, type_status;
+    String type_name;
+    double total, availed, remaining;
     
-    public LeaveType (int type_id, String type_name, String type_status, String total, String availed, String remaining) {
+    public LeaveType (int type_id, String type_name, int type_status, double total, double availed, double remaining) {
         this.type_id = type_id;
         this.type_name = type_name;
         this.type_status = type_status;
@@ -33,35 +34,35 @@ public class LeaveType {
         this.type_name = type_name;
     }
     
-    public String getType_status () {
+    public int getType_status () {
         return type_status;
     }
     
-    public void setType_status (String type_status) {
+    public void setType_status (int type_status) {
         this.type_status = type_status;
     }
     
-    public String getTotal () {
+    public double getTotal () {
         return total;
     }
     
-    public void setTotal (String total) {
+    public void setTotal (double total) {
         this.total = total;
     }
     
-    public String getAvailed () {
+    public double getAvailed () {
         return availed;
     }
     
-    public void setAvailed (String availed) {
+    public void setAvailed (double availed) {
         this.availed = availed;
     }
     
-    public String getRemaining () {
+    public double getRemaining () {
         return remaining;
     }
     
-    public void setRemaining (String remaining) {
+    public void setRemaining (double remaining) {
         this.remaining = remaining;
     }
 }
