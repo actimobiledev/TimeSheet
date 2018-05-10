@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.adapter.LeaveTypeAdapter;
 import com.actiknow.timesheet.dialog.ApplyLeaveDialogFragment;
+import com.actiknow.timesheet.dialog.HolidayCalendarDialogFragment;
 import com.actiknow.timesheet.dialog.LeavesListDialogFragment;
 import com.actiknow.timesheet.model.LeaveType;
 import com.actiknow.timesheet.utils.AppConfigTags;
@@ -52,6 +53,7 @@ public class LeavePortalActivity extends AppCompatActivity {
     RelativeLayout rlBack;
     RelativeLayout rlMyLeaves;
     RelativeLayout rlApplyLeave;
+    RelativeLayout rlHolidayCalender;
     LeaveTypeAdapter leaveTypeAdapter;
     ArrayList<LeaveType> leaveTypeList = new ArrayList<> ();
     ProgressDialog progressDialog;
@@ -84,6 +86,7 @@ public class LeavePortalActivity extends AppCompatActivity {
         rlBack = (RelativeLayout) findViewById (R.id.rlBack);
         rlApplyLeave = (RelativeLayout) findViewById (R.id.rlApplyLeave);
         rlMyLeaves = (RelativeLayout) findViewById (R.id.rlMyLeaves);
+        rlHolidayCalender = (RelativeLayout) findViewById (R.id.rlHolidayCalender);
     }
     
     private void initAdapter () {
@@ -161,6 +164,15 @@ public class LeavePortalActivity extends AppCompatActivity {
                     public void onNegativeResult () {
                     }
                 });
+                fragment.show (ft, AppConfigTags.LEAVES);
+            }
+        });
+    
+        rlHolidayCalender.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
+                HolidayCalendarDialogFragment fragment = HolidayCalendarDialogFragment.newInstance ();
                 fragment.show (ft, AppConfigTags.LEAVES);
             }
         });

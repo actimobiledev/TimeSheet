@@ -48,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/activity_margin"
+            android:animateLayoutChanges="true"
             android:orientation="vertical"
             android:visibility="visible">
             <RelativeLayout
@@ -188,7 +189,6 @@
                 android:orientation="horizontal"
                 android:visibility="gone"
                 android:weightSum="2">
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -244,6 +244,7 @@
                         android:textSize="@dimen/text_size_medium"
                         android:visibility="visible"/>
                 </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
