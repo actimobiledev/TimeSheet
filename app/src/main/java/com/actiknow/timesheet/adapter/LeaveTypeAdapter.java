@@ -39,6 +39,7 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.View
         holder.tvType.setText (leaveType.getType_name ());
         holder.tvAvailable.setText ("" + leaveType.getRemaining ());
         holder.tvAvailed.setText ("" + leaveType.getAvailed ());
+        holder.tvTotal.setText ("" + leaveType.getTotal ());
     }
     
     @Override
@@ -59,12 +60,14 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.View
         TextView tvType;
         TextView tvAvailable;
         TextView tvAvailed;
-        
+        TextView tvTotal;
+    
         public ViewHolder (View view) {
             super (view);
             tvType = (TextView) view.findViewById (R.id.tvType);
             tvAvailable = (TextView) view.findViewById (R.id.tvAvailable);
             tvAvailed = (TextView) view.findViewById (R.id.tvAvailed);
+            tvTotal = (TextView) view.findViewById (R.id.tvTotal);
             view.setOnClickListener (this);
         }
         

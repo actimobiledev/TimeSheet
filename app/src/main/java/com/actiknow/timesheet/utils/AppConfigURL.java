@@ -1,10 +1,10 @@
 package com.actiknow.timesheet.utils;
 
 public class AppConfigURL {
-    public static String version = "v1.3.2";
+    public static String version = "v1.4";
     
-    private static String BASE_URL = "http://34.215.95.251/timesheet/api/" + version + "/";
-//    private static String BASE_URL = " https://project-timesheet-cammy92.c9users.io/api/" + version + "/";
+    //    private static String BASE_URL = "http://34.215.95.251/timesheet/api/" + version + "/";
+    private static String BASE_URL = " https://project-timesheet-cammy92.c9users.io/api/" + version + "/";
 
     public static String LOGIN = BASE_URL + "login";
     public static String HOME = BASE_URL + "home";
@@ -30,6 +30,7 @@ public class AppConfigURL {
     public static String DELETE_PROJECT_OWNER = BASE_URL + "";
     
     public static String URL_LEAVE_PORTAL = BASE_URL + "leave-portal";
+    public static String URL_APPLY_LEAVE = BASE_URL + "leave/apply";
     
 }
 

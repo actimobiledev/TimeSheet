@@ -162,10 +162,12 @@ public class LeavePortalActivity extends AppCompatActivity {
                 fragment.setOnDialogResultListener (new ApplyLeaveDialogFragment.OnDialogResultListener () {
                     @Override
                     public void onPositiveResult () {
+                        getLeavePortal ();
                     }
                 
                     @Override
                     public void onNegativeResult () {
+                        getLeavePortal ();
                     }
                 });
                 fragment.show (ft, AppConfigTags.LEAVES);

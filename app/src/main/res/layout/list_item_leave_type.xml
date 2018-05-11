@@ -22,12 +22,13 @@
         android:textStyle="bold"/>
     <TableLayout
         android:id="@+id/tlLeaveStatus"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvType"
         android:layout_marginLeft="@dimen/activity_margin_small"
         android:layout_marginRight="@dimen/activity_margin_small"
-        android:layout_marginTop="@dimen/activity_margin_small">
+        android:layout_marginTop="@dimen/activity_margin_small"
+        android:stretchColumns="3">
         <TableRow>
             <TextView
                 android:layout_width="wrap_content"
@@ -35,21 +36,24 @@
                 android:layout_column="1"
                 android:text="Available"
                 android:textColor="@color/secondary_text"
-                android:textSize="@dimen/text_size_small"/>
+                android:textSize="@dimen/text_size_extra_small"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:paddingLeft="@dimen/edittext_padding"
                 android:paddingRight="@dimen/edittext_padding"
-                android:text=":"/>
+                android:text=":"
+                android:textSize="@dimen/text_size_extra_small"/>
 
             <TextView
                 android:id="@+id/tvAvailable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="3"
-                android:text="1"/>
+                android:gravity="end|right"
+                android:text="1"
+                android:textSize="@dimen/text_size_extra_small"/>
         </TableRow>
         <TableRow>
             <TextView
@@ -58,7 +62,7 @@
                 android:layout_column="1"
                 android:text="Availed"
                 android:textColor="@color/secondary_text"
-                android:textSize="@dimen/text_size_small"/>
+                android:textSize="@dimen/text_size_extra_small"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -66,7 +70,8 @@
                 android:layout_column="2"
                 android:paddingLeft="@dimen/edittext_padding"
                 android:paddingRight="@dimen/edittext_padding"
-                android:text=":"/>
+                android:text=":"
+                android:textSize="@dimen/text_size_extra_small"/>
 
 
             <TextView
@@ -74,7 +79,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="3"
-                android:text="1"/>
+                android:gravity="end|right"
+                android:text="1"
+                android:textSize="@dimen/text_size_extra_small"/>
+
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:text="Accrued so far"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/text_size_extra_small"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:paddingLeft="@dimen/edittext_padding"
+                android:paddingRight="@dimen/edittext_padding"
+                android:text=":"
+                android:textSize="@dimen/text_size_extra_small"/>
+
+
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="3"
+                android:gravity="end|right"
+                android:text="1"
+                android:textSize="@dimen/text_size_extra_small"/>
 
 
         </TableRow>

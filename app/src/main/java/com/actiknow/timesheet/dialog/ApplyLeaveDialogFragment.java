@@ -5,7 +5,11 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -25,12 +29,19 @@ import android.widget.TextView;
 import com.actiknow.timesheet.R;
 import com.actiknow.timesheet.model.LeaveType;
 import com.actiknow.timesheet.utils.AppConfigTags;
+import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
 import com.actiknow.timesheet.utils.Constants;
+import com.actiknow.timesheet.utils.NetworkConnection;
 import com.actiknow.timesheet.utils.SetTypeFace;
 import com.actiknow.timesheet.utils.TypefaceSpan;
 import com.actiknow.timesheet.utils.Utils;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,8 +51,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class ApplyLeaveDialogFragment extends DialogFragment {
     OnDialogResultListener onDialogResultListener;
@@ -212,7 +226,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                             if (leaves_remaining >= 0.5) {
                                 tvHalfDay.setTextColor (getActivity ().getResources ().getColor (R.color.text_color_white));
                                 tvHalfDay.setBackgroundResource (R.drawable.bt_filled);
-                    
+    
                                 tvFullDay.setTextColor (getActivity ().getResources ().getColor (R.color.primary_text));
                                 tvFullDay.setBackgroundResource (R.drawable.bt_empty);
                                 rlMultiple.setBackgroundResource (R.drawable.bt_empty);
@@ -220,7 +234,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                                 tvLeaves.setVisibility (View.GONE);
                                 ivPlus.setVisibility (View.GONE);
                                 ivMinus.setVisibility (View.GONE);
-                    
+    
                                 llLeaveDates.setVisibility (View.VISIBLE);
                                 leaves = 0.5;
                             } else {
@@ -230,7 +244,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                         case 2:
                             tvHalfDay.setTextColor (getActivity ().getResources ().getColor (R.color.text_color_white));
                             tvHalfDay.setBackgroundResource (R.drawable.bt_filled);
-                
+    
                             tvFullDay.setTextColor (getActivity ().getResources ().getColor (R.color.primary_text));
                             tvFullDay.setBackgroundResource (R.drawable.bt_empty);
                             rlMultiple.setBackgroundResource (R.drawable.bt_empty);
@@ -238,7 +252,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                             tvLeaves.setVisibility (View.GONE);
                             ivPlus.setVisibility (View.GONE);
                             ivMinus.setVisibility (View.GONE);
-                
+    
                             llLeaveDates.setVisibility (View.VISIBLE);
                             leaves = 0.5;
                             break;
@@ -263,7 +277,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                             if (leaves_remaining >= 1.0) {
                                 tvFullDay.setTextColor (getActivity ().getResources ().getColor (R.color.text_color_white));
                                 tvFullDay.setBackgroundResource (R.drawable.bt_filled);
-                    
+    
                                 tvHalfDay.setTextColor (getActivity ().getResources ().getColor (R.color.primary_text));
                                 tvHalfDay.setBackgroundResource (R.drawable.bt_empty);
                                 rlMultiple.setBackgroundResource (R.drawable.bt_empty);
@@ -271,7 +285,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                                 tvLeaves.setVisibility (View.GONE);
                                 ivPlus.setVisibility (View.GONE);
                                 ivMinus.setVisibility (View.GONE);
-                    
+    
                                 llLeaveDates.setVisibility (View.VISIBLE);
                                 leaves = 1.0;
                             } else {
@@ -281,7 +295,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                         case 2:
                             tvFullDay.setTextColor (getActivity ().getResources ().getColor (R.color.text_color_white));
                             tvFullDay.setBackgroundResource (R.drawable.bt_filled);
-                
+    
                             tvHalfDay.setTextColor (getActivity ().getResources ().getColor (R.color.primary_text));
                             tvHalfDay.setBackgroundResource (R.drawable.bt_empty);
                             rlMultiple.setBackgroundResource (R.drawable.bt_empty);
@@ -289,7 +303,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                             tvLeaves.setVisibility (View.GONE);
                             ivPlus.setVisibility (View.GONE);
                             ivMinus.setVisibility (View.GONE);
-                
+    
                             llLeaveDates.setVisibility (View.VISIBLE);
                             leaves = 1.0;
                             break;
@@ -317,12 +331,12 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                                 tvLeaves.setVisibility (View.VISIBLE);
                                 ivPlus.setVisibility (View.VISIBLE);
                                 ivMinus.setVisibility (View.VISIBLE);
-                    
+    
                                 tvHalfDay.setTextColor (getActivity ().getResources ().getColor (R.color.primary_text));
                                 tvFullDay.setTextColor (getActivity ().getResources ().getColor (R.color.primary_text));
                                 tvHalfDay.setBackgroundResource (R.drawable.bt_empty);
                                 tvFullDay.setBackgroundResource (R.drawable.bt_empty);
-                    
+    
                                 llLeaveDates.setVisibility (View.VISIBLE);
                                 leaves = 2.0;
                                 tvLeaves.setText ("2.0");
@@ -336,12 +350,12 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                             tvLeaves.setVisibility (View.VISIBLE);
                             ivPlus.setVisibility (View.VISIBLE);
                             ivMinus.setVisibility (View.VISIBLE);
-                
+    
                             tvHalfDay.setTextColor (getActivity ().getResources ().getColor (R.color.primary_text));
                             tvFullDay.setTextColor (getActivity ().getResources ().getColor (R.color.primary_text));
                             tvHalfDay.setBackgroundResource (R.drawable.bt_empty);
                             tvFullDay.setBackgroundResource (R.drawable.bt_empty);
-                
+    
                             llLeaveDates.setVisibility (View.VISIBLE);
                             leaves = 2.0;
                             tvLeaves.setText ("2.0");
@@ -363,12 +377,12 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                             leave = leave + 0.5;
                             leaves = leave;
                             tvLeaves.setText (String.valueOf (leave));
-                
+    
                             leave_from = "";
                             leave_till = "";
                             etLeaveFrom.setText ("");
                             etLeaveTill.setText ("");
-                
+    
                         } else {
                             Utils.showToast (getActivity (), "You don't have leaves available", false);
                         }
@@ -377,12 +391,12 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                         leave = leave + 0.5;
                         leaves = leave;
                         tvLeaves.setText (String.valueOf (leave));
-            
+    
                         leave_from = "";
                         leave_till = "";
                         etLeaveFrom.setText ("");
                         etLeaveTill.setText ("");
-            
+    
                         break;
                 }
             }
@@ -396,7 +410,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                     leave = leave - 0.5;
                     leaves = leave;
                     tvLeaves.setText (String.valueOf (leave));
-        
+    
                     leave_from = "";
                     leave_till = "";
                     etLeaveFrom.setText ("");
@@ -436,7 +450,11 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                             @Override
                             public void onSelection (MaterialDialog dialog, View view, int which, CharSequence text) {
                                 LeaveType leaveType = typeList.get (which);
-                            
+    
+                                tvHalfDay.setEnabled (true);
+                                tvFullDay.setEnabled (true);
+                                rlMultiple.setEnabled (true);
+                                
                                 tvHalfDay.setTextColor (getActivity ().getResources ().getColor (R.color.primary_text));
                                 tvFullDay.setTextColor (getActivity ().getResources ().getColor (R.color.primary_text));
                                 rlMultiple.setBackgroundResource (R.drawable.bt_empty);
@@ -446,18 +464,64 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                                 tvLeaves.setVisibility (View.GONE);
                                 ivPlus.setVisibility (View.GONE);
                                 ivMinus.setVisibility (View.GONE);
-                            
+    
                                 llLeaveDates.setVisibility (View.GONE);
                                 etLeaveFrom.setText ("");
                                 etLeaveTill.setText ("");
-                            
+    
                                 type_id = leaveType.getType_id ();
                                 type_status = leaveType.getType_status ();
                                 leaves = 0;
                                 leave_from = "";
                                 leave_till = "";
-                            
-                            
+    
+                                if (leaveType.getType_name ().contains ("Short")) {
+                                    MaterialDialog dialog2 = new MaterialDialog.Builder (getActivity ())
+                                            .content ("You can only select full day as duration for Short Leave")
+                                            .titleColor (getResources ().getColor (R.color.primary_text))
+                                            .positiveColor (getResources ().getColor (R.color.primary_text))
+                                            .contentColor (getResources ().getColor (R.color.primary_text))
+                                            .typeface (SetTypeFace.getTypeface (getActivity ()), SetTypeFace.getTypeface (getActivity ()))
+                                            .canceledOnTouchOutside (true)
+                                            .cancelable (true)
+                                            .positiveText (R.string.dialog_action_ok)
+                                            .onPositive (new MaterialDialog.SingleButtonCallback () {
+                                                @Override
+                                                public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                    tvHalfDay.setEnabled (false);
+                                                    rlMultiple.setEnabled (false);
+                                                    leaves = 1.0;
+                        
+                                                    tvFullDay.setTextColor (getActivity ().getResources ().getColor (R.color.text_color_white));
+                                                    tvFullDay.setBackgroundResource (R.drawable.bt_filled);
+                                                    llLeaveDates.setVisibility (View.VISIBLE);
+                                                }
+                                            }).build ();
+                                    dialog2.show ();
+                                }
+    
+                                if (leaveType.getType_name ().contains ("Home")) {
+                                    MaterialDialog dialog2 = new MaterialDialog.Builder (getActivity ())
+                                            .content ("Work from home is currently not supported from the app right now.")
+                                            .titleColor (getResources ().getColor (R.color.primary_text))
+                                            .positiveColor (getResources ().getColor (R.color.primary_text))
+                                            .contentColor (getResources ().getColor (R.color.primary_text))
+                                            .typeface (SetTypeFace.getTypeface (getActivity ()), SetTypeFace.getTypeface (getActivity ()))
+                                            .canceledOnTouchOutside (true)
+                                            .cancelable (true)
+                                            .positiveText (R.string.dialog_action_ok)
+                                            .onPositive (new MaterialDialog.SingleButtonCallback () {
+                                                @Override
+                                                public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                    tvHalfDay.setEnabled (false);
+                                                    tvFullDay.setEnabled (false);
+                                                    rlMultiple.setEnabled (false);
+                                                }
+                                            }).build ();
+                                    dialog2.show ();
+                                }
+    
+    
                                 switch (leaveType.getType_status ()) {
                                     case 1:
                                         if (leaveType.getRemaining () > 0) {
@@ -491,10 +555,10 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                         etLeaveFrom.setError (null);
                         etLeaveFrom.setText (String.format (Locale.US, "%02d", dayOfMonth) + "/" + String.format (Locale.US, "%02d", monthOfYear + 1) + "/" + year);
                         leave_from = Utils.convertTimeFormat (etLeaveFrom.getText ().toString ().trim (), "dd/MM/yyyy", "yyyy-MM-dd");
-                    
+    
                         SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd", Locale.US);
                         SimpleDateFormat sdf1 = new SimpleDateFormat ("dd/MM/yyyy", Locale.US);
-                    
+    
                         Calendar c = Calendar.getInstance ();
                         try {
                             c.setTime (sdf.parse (leave_from));
@@ -502,7 +566,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                             e.printStackTrace ();
                         }
                         c.add (Calendar.DATE, (int) Math.ceil (leaves - 1));
-                    
+    
                         etLeaveTill.setText (sdf1.format (c.getTime ()));
                         leave_till = Utils.convertTimeFormat (etLeaveTill.getText ().toString ().trim (), "dd/MM/yyyy", "yyyy-MM-dd");
                     }
@@ -521,7 +585,7 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                 s2.setSpan (new TypefaceSpan (getActivity (), Constants.font_name), 0, s2.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 SpannableString s3 = new SpannableString (getResources ().getString (R.string.please_specify_reason));
                 s3.setSpan (new TypefaceSpan (getActivity (), Constants.font_name), 0, s3.length (), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            
+    
                 if (type_id == 0) {
                     etLeaveType.setError (s1);
                 }
@@ -531,12 +595,10 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
                 if (etLeaveDescription.getText ().toString ().length () == 0) {
                     etLeaveDescription.setError (s3);
                 }
-            
-                if (type_id != 0 && leaves != 0 && leave_from.length () > 0 && leave_till.length () > 0 && etLeaveDescription.getText ().toString ().length () > 0) {
-                    Log.e ("karman", "all clear");
+    
+                if (type_id != 0 && leaves != 0 && leave_from.length () > 0 && leave_till.length () > 0 && etLeaveDescription.getText ().toString ().length () > 0 && etLeaveDescription.getText ().toString ().length () <= 256) {
+                    sendLeaveRequestToServer (type_id, leaves, leave_from, leave_till, etLeaveDescription.getText ().toString ().trim ());
                 }
-            
-            
             }
         });
     }
@@ -552,6 +614,90 @@ public class ApplyLeaveDialogFragment extends DialogFragment {
         if (onDialogResultListener != null) {
             onDialogResultListener.onNegativeResult ();
             dialog.cancel ();
+        }
+    }
+    
+    private void sendLeaveRequestToServer (final int type_id, final double leaves, final String leave_from, final String leave_till, final String description) {
+        if (NetworkConnection.isNetworkAvailable (getActivity ())) {
+            Utils.showProgressDialog (getActivity (), progressDialog, getResources ().getString (R.string.progress_dialog_text_please_wait), true);
+            Utils.showLog (Log.INFO, "" + AppConfigTags.URL, AppConfigURL.URL_APPLY_LEAVE, true);
+            StringRequest strRequest1 = new StringRequest (Request.Method.POST, AppConfigURL.URL_APPLY_LEAVE,
+                    new com.android.volley.Response.Listener<String> () {
+                        @Override
+                        public void onResponse (String response) {
+                            Utils.showLog (Log.INFO, AppConfigTags.SERVER_RESPONSE, response, true);
+                            if (response != null) {
+                                try {
+                                    JSONObject jsonObj = new JSONObject (response);
+                                    boolean error = jsonObj.getBoolean (AppConfigTags.ERROR);
+                                    String message = jsonObj.getString (AppConfigTags.MESSAGE);
+                                    if (! error) {
+                                        new MaterialDialog.Builder (getActivity ())
+                                                .content (message)
+                                                .positiveText ("OK")
+                                                .typeface (SetTypeFace.getTypeface (getActivity ()), SetTypeFace.getTypeface (getActivity ()))
+                                                .onPositive (new MaterialDialog.SingleButtonCallback () {
+                                                    @Override
+                                                    public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                        getDialog ().dismiss ();
+                                                    }
+                                                })
+                                                .show ();
+                                    } else {
+                                        Utils.showSnackBar (getActivity (), rlMultiple, message, Snackbar.LENGTH_LONG, null, null);
+                                    }
+                                    progressDialog.dismiss ();
+                                } catch (Exception e) {
+                                    progressDialog.dismiss ();
+                                    Utils.showSnackBar (getActivity (), rlMultiple, getResources ().getString (R.string.snackbar_text_exception_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
+                                    e.printStackTrace ();
+                                }
+                            } else {
+                                Utils.showSnackBar (getActivity (), rlMultiple, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
+                                Utils.showLog (Log.WARN, AppConfigTags.SERVER_RESPONSE, AppConfigTags.DIDNT_RECEIVE_ANY_DATA_FROM_SERVER, true);
+                            }
+                            progressDialog.dismiss ();
+                        }
+                    },
+                    new com.android.volley.Response.ErrorListener () {
+                        @Override
+                        public void onErrorResponse (VolleyError error) {
+                            progressDialog.dismiss ();
+                            Utils.showLog (Log.ERROR, AppConfigTags.VOLLEY_ERROR, error.toString (), true);
+                            Utils.showSnackBar (getActivity (), rlMultiple, getResources ().getString (R.string.snackbar_text_error_occurred), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_dismiss), null);
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams () throws AuthFailureError {
+                    Map<String, String> params = new Hashtable<String, String> ();
+                    params.put (AppConfigTags.TYPE_ID, String.valueOf (type_id));
+                    params.put (AppConfigTags.LEAVES, String.valueOf (leaves));
+                    params.put (AppConfigTags.LEAVE_FROM, leave_from);
+                    params.put (AppConfigTags.LEAVE_TILL, leave_till);
+                    params.put (AppConfigTags.DESCRIPTION, description);
+                    Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
+                    return params;
+                }
+                
+                @Override
+                public Map<String, String> getHeaders () throws AuthFailureError {
+                    Map<String, String> params = new HashMap<> ();
+                    params.put (AppConfigTags.HEADER_API_KEY, Constants.api_key);
+                    params.put (AppConfigTags.HEADER_EMPLOYEE_LOGIN_KEY, appDetailsPref.getStringPref (getActivity (), AppDetailsPref.EMPLOYEE_LOGIN_KEY));
+                    Utils.showLog (Log.INFO, AppConfigTags.HEADERS_SENT_TO_THE_SERVER, "" + params, false);
+                    return params;
+                }
+            };
+            Utils.sendRequest (strRequest1, 60);
+        } else {
+            Utils.showSnackBar (getActivity (), rlMultiple, getResources ().getString (R.string.snackbar_text_no_internet_connection_available), Snackbar.LENGTH_LONG, getResources ().getString (R.string.snackbar_action_go_to_settings), new View.OnClickListener () {
+                @Override
+                public void onClick (View v) {
+                    Intent dialogIntent = new Intent (Settings.ACTION_SETTINGS);
+                    dialogIntent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity (dialogIntent);
+                }
+            });
         }
     }
     

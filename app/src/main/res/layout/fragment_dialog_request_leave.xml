@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="I wish to avail Leave from*"
+                    android:text="I wish to avail Leave from *"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"/>
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_margin"
-                android:text="Duration*"
+                android:text="Duration *"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold"
@@ -199,7 +199,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Leave From*"
+                        android:text="Leave From *"
                         android:textColor="@color/primary_text"
                         android:textStyle="bold"/>
                     <EditText
@@ -226,7 +226,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Leave Till (Inclusive)*"
+                        android:text="Leave Till (Inclusive) *"
                         android:textColor="@color/primary_text"
                         android:textStyle="bold"/>
 
@@ -250,7 +250,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_margin"
-                android:text="Please grant me leave because*"
+                android:text="Please grant me leave because *"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold"

@@ -40,7 +40,7 @@ public class SetTypeFace {
                     if (view instanceof TextView) {
                         if (((TextView) (view)).getTypeface () != null) {
                             if (((TextView) (view)).getTypeface ().getStyle () == Typeface.BOLD) {
-                                ((TextView) (view)).setTypeface (getTypeface (c, "AvenirNextLTPro-Demi.otf"), Typeface.BOLD);
+                                ((TextView) (view)).setTypeface (getTypeface (c, Constants.font_name_bold), Typeface.BOLD);
                             }
                             if (((TextView) (view)).getTypeface ().getStyle () == Typeface.ITALIC) {
                                 ((TextView) (view)).setTypeface (f, Typeface.ITALIC);

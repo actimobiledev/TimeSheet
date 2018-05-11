@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,59 +14,87 @@
         android:textSize="@dimen/text_size_small"
         android:textStyle="bold"/>
     <TextView
-        android:id="@+id/tvAvailed"
-        android:layout_width="match_parent"
+        android:id="@+id/tvAppliedAt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Leaves Availed : "
+        android:layout_below="@+id/tvType"
+        android:text="Applied 13 days ago"
         android:textColor="@color/primary_text"
         android:textSize="@dimen/text_size_small"/>
     <TextView
-        android:id="@+id/tvFrom"
+        android:id="@+id/tvLeaveDates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Leave From : "
-        android:textColor="@color/primary_text"
-        android:textSize="@dimen/text_size_small"/>
-    <TextView
-        android:id="@+id/tvTill"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Leave Till : "
+        android:layout_below="@+id/tvAppliedAt"
+        android:text="Leave Date(s) : "
         android:textColor="@color/primary_text"
         android:textSize="@dimen/text_size_small"/>
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Description : "
+        android:layout_below="@+id/tvLeaveDates"
+        android:text="Reason : "
         android:textColor="@color/primary_text"
         android:textSize="@dimen/text_size_small"/>
-    <TextView
-        android:id="@+id/tvAppliedAt"
+
+    <LinearLayout
+        android:id="@+id/ll1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Applied At : "
-        android:textColor="@color/primary_text"
-        android:textSize="@dimen/text_size_small"/>
+        android:layout_below="@+id/tvDescription"
+        android:layout_marginTop="@dimen/activity_margin_small"
+        android:weightSum="3.0">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Status"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_small"/>
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Approved"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_small"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.0"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Updated By"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_small"/>
+            <TextView
+                android:id="@+id/tvUpdatedBy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Karman Singh"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_small"/>
+        </LinearLayout>
+    </LinearLayout>
     <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="match_parent"
+        android:id="@+id/tvRemark"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Status : "
+        android:layout_below="@+id/ll1"
+        android:text="Remark : "
         android:textColor="@color/primary_text"
-        android:textSize="@dimen/text_size_small"/>
-    <TextView
-        android:id="@+id/tvUpdatedBy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Updated By : "
-        android:textColor="@color/primary_text"
-        android:textSize="@dimen/text_size_small"/>
-    <TextView
-        android:id="@+id/tvUpdatedAt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Updated At : "
-        android:textColor="@color/primary_text"
-        android:textSize="@dimen/text_size_small"/>
-</LinearLayout>
+        android:textSize="@dimen/text_size_small"
+        android:visibility="gone"/>
+</RelativeLayout>
