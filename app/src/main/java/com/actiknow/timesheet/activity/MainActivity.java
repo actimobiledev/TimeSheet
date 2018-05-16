@@ -69,6 +69,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
     String server_date = "";
@@ -481,6 +482,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace ();
         }
+    
+        final TimeZone tz = TimeZone.getDefault ();
+        Log.e ("karman", "TimeZone   " + tz.getDisplayName (false, TimeZone.SHORT) + " Timezon id :: " + tz.getID ());
+    
         if (NetworkConnection.isNetworkAvailable (this)) {
             Utils.showLog (Log.INFO, AppConfigTags.URL, AppConfigURL.URL_INIT, true);
             final PackageInfo finalPInfo = pInfo;
@@ -637,10 +642,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams () throws AuthFailureError {
                     Map<String, String> params = new Hashtable<> ();
-        
                     params.put (AppConfigTags.APP_VERSION, String.valueOf (finalPInfo.versionCode));
                     params.put (AppConfigTags.DEVICE, "ANDROID");
                     params.put (AppConfigTags.FIREBASE_ID, appDetailsPref.getStringPref (MainActivity.this, AppDetailsPref.FIREBASE_ID));
+                    params.put (AppConfigTags.TIMEZONE, tz.getID ());
                     Utils.showLog (Log.INFO, AppConfigTags.PARAMETERS_SENT_TO_THE_SERVER, "" + params, true);
                     return params;
                 }

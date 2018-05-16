@@ -105,6 +105,7 @@ public class AppConfigTags {
     public static final String APP_VERSION = "app_version";
     public static final String DEVICE = "device";
     public static final String FIREBASE_ID = "firebase_id";
+    public static final String TIMEZONE = "timezone";
     
     
     public static final String FEEDBACK_TYPE = "feedback_type";
@@ -137,4 +138,16 @@ public class AppConfigTags {
     public static final String LEAVE_UPDATED_BY = "leave_updated_by";
     public static final String LEAVE_CREATED_AT = "leave_created_at";
     public static final String REQUEST_ID = "request_id";
+    
+    public static final String NOTIFICATION_TYPE = "notification_type";
+    public static final String NOTIFICATION_PRIORITY = "notification_priority";
+    public static final String NOTIFICATION_TITLE = "title";
+    public static final String NOTIFICATION_MESSAGE = "message";
+    public static final String NOTIFICATION_IMAGE = "image";
+    public static final String NOTIFICATION_TIMESTAMP = "timestamp";
+    public static final String NOTIFICATION_PAYLOAD = "payload";
+    public static final String NOTIFICATION_IS_BACKGROUND = "is_background";
+    public static final String NOTIFICATION_SUB_TEXT = "sub_text";
+    public static final String NOTIFICATION_LINES = "lines";
+    
 }

@@ -4,10 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.actiknow.timesheet.utils.LruBitmapCache;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
 
@@ -17,7 +15,6 @@ public class AppController extends Application {
 	private static AppController mInstance;
 	private static Context context;
 	private RequestQueue mRequestQueue;
-	private ImageLoader mImageLoader;
 
 	public static synchronized AppController getInstance () {
 		return mInstance;
@@ -46,15 +43,6 @@ public class AppController extends Application {
 		}
 
 		return mRequestQueue;
-	}
-
-	public ImageLoader getImageLoader() {
-		getRequestQueue();
-		if (mImageLoader == null) {
-			mImageLoader = new ImageLoader(this.mRequestQueue,
-					new LruBitmapCache());
-		}
-		return this.mImageLoader;
 	}
 
 	public <T> void addToRequestQueue(Request<T> req, String tag) {

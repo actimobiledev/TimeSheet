@@ -5,6 +5,18 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/activity_margin"
     android:orientation="vertical">
+    <ImageView
+        android:id="@+id/ivCancel"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="@dimen/activity_margin"
+        android:paddingLeft="@dimen/activity_margin"
+        android:src="@drawable/ic_cancel"
+    />
+
     <TextView
         android:id="@+id/tvType"
         android:layout_width="match_parent"

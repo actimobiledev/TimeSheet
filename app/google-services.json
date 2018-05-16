@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1013238224564",
+    "firebase_url": "https://timesheet-7873c.firebaseio.com",
+    "project_id": "timesheet-7873c",
+    "storage_bucket": "timesheet-7873c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013238224564:android:bf5dab146e5f8fbb",
+        "android_client_info": {
+          "package_name": "com.actiknow.timesheet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013238224564-6s2acd6ukdj97qiegs38rlnn7937rd3v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgf4BUSfmdnIlWX0Y-Q1HVgOprFf-BOXk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

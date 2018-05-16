@@ -31,6 +31,7 @@ public class AppConfigURL {
     
     public static String URL_LEAVE_PORTAL = BASE_URL + "leave-portal";
     public static String URL_APPLY_LEAVE = BASE_URL + "leave/apply";
-    
+    public static String URL_UPDATE_LEAVE = BASE_URL + "leave/update";
+    public static String URL_CANCEL_LEAVE = BASE_URL + "leave/cancel";
 }
 
