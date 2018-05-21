@@ -73,7 +73,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notification.setImage_url (data.getString (AppConfigTags.NOTIFICATION_IMAGE));
             notification.setTimestamp (data.getString (AppConfigTags.NOTIFICATION_TIMESTAMP));
             notification.setPayload (data.getJSONObject (AppConfigTags.NOTIFICATION_PAYLOAD));
-            
             JSONObject payload = data.getJSONObject (AppConfigTags.NOTIFICATION_PAYLOAD);
             
             notification.setNotification_type (payload.getInt (AppConfigTags.NOTIFICATION_TYPE));
