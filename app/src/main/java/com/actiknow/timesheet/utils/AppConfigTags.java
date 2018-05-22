@@ -79,6 +79,7 @@ public class AppConfigTags {
     public static final String HOURS = "hours";
     public static final String DATE = "date";
     public static final String HOUR = "hour";
+    public static final String DESCRIPTION = "description";
     public static final String TOTAL_HOUR = "total_hour";
     public static final String TOTAL = "total";
     
@@ -99,7 +100,6 @@ public class AppConfigTags {
     public static final String ROLE_TITLE = "role_title";
 
     public static final String ASSIGNED_BY = "assigned_by";
-    public static final String DESCRIPTION = "description";
     public static final String OLD_PASSWORD = "old_password";
     public static final String NEW_PASSWORD = "new_password";
     public static final String APP_VERSION = "app_version";

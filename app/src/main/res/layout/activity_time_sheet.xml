@@ -136,16 +136,14 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:background="@drawable/bg_question"
                 android:orientation="horizontal"
-                android:weightSum="4">
-
+                android:weightSum="5">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="2.5"
                     android:background="@drawable/bg_question"
                     android:orientation="vertical"
                     android:padding="@dimen/activity_margin_small">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -154,14 +152,27 @@
                         android:text="Day / Date"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_small"/>
-
-
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/bg_question"
+                    android:orientation="vertical"
+                    android:padding="@dimen/activity_margin_small">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Hours"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_small"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
                     android:background="@drawable/bg_question"
                     android:orientation="vertical"
                     android:padding="@dimen/activity_margin_small">
@@ -171,13 +182,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Hours"
+                        android:text="*"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_small"/>
-
-
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -197,8 +205,6 @@
 
 
                 </LinearLayout>
-
-
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/llDay1"
@@ -209,16 +215,15 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:background="@drawable/bg_question"
                 android:orientation="horizontal"
-                android:weightSum="4">
+                android:weightSum="5">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="2.5"
                     android:background="@drawable/bg_question"
                     android:orientation="vertical"
                     android:padding="@dimen/activity_margin_small">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -227,7 +232,6 @@
                         android:text="Monday"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/text_size_small"/>
-
                     <TextView
                         android:id="@+id/tvDate1"
                         android:layout_width="wrap_content"
@@ -251,6 +255,14 @@
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"/>
+                <ImageView
+                    android:id="@+id/ivMondayComment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_question"
+                    android:padding="@dimen/activity_margin_small"
+                    android:src="@drawable/ic_comment_2"/>
                 <TextView
                     android:id="@+id/tvDate1Total"
                     android:layout_width="0dp"
@@ -274,13 +286,11 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:background="@drawable/bg_question"
                 android:orientation="horizontal"
-                android:weightSum="4">
-
-
+                android:weightSum="5">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="2.5"
                     android:background="@drawable/bg_question"
                     android:orientation="vertical"
                     android:padding="@dimen/activity_margin_small">
@@ -306,7 +316,6 @@
 
 
                 </LinearLayout>
-
                 <EditText
                     android:id="@+id/etTueshour"
                     android:layout_width="0dp"
@@ -319,6 +328,14 @@
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"/>
+                <ImageView
+                    android:id="@+id/ivTuesdayComment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_question"
+                    android:padding="@dimen/activity_margin_small"
+                    android:src="@drawable/ic_comment_2"/>
                 <TextView
                     android:id="@+id/tvDate2Total"
                     android:layout_width="0dp"
@@ -332,7 +349,6 @@
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
                 />
-
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/llDay3"
@@ -343,12 +359,12 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:background="@drawable/bg_question"
                 android:orientation="horizontal"
-                android:weightSum="4">
+                android:weightSum="5">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="2.5"
                     android:background="@drawable/bg_question"
                     android:orientation="vertical"
                     android:padding="@dimen/activity_margin_small">
@@ -387,7 +403,14 @@
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"/>
-
+                <ImageView
+                    android:id="@+id/ivWednesdayComment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_question"
+                    android:padding="@dimen/activity_margin_small"
+                    android:src="@drawable/ic_comment_2"/>
                 <TextView
                     android:id="@+id/tvDate3Total"
                     android:layout_width="0dp"
@@ -401,7 +424,6 @@
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
                 />
-
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/llDay4"
@@ -412,12 +434,11 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:background="@drawable/bg_question"
                 android:orientation="horizontal"
-                android:weightSum="4">
-
+                android:weightSum="5">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="2.5"
                     android:background="@drawable/bg_question"
                     android:orientation="vertical"
                     android:padding="@dimen/activity_margin_small">
@@ -443,7 +464,6 @@
 
 
                 </LinearLayout>
-
                 <EditText
                     android:id="@+id/etThursdayhour"
                     android:layout_width="0dp"
@@ -456,7 +476,14 @@
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"/>
-
+                <ImageView
+                    android:id="@+id/ivThursdayComment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_question"
+                    android:padding="@dimen/activity_margin_small"
+                    android:src="@drawable/ic_comment_2"/>
                 <TextView
                     android:id="@+id/tvDate4Total"
                     android:layout_width="0dp"
@@ -470,8 +497,6 @@
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
                 />
-
-
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/llDay5"
@@ -482,16 +507,14 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:background="@drawable/bg_question"
                 android:orientation="horizontal"
-                android:weightSum="4">
-
+                android:weightSum="5">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="2.5"
                     android:background="@drawable/bg_question"
                     android:orientation="vertical"
                     android:padding="@dimen/activity_margin_small">
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -523,6 +546,14 @@
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"/>
+                <ImageView
+                    android:id="@+id/ivFridayComment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_question"
+                    android:padding="@dimen/activity_margin_small"
+                    android:src="@drawable/ic_comment_2"/>
                 <TextView
                     android:id="@+id/tvDate5Total"
                     android:layout_width="0dp"
@@ -546,12 +577,11 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:background="@drawable/bg_question"
                 android:orientation="horizontal"
-                android:weightSum="4">
-
+                android:weightSum="5">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="2.5"
                     android:background="@drawable/bg_question"
                     android:orientation="vertical"
                     android:padding="@dimen/activity_margin_small">
@@ -577,7 +607,6 @@
 
 
                 </LinearLayout>
-
                 <EditText
                     android:id="@+id/etSaturdayhour"
                     android:layout_width="0dp"
@@ -590,7 +619,14 @@
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"/>
-
+                <ImageView
+                    android:id="@+id/ivSaturdayComment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_question"
+                    android:padding="@dimen/activity_margin_small"
+                    android:src="@drawable/ic_comment_2"/>
                 <TextView
                     android:id="@+id/tvDate6Total"
                     android:layout_width="0dp"
@@ -604,7 +640,6 @@
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"
                 />
-
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/llDay7"
@@ -615,12 +650,11 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:background="@drawable/bg_question"
                 android:orientation="horizontal"
-                android:weightSum="4">
-
+                android:weightSum="5">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="2.5"
                     android:background="@drawable/bg_question"
                     android:orientation="vertical"
                     android:padding="@dimen/activity_margin_small">
@@ -646,7 +680,6 @@
 
 
                 </LinearLayout>
-
                 <EditText
                     android:id="@+id/etSundayhour"
                     android:layout_width="0dp"
@@ -659,7 +692,14 @@
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/text_size_small"
                     android:textStyle="bold"/>
-
+                <ImageView
+                    android:id="@+id/ivSundayComment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_question"
+                    android:padding="@dimen/activity_margin_small"
+                    android:src="@drawable/ic_comment_2"/>
                 <TextView
                     android:id="@+id/tvDate7Total"
                     android:layout_width="0dp"

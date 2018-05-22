@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,10 @@ import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
 import com.actiknow.timesheet.utils.Constants;
 import com.actiknow.timesheet.utils.NetworkConnection;
+import com.actiknow.timesheet.utils.SetTypeFace;
 import com.actiknow.timesheet.utils.Utils;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -66,6 +70,14 @@ public class TimeSheetActivity extends AppCompatActivity {
     float day6_total = 0;
     float day7_total = 0;
     
+    String day1_comment = "";
+    String day2_comment = "";
+    String day3_comment = "";
+    String day4_comment = "";
+    String day5_comment = "";
+    String day6_comment = "";
+    String day7_comment = "";
+    
     
     RelativeLayout rlPrevious;
     AppDetailsPref appDetailsPref = AppDetailsPref.getInstance ();
@@ -73,25 +85,32 @@ public class TimeSheetActivity extends AppCompatActivity {
     private TextView tvTitle;
     private TextView tvDate1;
     private TextView tvDate1Total;
-    private EditText etMondayhour;
+    private EditText etMondayHour;
+    private ImageView ivMondayComment;
     private TextView tvDate2;
     private TextView tvDate2Total;
-    private EditText etTueshour;
+    private EditText etTuesdayHour;
+    private ImageView ivTuesdayComment;
     private TextView tvDate3;
     private TextView tvDate3Total;
     private EditText etWednesdayHour;
+    private ImageView ivWednesdayComment;
     private TextView tvDate4;
     private TextView tvDate4Total;
-    private EditText etThursdayhour;
+    private EditText etThursdayHour;
+    private ImageView ivThursdayComment;
     private TextView tvDate5;
     private TextView tvDate5Total;
-    private EditText etFridayhour;
+    private EditText etFridayHour;
+    private ImageView ivFridayComment;
     private TextView tvDate6;
     private TextView tvDate6Total;
-    private EditText etSaturdayhour;
+    private EditText etSaturdayHour;
+    private ImageView ivSaturdayComment;
     private TextView tvDate7;
     private TextView tvDate7Total;
-    private EditText etSundayhour;
+    private EditText etSundayHour;
+    private ImageView ivSundayComment;
     private ImageView ivSave;
     
     private TextView tvProjectName;
@@ -112,25 +131,32 @@ public class TimeSheetActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById (R.id.tvTitle);
         tvDate1 = (TextView) findViewById (R.id.tvDate1);
         tvDate1Total = (TextView) findViewById (R.id.tvDate1Total);
-        etMondayhour = (EditText) findViewById (R.id.etMondayhour);
+        etMondayHour = (EditText) findViewById (R.id.etMondayhour);
+        ivMondayComment = (ImageView) findViewById (R.id.ivMondayComment);
         tvDate2 = (TextView) findViewById (R.id.tvDate2);
         tvDate2Total = (TextView) findViewById (R.id.tvDate2Total);
-        etTueshour = (EditText) findViewById (R.id.etTueshour);
+        etTuesdayHour = (EditText) findViewById (R.id.etTueshour);
+        ivTuesdayComment = (ImageView) findViewById (R.id.ivTuesdayComment);
         tvDate3 = (TextView) findViewById (R.id.tvDate3);
         tvDate3Total = (TextView) findViewById (R.id.tvDate3Total);
         etWednesdayHour = (EditText) findViewById (R.id.etWednesdayHour);
+        ivWednesdayComment = (ImageView) findViewById (R.id.ivWednesdayComment);
         tvDate4 = (TextView) findViewById (R.id.tvDate4);
         tvDate4Total = (TextView) findViewById (R.id.tvDate4Total);
-        etThursdayhour = (EditText) findViewById (R.id.etThursdayhour);
+        etThursdayHour = (EditText) findViewById (R.id.etThursdayhour);
+        ivThursdayComment = (ImageView) findViewById (R.id.ivThursdayComment);
         tvDate5 = (TextView) findViewById (R.id.tvDate5);
         tvDate5Total = (TextView) findViewById (R.id.tvDate5Total);
-        etFridayhour = (EditText) findViewById (R.id.etFridayhour);
+        etFridayHour = (EditText) findViewById (R.id.etFridayhour);
+        ivFridayComment = (ImageView) findViewById (R.id.ivFridayComment);
         tvDate6 = (TextView) findViewById (R.id.tvDate6);
         tvDate6Total = (TextView) findViewById (R.id.tvDate6Total);
-        etSaturdayhour = (EditText) findViewById (R.id.etSaturdayhour);
+        etSaturdayHour = (EditText) findViewById (R.id.etSaturdayhour);
+        ivSaturdayComment = (ImageView) findViewById (R.id.ivSaturdayComment);
         tvDate7 = (TextView) findViewById (R.id.tvDate7);
         tvDate7Total = (TextView) findViewById (R.id.tvDate7Total);
-        etSundayhour = (EditText) findViewById (R.id.etSundayhour);
+        etSundayHour = (EditText) findViewById (R.id.etSundayhour);
+        ivSundayComment = (ImageView) findViewById (R.id.ivSundayComment);
         ivSave = (ImageView) findViewById (R.id.ivSave);
         tvProjectName = (TextView) findViewById (R.id.tvProjectName);
         clMain = (CoordinatorLayout) findViewById (R.id.clMain);
@@ -177,12 +203,12 @@ public class TimeSheetActivity extends AppCompatActivity {
     
         rlPrevious.setOnClickListener (new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
+            public void onClick (View view) {
                 Intent intent = new Intent (TimeSheetActivity.this, PreviousWeekActivity.class);
                 intent.putExtra (AppConfigTags.PROJECT_ID, project_id);
                 intent.putExtra (AppConfigTags.PROJECT_TITLE, tvProjectName.getText ().toString ());
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                startActivity (intent);
+                overridePendingTransition (R.anim.slide_in_left, R.anim.slide_out_right);
             }
         });
 
@@ -211,6 +237,48 @@ public class TimeSheetActivity extends AppCompatActivity {
         });
 */
     
+        ivMondayComment.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                showInputDialog (1);
+            }
+        });
+        ivTuesdayComment.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                showInputDialog (2);
+            }
+        });
+        ivWednesdayComment.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                showInputDialog (3);
+            }
+        });
+        ivThursdayComment.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                showInputDialog (4);
+            }
+        });
+        ivFridayComment.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                showInputDialog (5);
+            }
+        });
+        ivSaturdayComment.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                showInputDialog (6);
+            }
+        });
+        ivSundayComment.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                showInputDialog (7);
+            }
+        });
     }
     
     private void initData () {
@@ -313,35 +381,77 @@ public class TimeSheetActivity extends AppCompatActivity {
                                 String Date = Utils.dateFormat (jsonObject2.getString (AppConfigTags.DATE));
                                 Log.e ("karman", "date : " + Date);
                                 if (Date.equalsIgnoreCase (tvDate1.getText ().toString ())) {
-                                    etMondayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    etMondayHour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    day1_comment = jsonObject2.getString (AppConfigTags.DESCRIPTION);
+                                    if (day1_comment.length () > 0) {
+                                        ivMondayComment.setImageResource (R.drawable.ic_comment_1);
+                                    } else {
+                                        ivMondayComment.setImageResource (R.drawable.ic_comment_2);
+                                    }
                                 }
                                 if (Date.equalsIgnoreCase (tvDate2.getText ().toString ())) {
-                                    etTueshour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    etTuesdayHour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    day2_comment = jsonObject2.getString (AppConfigTags.DESCRIPTION);
+                                    if (day2_comment.length () > 0) {
+                                        ivTuesdayComment.setImageResource (R.drawable.ic_comment_1);
+                                    } else {
+                                        ivTuesdayComment.setImageResource (R.drawable.ic_comment_2);
+                                    }
                                 }
                                 if (Date.equalsIgnoreCase (tvDate3.getText ().toString ())) {
                                     etWednesdayHour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    day3_comment = jsonObject2.getString (AppConfigTags.DESCRIPTION);
+                                    if (day3_comment.length () > 0) {
+                                        ivWednesdayComment.setImageResource (R.drawable.ic_comment_1);
+                                    } else {
+                                        ivWednesdayComment.setImageResource (R.drawable.ic_comment_2);
+                                    }
                                 }
                                 if (Date.equalsIgnoreCase (tvDate4.getText ().toString ())) {
-                                    etThursdayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    etThursdayHour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    day4_comment = jsonObject2.getString (AppConfigTags.DESCRIPTION);
+                                    if (day4_comment.length () > 0) {
+                                        ivThursdayComment.setImageResource (R.drawable.ic_comment_1);
+                                    } else {
+                                        ivThursdayComment.setImageResource (R.drawable.ic_comment_2);
+                                    }
                                 }
                                 if (Date.equalsIgnoreCase (tvDate5.getText ().toString ())) {
-                                    etFridayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    etFridayHour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    day5_comment = jsonObject2.getString (AppConfigTags.DESCRIPTION);
+                                    if (day5_comment.length () > 0) {
+                                        ivFridayComment.setImageResource (R.drawable.ic_comment_1);
+                                    } else {
+                                        ivFridayComment.setImageResource (R.drawable.ic_comment_2);
+                                    }
                                 }
                                 if (Date.equalsIgnoreCase (tvDate6.getText ().toString ())) {
-                                    etSaturdayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    etSaturdayHour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    day6_comment = jsonObject2.getString (AppConfigTags.DESCRIPTION);
+                                    if (day6_comment.length () > 0) {
+                                        ivSaturdayComment.setImageResource (R.drawable.ic_comment_1);
+                                    } else {
+                                        ivSaturdayComment.setImageResource (R.drawable.ic_comment_2);
+                                    }
                                 }
                                 if (Date.equalsIgnoreCase (tvDate7.getText ().toString ())) {
-                                    etSundayhour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    etSundayHour.setText (jsonObject2.getString (AppConfigTags.HOUR));
+                                    day7_comment = jsonObject2.getString (AppConfigTags.DESCRIPTION);
+                                    if (day7_comment.length () > 0) {
+                                        ivSundayComment.setImageResource (R.drawable.ic_comment_1);
+                                    } else {
+                                        ivSundayComment.setImageResource (R.drawable.ic_comment_2);
+                                    }
                                 }
                             }
                         } else {
-                            etMondayhour.setText ("0");
-                            etTueshour.setText ("0");
+                            etMondayHour.setText ("0");
+                            etTuesdayHour.setText ("0");
                             etWednesdayHour.setText ("0");
-                            etThursdayhour.setText ("0");
-                            etFridayhour.setText ("0");
-                            etSaturdayhour.setText ("0");
-                            etSundayhour.setText ("0");
+                            etThursdayHour.setText ("0");
+                            etFridayHour.setText ("0");
+                            etSaturdayHour.setText ("0");
+                            etSundayHour.setText ("0");
                         }
                     }
                 }
@@ -374,25 +484,32 @@ public class TimeSheetActivity extends AppCompatActivity {
             String endDate = outputFormat.format (date1);
     
     
-            day1 = etMondayhour.getText ().toString ().trim ();
-            day2 = etTueshour.getText ().toString ().trim ();
+            day1 = etMondayHour.getText ().toString ().trim ();
+            day2 = etTuesdayHour.getText ().toString ().trim ();
             day3 = etWednesdayHour.getText ().toString ().trim ();
-            day4 = etThursdayhour.getText ().toString ().trim ();
-            day5 = etFridayhour.getText ().toString ().trim ();
-            day6 = etSaturdayhour.getText ().toString ().trim ();
-            day7 = etSundayhour.getText ().toString ().trim ();
-    
-    
+            day4 = etThursdayHour.getText ().toString ().trim ();
+            day5 = etFridayHour.getText ().toString ().trim ();
+            day6 = etSaturdayHour.getText ().toString ().trim ();
+            day7 = etSundayHour.getText ().toString ().trim ();
+            
+            
             jsonObject.put ("project_id", project_id);
             jsonObject.put ("start_date", startDate);
             jsonObject.put ("end_date", endDate);
-            jsonObject.put ("day_1", day1.equalsIgnoreCase ("") ? "0" : etMondayhour.getText ().toString ());
-            jsonObject.put ("day_2", day2.equalsIgnoreCase ("") ? "0" : etTueshour.getText ().toString ());
+            jsonObject.put ("day_1", day1.equalsIgnoreCase ("") ? "0" : etMondayHour.getText ().toString ());
+            jsonObject.put ("day_1_comment", day1_comment);
+            jsonObject.put ("day_2", day2.equalsIgnoreCase ("") ? "0" : etTuesdayHour.getText ().toString ());
+            jsonObject.put ("day_2_comment", day2_comment);
             jsonObject.put ("day_3", day3.equalsIgnoreCase ("") ? "0" : etWednesdayHour.getText ().toString ());
-            jsonObject.put ("day_4", day4.equalsIgnoreCase ("") ? "0" : etThursdayhour.getText ().toString ());
-            jsonObject.put ("day_5", day5.equalsIgnoreCase ("") ? "0" : etFridayhour.getText ().toString ());
-            jsonObject.put ("day_6", day6.equalsIgnoreCase ("") ? "0" : etSaturdayhour.getText ().toString ());
-            jsonObject.put ("day_7", day7.equalsIgnoreCase ("") ? "0" : etSundayhour.getText ().toString ());
+            jsonObject.put ("day_3_comment", day3_comment);
+            jsonObject.put ("day_4", day4.equalsIgnoreCase ("") ? "0" : etThursdayHour.getText ().toString ());
+            jsonObject.put ("day_4_comment", day4_comment);
+            jsonObject.put ("day_5", day5.equalsIgnoreCase ("") ? "0" : etFridayHour.getText ().toString ());
+            jsonObject.put ("day_5_comment", day5_comment);
+            jsonObject.put ("day_6", day6.equalsIgnoreCase ("") ? "0" : etSaturdayHour.getText ().toString ());
+            jsonObject.put ("day_6_comment", day6_comment);
+            jsonObject.put ("day_7", day7.equalsIgnoreCase ("") ? "0" : etSundayHour.getText ().toString ());
+            jsonObject.put ("day_7_comment", day7_comment);
     
             timeSheet = jsonObject.toString ();
     
@@ -478,5 +595,121 @@ public class TimeSheetActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+    
+    public void showInputDialog (final int day) {
+        final MaterialDialog.Builder mBuilder = new MaterialDialog.Builder (this)
+                .content ("Enter Description")
+                .contentColor (getResources ().getColor (R.color.primary_text))
+                .positiveColor (getResources ().getColor (R.color.primary_text))
+                .typeface (SetTypeFace.getTypeface (this), SetTypeFace.getTypeface (this))
+                .inputRangeRes (0, 255, R.color.text_color_red)
+                .alwaysCallInputCallback ()
+                .canceledOnTouchOutside (true)
+                .cancelable (true)
+                .positiveText (R.string.dialog_action_submit);
+        
+        
+        mBuilder.input (getResources ().getString (R.string.dialog_hint_optional), null, new MaterialDialog.InputCallback () {
+            @Override
+            public void onInput (MaterialDialog dialog, CharSequence input) {
+                if (input.toString ().length () == 0) {
+                    mBuilder.positiveText (R.string.dialog_action_submit);
+                } else {
+                    mBuilder.positiveText (R.string.dialog_action_submit);
+                }
+            }
+        });
+        
+        mBuilder.onPositive (new MaterialDialog.SingleButtonCallback () {
+            @Override
+            public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                switch (day) {
+                    case 1:
+                        day1_comment = dialog.getInputEditText ().getText ().toString ();
+                        if (day1_comment.length () > 0) {
+                            ivMondayComment.setImageResource (R.drawable.ic_comment_1);
+                        } else {
+                            ivMondayComment.setImageResource (R.drawable.ic_comment_2);
+                        }
+                        break;
+                    case 2:
+                        day2_comment = dialog.getInputEditText ().getText ().toString ();
+                        if (day2_comment.length () > 0) {
+                            ivTuesdayComment.setImageResource (R.drawable.ic_comment_1);
+                        } else {
+                            ivTuesdayComment.setImageResource (R.drawable.ic_comment_2);
+                        }
+                        break;
+                    case 3:
+                        day3_comment = dialog.getInputEditText ().getText ().toString ();
+                        if (day3_comment.length () > 0) {
+                            ivWednesdayComment.setImageResource (R.drawable.ic_comment_1);
+                        } else {
+                            ivWednesdayComment.setImageResource (R.drawable.ic_comment_2);
+                        }
+                        break;
+                    case 4:
+                        day4_comment = dialog.getInputEditText ().getText ().toString ();
+                        if (day4_comment.length () > 0) {
+                            ivThursdayComment.setImageResource (R.drawable.ic_comment_1);
+                        } else {
+                            ivThursdayComment.setImageResource (R.drawable.ic_comment_2);
+                        }
+                        break;
+                    case 5:
+                        day5_comment = dialog.getInputEditText ().getText ().toString ();
+                        if (day5_comment.length () > 0) {
+                            ivFridayComment.setImageResource (R.drawable.ic_comment_1);
+                        } else {
+                            ivFridayComment.setImageResource (R.drawable.ic_comment_2);
+                        }
+                        break;
+                    case 6:
+                        day6_comment = dialog.getInputEditText ().getText ().toString ();
+                        if (day6_comment.length () > 0) {
+                            ivSaturdayComment.setImageResource (R.drawable.ic_comment_1);
+                        } else {
+                            ivSaturdayComment.setImageResource (R.drawable.ic_comment_2);
+                        }
+                        break;
+                    case 7:
+                        day7_comment = dialog.getInputEditText ().getText ().toString ();
+                        if (day7_comment.length () > 0) {
+                            ivSundayComment.setImageResource (R.drawable.ic_comment_1);
+                        } else {
+                            ivSundayComment.setImageResource (R.drawable.ic_comment_2);
+                        }
+                        break;
+                }
+            }
+        });
+        
+        MaterialDialog dialog = mBuilder.build ();
+        
+        switch (day) {
+            case 1:
+                dialog.getInputEditText ().setText (day1_comment);
+                break;
+            case 2:
+                dialog.getInputEditText ().setText (day2_comment);
+                break;
+            case 3:
+                dialog.getInputEditText ().setText (day3_comment);
+                break;
+            case 4:
+                dialog.getInputEditText ().setText (day4_comment);
+                break;
+            case 5:
+                dialog.getInputEditText ().setText (day5_comment);
+                break;
+            case 6:
+                dialog.getInputEditText ().setText (day6_comment);
+                break;
+            case 7:
+                dialog.getInputEditText ().setText (day7_comment);
+                break;
+        }
+        dialog.show ();
     }
 }
