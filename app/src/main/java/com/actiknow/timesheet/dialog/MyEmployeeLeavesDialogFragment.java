@@ -39,10 +39,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeavesListDialogFragment extends DialogFragment {
+public class MyEmployeeLeavesDialogFragment extends DialogFragment {
     OnDialogResultListener onDialogResultListener;
-    String leaves_json = "";
-    int type_id = 0;
+    String employee_json = "";
     
     RecyclerView rvLeaves;
     List<Leave> leaveList = new ArrayList<> ();
@@ -57,17 +56,15 @@ public class LeavesListDialogFragment extends DialogFragment {
     RelativeLayout rlSearch;
     EditText etSearch;
     
-    
     RelativeLayout rlNoResultFound;
     ProgressDialog progressDialog;
     
     AppDetailsPref appDetailsPref;
     
-    public static LeavesListDialogFragment newInstance (String leaves_json, int type_id) {
-        LeavesListDialogFragment fragment = new LeavesListDialogFragment ();
+    public static MyEmployeeLeavesDialogFragment newInstance (String employee_json) {
+        MyEmployeeLeavesDialogFragment fragment = new MyEmployeeLeavesDialogFragment ();
         Bundle args = new Bundle ();
-        args.putString (AppConfigTags.LEAVES, leaves_json);
-        args.putInt (AppConfigTags.TYPE_ID, type_id);
+        args.putString (AppConfigTags.EMPLOYEES, employee_json);
         fragment.setArguments (args);
         return fragment;
     }
@@ -144,7 +141,7 @@ public class LeavesListDialogFragment extends DialogFragment {
     
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate (R.layout.fragment_dialog_leave_list, container, false);
+        View root = inflater.inflate (R.layout.fragment_dialog_my_employee_leave, container, false);
         initView (root);
         initBundle ();
         initData ();
@@ -164,8 +161,7 @@ public class LeavesListDialogFragment extends DialogFragment {
     
     private void initBundle () {
         Bundle bundle = this.getArguments ();
-        leaves_json = bundle.getString (AppConfigTags.LEAVES);
-        type_id = bundle.getInt (AppConfigTags.TYPE_ID);
+        employee_json = bundle.getString (AppConfigTags.EMPLOYEES);
     }
     
     private void initData () {
@@ -175,50 +171,34 @@ public class LeavesListDialogFragment extends DialogFragment {
         
         linearLayoutManager = new LinearLayoutManager (getActivity (), LinearLayoutManager.VERTICAL, false);
         try {
-            JSONArray jsonArray = new JSONArray (leaves_json);
+            JSONArray jsonArray = new JSONArray (employee_json);
             for (int i = 0; i < jsonArray.length (); i++) {
-                if (type_id == 0) {
-                    JSONObject jsonObject = jsonArray.getJSONObject (i);
-                    leaveList.add (i, new Leave (
-                            jsonObject.getInt (AppConfigTags.REQUEST_ID),
-                            jsonObject.getInt (AppConfigTags.TYPE_ID),
-                            jsonObject.getInt (AppConfigTags.LEAVE_STATUS),
-                            jsonObject.getDouble (AppConfigTags.LEAVE_AVAILED),
-                            jsonObject.getString (AppConfigTags.LEAVE_TYPE),
-                            jsonObject.getString (AppConfigTags.LEAVE_FROM),
-                            jsonObject.getString (AppConfigTags.LEAVE_TILL),
-                            jsonObject.getString (AppConfigTags.LEAVE_DESCRIPTION),
-                            jsonObject.getString (AppConfigTags.LEAVE_CREATED_AT),
-                            jsonObject.getString (AppConfigTags.LEAVE_UPDATED_AT),
-                            jsonObject.getString (AppConfigTags.LEAVE_UPDATED_BY),
-                            jsonObject.getString (AppConfigTags.LEAVE_REMARK)
+                JSONObject jsonObject = jsonArray.getJSONObject (i);
+                JSONArray jsonArray2 = jsonObject.getJSONArray (AppConfigTags.LEAVES);
+                for (int j = 0; j < jsonArray2.length (); j++) {
+                    JSONObject jsonObject2 = jsonArray2.getJSONObject (j);
+                    leaveList.add (new Leave (
+                            jsonObject2.getInt (AppConfigTags.REQUEST_ID),
+                            jsonObject2.getInt (AppConfigTags.TYPE_ID),
+                            jsonObject2.getInt (AppConfigTags.LEAVE_STATUS),
+                            jsonObject.getInt (AppConfigTags.EMPLOYEE_ID),
+                            jsonObject2.getDouble (AppConfigTags.LEAVE_AVAILED),
+                            jsonObject2.getString (AppConfigTags.LEAVE_TYPE),
+                            jsonObject2.getString (AppConfigTags.LEAVE_FROM),
+                            jsonObject2.getString (AppConfigTags.LEAVE_TILL),
+                            jsonObject2.getString (AppConfigTags.LEAVE_DESCRIPTION),
+                            jsonObject2.getString (AppConfigTags.LEAVE_CREATED_AT),
+                            jsonObject2.getString (AppConfigTags.LEAVE_UPDATED_AT),
+                            jsonObject2.getString (AppConfigTags.LEAVE_UPDATED_BY),
+                            jsonObject2.getString (AppConfigTags.LEAVE_REMARK),
+                            jsonObject.getString (AppConfigTags.EMPLOYEE_NAME)
                     ));
-                } else {
-                    JSONObject jsonObject = jsonArray.getJSONObject (i);
-                    if (jsonObject.getInt (AppConfigTags.TYPE_ID) == type_id) {
-                        leaveList.add (new Leave (
-                                jsonObject.getInt (AppConfigTags.REQUEST_ID),
-                                jsonObject.getInt (AppConfigTags.TYPE_ID),
-                                jsonObject.getInt (AppConfigTags.LEAVE_STATUS),
-                                jsonObject.getDouble (AppConfigTags.LEAVE_AVAILED),
-                                jsonObject.getString (AppConfigTags.LEAVE_TYPE),
-                                jsonObject.getString (AppConfigTags.LEAVE_FROM),
-                                jsonObject.getString (AppConfigTags.LEAVE_TILL),
-                                jsonObject.getString (AppConfigTags.LEAVE_DESCRIPTION),
-                                jsonObject.getString (AppConfigTags.LEAVE_CREATED_AT),
-                                jsonObject.getString (AppConfigTags.LEAVE_UPDATED_AT),
-                                jsonObject.getString (AppConfigTags.LEAVE_UPDATED_BY),
-                                jsonObject.getString (AppConfigTags.LEAVE_REMARK)
-                        ));
-                    }
                 }
-                
             }
         } catch (JSONException e) {
             e.printStackTrace ();
         }
-    
-    
+        
         leaveAdapter = new LeaveAdapter (getActivity (), getDialog (), leaveList);
         leaveAdapter.SetOnItemClickListener (new LeaveAdapter.OnItemClickListener () {
             @Override
@@ -298,7 +278,6 @@ public class LeavesListDialogFragment extends DialogFragment {
             }
         });
         
-        
         etSearch.addTextChangedListener (new TextWatcher () {
             @Override
             public void onTextChanged (CharSequence s, int start, int before, int count) {
@@ -326,7 +305,9 @@ public class LeavesListDialogFragment extends DialogFragment {
                     leaveListTemp.clear ();
                     for (Leave leave : leaveList) {
                         if (leave.getType_name ().toUpperCase ().contains (s.toString ().toUpperCase ()) ||
-                                leave.getType_name ().toLowerCase ().contains (s.toString ().toLowerCase ())) {
+                                leave.getType_name ().toLowerCase ().contains (s.toString ().toLowerCase ()) ||
+                                leave.getEmployee_name ().toUpperCase ().contains (s.toString ().toUpperCase ()) ||
+                                leave.getEmployee_name ().toLowerCase ().contains (s.toString ().toLowerCase ())) {
                             leaveListTemp.add (leave);
                         }
                     }
@@ -349,7 +330,6 @@ public class LeavesListDialogFragment extends DialogFragment {
             }
         });
     }
-    
     
     public void setOnDialogResultListener (OnDialogResultListener listener) {
         this.onDialogResultListener = listener;

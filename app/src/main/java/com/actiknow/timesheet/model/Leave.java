@@ -1,14 +1,32 @@
 package com.actiknow.timesheet.model;
 
 public class Leave {
-    int request_id, type_id, status;
+    int request_id, type_id, status, employee_id;
     double leaves_availed;
-    String type_name, leave_from, leave_till, description, applied_at, updated_at, updated_by, remark;
+    String type_name, leave_from, leave_till, description, applied_at, updated_at, updated_by, remark, employee_name;
     
     public Leave (int request_id, int type_id, int status, double leaves_availed, String type_name, String leave_from, String leave_till, String description, String applied_at, String updated_at, String updated_by, String remark) {
         this.request_id = request_id;
         this.type_id = type_id;
         this.status = status;
+        this.leaves_availed = leaves_availed;
+        this.employee_id = 0;
+        this.type_name = type_name;
+        this.leave_from = leave_from;
+        this.leave_till = leave_till;
+        this.description = description;
+        this.applied_at = applied_at;
+        this.updated_at = updated_at;
+        this.updated_by = updated_by;
+        this.remark = remark;
+        this.employee_name = "";
+    }
+    
+    public Leave (int request_id, int type_id, int status, int employee_id, double leaves_availed, String type_name, String leave_from, String leave_till, String description, String applied_at, String updated_at, String updated_by, String remark, String employee_name) {
+        this.request_id = request_id;
+        this.type_id = type_id;
+        this.status = status;
+        this.employee_id = employee_id;
         this.leaves_availed = leaves_availed;
         this.type_name = type_name;
         this.leave_from = leave_from;
@@ -18,6 +36,23 @@ public class Leave {
         this.updated_at = updated_at;
         this.updated_by = updated_by;
         this.remark = remark;
+        this.employee_name = employee_name;
+    }
+    
+    public int getEmployee_id () {
+        return employee_id;
+    }
+    
+    public void setEmployee_id (int employee_id) {
+        this.employee_id = employee_id;
+    }
+    
+    public String getEmployee_name () {
+        return employee_name;
+    }
+    
+    public void setEmployee_name (String employee_name) {
+        this.employee_name = employee_name;
     }
     
     public int getRequest_id () {

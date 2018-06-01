@@ -21,6 +21,7 @@ import com.actiknow.timesheet.adapter.LeaveTypeAdapter;
 import com.actiknow.timesheet.dialog.ApplyLeaveDialogFragment;
 import com.actiknow.timesheet.dialog.HolidayCalendarDialogFragment;
 import com.actiknow.timesheet.dialog.LeavesListDialogFragment;
+import com.actiknow.timesheet.dialog.MyEmployeeLeavesDialogFragment;
 import com.actiknow.timesheet.model.LeaveType;
 import com.actiknow.timesheet.utils.AppConfigTags;
 import com.actiknow.timesheet.utils.AppConfigURL;
@@ -56,6 +57,7 @@ public class LeavePortalActivity extends AppCompatActivity {
     TextView tvTitle;
     RelativeLayout rlBack;
     RelativeLayout rlMyLeaves;
+    RelativeLayout rlMyEmployeeLeaves;
     RelativeLayout rlApplyLeave;
     RelativeLayout rlHolidayCalender;
     LeaveTypeAdapter leaveTypeAdapter;
@@ -64,6 +66,7 @@ public class LeavePortalActivity extends AppCompatActivity {
     AppDetailsPref appDetailsPref;
     
     String leaves_json = "";
+    String employee_json = "";
     
     
     @Override
@@ -89,6 +92,7 @@ public class LeavePortalActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById (R.id.tvTitle);
         rlBack = (RelativeLayout) findViewById (R.id.rlBack);
         rlApplyLeave = (RelativeLayout) findViewById (R.id.rlApplyLeave);
+        rlMyEmployeeLeaves = (RelativeLayout) findViewById (R.id.rlMyEmployeeLeaves);
         rlMyLeaves = (RelativeLayout) findViewById (R.id.rlMyLeaves);
         rlHolidayCalender = (RelativeLayout) findViewById (R.id.rlHolidayCalender);
     }
@@ -144,6 +148,26 @@ public class LeavePortalActivity extends AppCompatActivity {
                 FragmentTransaction ft = getFragmentManager ().beginTransaction ();
                 LeavesListDialogFragment fragment = LeavesListDialogFragment.newInstance (leaves_json, 0);
                 fragment.setOnDialogResultListener (new LeavesListDialogFragment.OnDialogResultListener () {
+                    @Override
+                    public void onPositiveResult () {
+                        getLeavePortal ();
+                    }
+                
+                    @Override
+                    public void onNegativeResult () {
+                        getLeavePortal ();
+                    }
+                });
+                fragment.show (ft, AppConfigTags.LEAVES);
+            }
+        });
+    
+        rlMyEmployeeLeaves.setOnClickListener (new View.OnClickListener () {
+            @Override
+            public void onClick (View v) {
+                FragmentTransaction ft = getFragmentManager ().beginTransaction ();
+                MyEmployeeLeavesDialogFragment fragment = MyEmployeeLeavesDialogFragment.newInstance (employee_json);
+                fragment.setOnDialogResultListener (new MyEmployeeLeavesDialogFragment.OnDialogResultListener () {
                     @Override
                     public void onPositiveResult () {
                         getLeavePortal ();
@@ -245,6 +269,15 @@ public class LeavePortalActivity extends AppCompatActivity {
                                             }
                                         }
                                         leaveTypeAdapter.notifyDataSetChanged ();
+    
+                                        employee_json = jsonObj.getJSONArray (AppConfigTags.EMPLOYEES).toString ();
+    
+                                        if (jsonObj.getJSONArray (AppConfigTags.EMPLOYEES).length () > 0) {
+                                            rlMyEmployeeLeaves.setVisibility (View.VISIBLE);
+                                        } else {
+                                            rlMyEmployeeLeaves.setVisibility (View.GONE);
+                                        }
+                                        
                                     } else {
                                         Utils.showSnackBar (LeavePortalActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }

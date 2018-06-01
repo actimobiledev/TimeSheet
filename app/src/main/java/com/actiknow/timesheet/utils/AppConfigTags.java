@@ -138,6 +138,8 @@ public class AppConfigTags {
     public static final String LEAVE_UPDATED_BY = "leave_updated_by";
     public static final String LEAVE_CREATED_AT = "leave_created_at";
     public static final String REQUEST_ID = "request_id";
+    public static final String REMARK = "remark";
+    
     
     public static final String NOTIFICATION_TYPE = "notification_type";
     public static final String NOTIFICATION_PRIORITY = "notification_priority";

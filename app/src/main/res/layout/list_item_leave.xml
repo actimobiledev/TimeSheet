@@ -18,8 +18,18 @@
     />
 
     <TextView
+        android:id="@+id/tvEmployeeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Emp : KARMAN SINGH"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/text_size_small"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+    <TextView
         android:id="@+id/tvType"
         android:layout_width="match_parent"
+        android:layout_below="@+id/tvEmployeeName"
         android:layout_height="wrap_content"
         android:text="Casual Leave"
         android:textColor="@color/primary_text"
@@ -49,7 +59,6 @@
         android:text="Reason : "
         android:textColor="@color/primary_text"
         android:textSize="@dimen/text_size_small"/>
-
     <LinearLayout
         android:id="@+id/ll1"
         android:layout_width="match_parent"
@@ -106,7 +115,45 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll1"
         android:text="Remark : "
+        android:layout_marginTop="@dimen/activity_margin_extra_small"
         android:textColor="@color/primary_text"
+        android:textStyle="bold"
         android:textSize="@dimen/text_size_small"
         android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/llButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvRemark"
+        android:layout_marginTop="@dimen/activity_margin_small"
+        android:visibility="gone"
+        android:weightSum="2.0">
+        <TextView
+            android:id="@+id/tvApprove"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_margin_small"
+            android:layout_weight="1.0"
+            android:background="@drawable/circle_button"
+            android:gravity="center"
+            android:padding="@dimen/activity_margin_small"
+            android:text="APPROVE"
+            android:textColor="@color/text_color_white"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvDecline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin_small"
+            android:layout_weight="1.0"
+            android:background="@drawable/circle_button"
+            android:gravity="center"
+            android:padding="@dimen/activity_margin_small"
+            android:text="DECLINE"
+            android:textColor="@color/text_color_white"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"/>
+    </LinearLayout>
 </RelativeLayout>
