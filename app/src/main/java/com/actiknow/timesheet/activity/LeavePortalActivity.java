@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ import com.actiknow.timesheet.utils.AppConfigURL;
 import com.actiknow.timesheet.utils.AppDetailsPref;
 import com.actiknow.timesheet.utils.Constants;
 import com.actiknow.timesheet.utils.NetworkConnection;
+import com.actiknow.timesheet.utils.RecyclerViewMargin;
 import com.actiknow.timesheet.utils.SetTypeFace;
 import com.actiknow.timesheet.utils.Utils;
 import com.afollestad.materialdialogs.DialogAction;
@@ -68,6 +70,9 @@ public class LeavePortalActivity extends AppCompatActivity {
     String leaves_json = "";
     String employee_json = "";
     
+    RelativeLayout rlMain;
+    RelativeLayout rlLoading;
+    ProgressBar progressBar;
     
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -78,7 +83,6 @@ public class LeavePortalActivity extends AppCompatActivity {
         initAdapter ();
         initListener ();
         getLeavePortal ();
-        
     }
     
     @Override
@@ -95,6 +99,9 @@ public class LeavePortalActivity extends AppCompatActivity {
         rlMyEmployeeLeaves = (RelativeLayout) findViewById (R.id.rlMyEmployeeLeaves);
         rlMyLeaves = (RelativeLayout) findViewById (R.id.rlMyLeaves);
         rlHolidayCalender = (RelativeLayout) findViewById (R.id.rlHolidayCalender);
+        progressBar = (ProgressBar) findViewById (R.id.progressBar);
+        rlLoading = (RelativeLayout) findViewById (R.id.rlLoading);
+        rlMain = (RelativeLayout) findViewById (R.id.rlMain);
     }
     
     private void initAdapter () {
@@ -103,6 +110,7 @@ public class LeavePortalActivity extends AppCompatActivity {
         rvLeave.setHasFixedSize (true);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager (2, StaggeredGridLayoutManager.VERTICAL);
         rvLeave.setLayoutManager (layoutManager);
+        rvLeave.addItemDecoration (new RecyclerViewMargin ((int) Utils.pxFromDp (LeavePortalActivity.this, 16), (int) Utils.pxFromDp (LeavePortalActivity.this, 16), (int) Utils.pxFromDp (LeavePortalActivity.this, 16), (int) Utils.pxFromDp (LeavePortalActivity.this, 16), 2, 0, RecyclerViewMargin.LAYOUT_MANAGER_GRID, RecyclerViewMargin.ORIENTATION_VERTICAL));
 //        rvProjectList.addItemDecoration (new RecyclerViewMargin (
 //                (int) Utils.pxFromDp (this, 16),
 //                (int) Utils.pxFromDp (this, 16),
@@ -239,6 +247,7 @@ public class LeavePortalActivity extends AppCompatActivity {
     
     public void getLeavePortal () {
         if (NetworkConnection.isNetworkAvailable (LeavePortalActivity.this)) {
+            progressBar.setVisibility (View.VISIBLE);
             Utils.showLog (Log.INFO, AppConfigTags.URL, AppConfigURL.URL_LEAVE_PORTAL, true);
             StringRequest strRequest = new StringRequest (Request.Method.GET, AppConfigURL.URL_LEAVE_PORTAL,
                     new Response.Listener<String> () {
@@ -277,7 +286,10 @@ public class LeavePortalActivity extends AppCompatActivity {
                                         } else {
                                             rlMyEmployeeLeaves.setVisibility (View.GONE);
                                         }
-                                        
+    
+                                        rlMain.setVisibility (View.VISIBLE);
+                                        rlLoading.setVisibility (View.GONE);
+                                        progressBar.setVisibility (View.GONE);
                                     } else {
                                         Utils.showSnackBar (LeavePortalActivity.this, clMain, message, Snackbar.LENGTH_LONG, null, null);
                                     }
